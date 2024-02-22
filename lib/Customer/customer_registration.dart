@@ -179,7 +179,8 @@ class _CustomerRegistrationScreenState
             const SizedBox(height: 8),
             TextField(
               controller: mobileController,
-              decoration: const InputDecoration(labelText: 'Mobile Number'),
+              decoration: const InputDecoration(labelText: 'Mobile Number',
+                  hintText: "Please enter country code (e.g.+91) "),
               keyboardType: TextInputType.phone,
             ),
             const SizedBox(height: 8),
