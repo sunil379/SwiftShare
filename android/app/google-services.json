@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1085826675740",
+    "project_id": "swiftshare-one",
+    "storage_bucket": "swiftshare-one.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1085826675740:android:a39b98c0adb46d76271bd9",
+        "android_client_info": {
+          "package_name": "com.example.swiftshare_one"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAlTP9NbNuxtsLATfvXtAGDau8Gfj9Obwk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
