@@ -232,7 +232,8 @@ class _OwnerRegistrationScreenState extends State<OwnerRegistrationScreen> {
             const SizedBox(height: 8),
             TextField(
               controller: emailController,
-              decoration: const InputDecoration(labelText: 'Email Address'),
+              decoration: const InputDecoration(labelText: 'Email Address',
+              hintText: 'Please enter country code (e.g. +91)'),
               keyboardType: TextInputType.emailAddress,
             ),
             const SizedBox(height: 8),
