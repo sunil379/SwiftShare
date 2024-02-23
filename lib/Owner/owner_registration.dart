@@ -221,7 +221,8 @@ class _OwnerRegistrationScreenState extends State<OwnerRegistrationScreen> {
             const SizedBox(height: 8),
             TextField(
               controller: mobileController,
-              decoration: const InputDecoration(labelText: 'Mobile Number',
+              decoration: const InputDecoration(
+                  labelText: 'Mobile Number',
                   hintText: 'Please enter country code (e.g. +91) '),
               keyboardType: TextInputType.phone,
             ),
@@ -233,7 +234,7 @@ class _OwnerRegistrationScreenState extends State<OwnerRegistrationScreen> {
             const SizedBox(height: 8),
             TextField(
               controller: emailController,
-              decoration: const InputDecoration(labelText: 'Email Address',
+              decoration: const InputDecoration(labelText: 'Email Address'),
               keyboardType: TextInputType.emailAddress,
             ),
             const SizedBox(height: 8),
