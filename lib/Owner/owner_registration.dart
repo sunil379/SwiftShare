@@ -1,8 +1,8 @@
-// ignore_for_file: use_build_context_synchronously, avoid_print, library_private_types_in_public_api
+// ignore_for_file: avoid_print, use_build_context_synchronously, library_private_types_in_public_api
 
-import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
@@ -27,11 +27,9 @@ class _OwnerRegistrationScreenState extends State<OwnerRegistrationScreen> {
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-
   String? identityProofURL;
   String? vehicleRCURL;
-  double? identityProofUploadProgress;
-  double? vehicleRCUploadProgress;
+  double uploadProgress = 0.0; // Track upload progress
 
   Future<void> _createAccount(BuildContext context) async {
     try {
@@ -40,14 +38,6 @@ class _OwnerRegistrationScreenState extends State<OwnerRegistrationScreen> {
       final String address = addressController.text;
       final String email = emailController.text;
       final String password = passwordController.text;
-
-      // Check if documents are uploaded
-      if (identityProofURL == null || vehicleRCURL == null) {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content: Text("Please upload documents."),
-        ));
-        return;
-      }
 
       // Check if password and confirm password match
       if (password != confirmPasswordController.text) {
@@ -71,9 +61,8 @@ class _OwnerRegistrationScreenState extends State<OwnerRegistrationScreen> {
         'address': address,
         'email': email,
         'identityProofURL': identityProofURL,
-        'vehicleRCURL': vehicleRCURL,
+        'vehicleRC_URL': vehicleRCURL,
       });
-
       // Navigate to OTP verification screen
       await Navigator.push(
         context,
@@ -90,7 +79,7 @@ class _OwnerRegistrationScreenState extends State<OwnerRegistrationScreen> {
         content: Text("Account created successfully."),
       ));
       // Example: Navigator.pushReplacementNamed(context, '/home');
-      Navigator.pushReplacementNamed(context, '/owner_home');
+      Navigator.pushReplacementNamed(context, 'owner_home');
     } catch (error) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text("Error creating account: $error"),
@@ -98,66 +87,31 @@ class _OwnerRegistrationScreenState extends State<OwnerRegistrationScreen> {
     }
   }
 
-  Future<String?> _uploadFile(
-      File file, String fileName, Function(double)? onProgress) async {
+  Future<String> _uploadFile(File file, String fileName) async {
     try {
       firebase_storage.Reference ref = firebase_storage.FirebaseStorage.instance
           .ref()
           .child('Owner_Documents/$fileName');
-      firebase_storage.UploadTask task = ref.putFile(
-          file, firebase_storage.SettableMetadata(contentType: 'pdf'));
+      firebase_storage.UploadTask task = ref.putFile(file);
 
       task.snapshotEvents.listen((firebase_storage.TaskSnapshot snapshot) {
-        double progress =
-            snapshot.bytesTransferred / snapshot.totalBytes.toDouble();
-        if (onProgress != null) {
-          onProgress(progress);
-        }
+        setState(() {
+          uploadProgress = snapshot.bytesTransferred / snapshot.totalBytes;
+        });
       });
 
-      await task.whenComplete(() => {});
+      await task;
 
       String downloadURL = await ref.getDownloadURL();
       return downloadURL;
     } catch (e) {
       print('Error uploading file: $e');
-      return null;
+      return '';
     }
   }
 
-  Future<void> _uploadDocuments(BuildContext context) async {
-    try {
-      String? uploadedIdentityProofURL =
-          await _uploadDocument(context, "identity_proof", (progress) {
-        setState(() {
-          identityProofUploadProgress = progress;
-        });
-      });
-      String? uploadedVehicleRCURL =
-          await _uploadDocument(context, "vehicle_rc", (progress) {
-        setState(() {
-          vehicleRCUploadProgress = progress;
-        });
-      });
-
-      if (uploadedIdentityProofURL != null && uploadedVehicleRCURL != null) {
-        setState(() {
-          identityProofURL = uploadedIdentityProofURL;
-          vehicleRCURL = uploadedVehicleRCURL;
-        });
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content: Text("Documents uploaded successfully."),
-        ));
-      }
-    } catch (error) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text("Error uploading documents: $error"),
-      ));
-    }
-  }
-
-  Future<String?> _uploadDocument(BuildContext context, String documentType,
-      Function(double)? onProgress) async {
+  Future<String?> _uploadDocument(
+      BuildContext context, String documentType) async {
     try {
       FilePickerResult? result = await FilePicker.platform.pickFiles(
         type: FileType.custom,
@@ -168,8 +122,11 @@ class _OwnerRegistrationScreenState extends State<OwnerRegistrationScreen> {
         File file = File(result.files.single.path!);
         String fileName =
             '$documentType-${DateTime.now().millisecondsSinceEpoch}.pdf';
-        String? downloadURL = await _uploadFile(file, fileName, onProgress);
+        String downloadURL = await _uploadFile(file, fileName);
         // Display success message
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text("Document uploaded successfully."),
+        ));
         return downloadURL;
       } else {
         // User canceled the picker
@@ -223,7 +180,7 @@ class _OwnerRegistrationScreenState extends State<OwnerRegistrationScreen> {
               controller: mobileController,
               decoration: const InputDecoration(
                   labelText: 'Mobile Number',
-                  hintText: 'Please enter country code (e.g. +91) '),
+                  hintText: "Please enter country code (e.g.+91) "),
               keyboardType: TextInputType.phone,
             ),
             const SizedBox(height: 8),
@@ -251,34 +208,41 @@ class _OwnerRegistrationScreenState extends State<OwnerRegistrationScreen> {
             ),
             const SizedBox(height: 16),
             ElevatedButton(
-              onPressed: () => _uploadDocuments(context),
-              child: const Text('Submit Documents'),
+              onPressed: () async {
+                final url = await _uploadDocument(context, "identity_proof");
+                if (url != null) {
+                  setState(() {
+                    identityProofURL = url;
+                  });
+                }
+              },
+              child: const Text('Submit the Identity Proof'),
             ),
-            const SizedBox(height: 16),
-            identityProofUploadProgress != null ||
-                    vehicleRCUploadProgress != null
-                ? Column(
-                    children: [
-                      Text(
-                        'Identity Proof Upload Progress: ${(identityProofUploadProgress ?? 0) * 100}%',
-                      ),
-                      LinearProgressIndicator(
-                        value: identityProofUploadProgress ?? 0,
-                      ),
-                      Text(
-                        'Vehicle RC Upload Progress: ${(vehicleRCUploadProgress ?? 0) * 100}%',
-                      ),
-                      LinearProgressIndicator(
-                        value: vehicleRCUploadProgress ?? 0,
-                      ),
-                    ],
-                  )
-                : const SizedBox.shrink(),
+            if (identityProofURL != null)
+              LinearProgressIndicator(
+                value: uploadProgress,
+                minHeight: 10,
+              ),
+            const SizedBox(height: 8),
+            ElevatedButton(
+              onPressed: () async {
+                final url = await _uploadDocument(context, "vehicel_rc");
+                if (url != null) {
+                  setState(() {
+                    vehicleRCURL = url;
+                  });
+                }
+              },
+              child: const Text('Submit the Vehicel RC'),
+            ),
+            if (vehicleRCURL != null)
+              LinearProgressIndicator(
+                value: uploadProgress,
+                minHeight: 10,
+              ),
             const SizedBox(height: 16),
             ElevatedButton(
-              onPressed: identityProofURL != null && vehicleRCURL != null
-                  ? () => _createAccount(context)
-                  : null,
+              onPressed: () => _createAccount(context),
               child: const Text('Create Account'),
             ),
           ],
