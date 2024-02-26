@@ -5,6 +5,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:swiftshare_one/Owner/owner_homescreen.dart';
 
 class OTPVerificationScreen extends StatefulWidget {
   final String phoneNumber;
@@ -49,8 +50,9 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
         isLoading = false;
       });
 
-      // Navigate back to previous screen
-      Navigator.pop(context);
+      // Navigate HomeScreen
+      await Navigator.push(context,
+          MaterialPageRoute(builder: (context) => const OwnerHomeScreen()));
     } catch (error) {
       setState(() {
         isLoading = false;

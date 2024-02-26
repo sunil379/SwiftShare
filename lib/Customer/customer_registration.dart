@@ -79,8 +79,6 @@ class _CustomerRegistrationScreenState
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text("Account created successfully."),
       ));
-      // Example: Navigator.pushReplacementNamed(context, '/home');
-      Navigator.pushReplacementNamed(context, '/customer_home');
     } catch (error) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text("Error creating account: $error"),
@@ -179,7 +177,8 @@ class _CustomerRegistrationScreenState
             const SizedBox(height: 8),
             TextField(
               controller: mobileController,
-              decoration: const InputDecoration(labelText: 'Mobile Number',
+              decoration: const InputDecoration(
+                  labelText: 'Mobile Number',
                   hintText: "Please enter country code (e.g.+91) "),
               keyboardType: TextInputType.phone,
             ),
