@@ -47,7 +47,7 @@ class CustomerLoginScreen extends StatelessWidget {
           context,
           MaterialPageRoute(
               builder: (context) =>
-                  const HomeScreen()), // Replace HomeScreen with your actual home screen
+                  const CustomerHomeScreen()), // Replace HomeScreen with your actual home screen
         );
       }
     } catch (error) {
