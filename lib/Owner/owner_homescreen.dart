@@ -5,7 +5,14 @@ class OwnerHomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    throw UnimplementedError();
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.blueAccent,
+        title: const Text(
+          'Home Screen',
+          style: TextStyle(color: Colors.white),
+        ),
+      ),
+    );
   }
 }
