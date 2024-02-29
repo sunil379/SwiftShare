@@ -58,6 +58,14 @@ class OwnerLoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Check if the user is already signed in
+    if (_auth.currentUser != null) {
+      // If user is already signed in, navigate to home screen directly
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => const OwnerHomeScreen()));
+      });
+    }
     TextEditingController emailController = TextEditingController();
     TextEditingController passwordController = TextEditingController();
 
