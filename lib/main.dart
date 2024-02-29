@@ -41,11 +41,12 @@ class MainScreen extends StatelessWidget {
             const Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(width: 8),
+                SizedBox(width: 20),
                 Text(
                   'SWIFTSHARE',
                   style: TextStyle(
                     color: Colors.blue,
+                    fontSize: 28,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -67,6 +68,13 @@ class MainScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            const Text(
+              'LOGIN AS',
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
             const SizedBox(height: 24),
             ElevatedButton(
               onPressed: () {
@@ -86,17 +94,18 @@ class MainScreen extends StatelessWidget {
               child: const Padding(
                 padding: EdgeInsets.symmetric(
                   vertical: 12,
-                  horizontal: 24,
+                  horizontal: 60,
                 ),
                 child: Text(
                   'CUSTOMER',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
+                    fontSize: 20,
                   ),
                 ),
               ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 24),
             ElevatedButton(
               onPressed: () {
                 Navigator.push(
@@ -115,12 +124,13 @@ class MainScreen extends StatelessWidget {
               child: const Padding(
                 padding: EdgeInsets.symmetric(
                   vertical: 12,
-                  horizontal: 24,
+                  horizontal: 80,
                 ),
                 child: Text(
                   'OWNER',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
+                    fontSize: 20,
                   ),
                 ),
               ),
