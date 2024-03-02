@@ -6,11 +6,11 @@ class CustomerHomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blueAccent,
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text(
           'Home Screen',
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(color: Colors.blueAccent),
         ),
       ),
     );
