@@ -6,9 +6,14 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:swiftshare_one/Customer/customer_homescreen.dart';
 import 'package:swiftshare_one/Customer/customer_registration.dart';
 
-class CustomerLoginScreen extends StatelessWidget {
-  CustomerLoginScreen({super.key});
+class CustomerLoginScreen extends StatefulWidget {
+  const CustomerLoginScreen({super.key});
 
+  @override
+  State<StatefulWidget> createState() => _CustomerLoginScreenState();
+}
+
+class _CustomerLoginScreenState extends State<CustomerLoginScreen> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn googleSignIn = GoogleSignIn();
 
