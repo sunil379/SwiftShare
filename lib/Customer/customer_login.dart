@@ -33,7 +33,8 @@ class _CustomerLoginScreenState extends State<CustomerLoginScreen> {
         await _auth.signInWithCredential(credential);
       }
     } catch (error) {
-      print("Error signing in with Google: $error");
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Error signing in with Google: $error")));
       // Handle error
     }
   }
