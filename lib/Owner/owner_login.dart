@@ -6,9 +6,14 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:swiftshare_one/Owner/owner_homescreen.dart';
 import 'package:swiftshare_one/Owner/owner_registration.dart';
 
-class OwnerLoginScreen extends StatelessWidget {
-  OwnerLoginScreen({super.key});
+class OwnerLoginScreen extends StatefulWidget {
+  const OwnerLoginScreen({super.key});
 
+  @override
+  State<StatefulWidget> createState() => _OwnerLoginScreenState();
+}
+
+class _OwnerLoginScreenState extends State<OwnerLoginScreen> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn googleSignIn = GoogleSignIn();
 
