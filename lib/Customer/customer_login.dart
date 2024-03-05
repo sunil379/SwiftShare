@@ -55,24 +55,16 @@ class _CustomerLoginScreenState extends State<CustomerLoginScreen> {
                   const CustomerHomeScreen()), // Replace HomeScreen with your actual home screen
         );
       }
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text('Successfully Login')));
     } catch (error) {
-      print("Error signing in with email and password: $error");
-      // Handle error
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text("Error signing in with email and password: $error")));
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    // Check if the user is already signed in
-    if (_auth.currentUser != null) {
-      // If user is already signed in, navigate to home screen directly
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-                builder: (context) => const CustomerHomeScreen()));
-      });
-    }
     TextEditingController emailController = TextEditingController();
     TextEditingController passwordController = TextEditingController();
 
