@@ -1,19 +1,13 @@
 // ignore_for_file: avoid_print, use_build_context_synchronously
-
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:swiftshare_one/Owner/owner_homescreen.dart';
 import 'package:swiftshare_one/Owner/owner_registration.dart';
 
-class OwnerLoginScreen extends StatefulWidget {
-  const OwnerLoginScreen({super.key});
+class OwnerLoginScreen extends StatelessWidget {
+  OwnerLoginScreen({super.key});
 
-  @override
-  State<StatefulWidget> createState() => _OwnerLoginScreenState();
-}
-
-class _OwnerLoginScreenState extends State<OwnerLoginScreen> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn googleSignIn = GoogleSignIn();
 
@@ -24,17 +18,14 @@ class _OwnerLoginScreenState extends State<OwnerLoginScreen> {
       if (googleSignInAccount != null) {
         final GoogleSignInAuthentication googleSignInAuthentication =
             await googleSignInAccount.authentication;
-
         final AuthCredential credential = GoogleAuthProvider.credential(
           accessToken: googleSignInAuthentication.accessToken,
           idToken: googleSignInAuthentication.idToken,
         );
-
         await _auth.signInWithCredential(credential);
       }
     } catch (error) {
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Error signing in with Google: $error")));
+      print("Error signing in with Google: $error");
       // Handle error
     }
   }
@@ -56,16 +47,22 @@ class _OwnerLoginScreenState extends State<OwnerLoginScreen> {
                   const OwnerHomeScreen()), // Replace HomeScreen with your actual home screen
         );
       }
-      ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text('Successfully Login')));
     } catch (error) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text("Error signing in with email and password: $error")));
+      print("Error signing in with email and password: $error");
+      // Handle error
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    // Check if the user is already signed in
+    if (_auth.currentUser != null) {
+      // If user is already signed in, navigate to home screen directly
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => const OwnerHomeScreen()));
+      });
+    }
     TextEditingController emailController = TextEditingController();
     TextEditingController passwordController = TextEditingController();
 
