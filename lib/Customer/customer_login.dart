@@ -48,8 +48,8 @@ class CustomerLoginScreen extends StatelessWidget {
         );
       }
     } catch (error) {
-      print("Error signing in with email and password: $error");
-      // Handle error
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('Error signing in with email and password : $error')));
     }
   }
 
