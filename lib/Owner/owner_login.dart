@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:swiftshare_one/Owner/owner_homescreen.dart';
 import 'package:swiftshare_one/Owner/owner_registration.dart';
+import 'package:swiftshare_one/Owner/own_forget_pass.dart';
 
 class OwnerLoginScreen extends StatelessWidget {
   OwnerLoginScreen({super.key});
@@ -136,7 +137,14 @@ class OwnerLoginScreen extends StatelessWidget {
                 decoration: InputDecoration(
                   labelText: 'Password',
                   suffixIcon: TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ForgetPasswordScreen(
+                                emailController: emailController, auth: _auth),
+                          ));
+                    },
                     child: const Text(
                       'Forget Password?',
                       style: TextStyle(color: Colors.blue),
