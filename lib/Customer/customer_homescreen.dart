@@ -1,20 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
-class CustomerHomeScreen extends StatelessWidget {
+class CustomerHomeScreen extends StatefulWidget {
   const CustomerHomeScreen({super.key});
+  @override
+  State<CustomerHomeScreen> createState() => _CustomerHomeScreenState();
+}
 
+class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
+  String _selectedLocation = 'Select Location';
   @override
   Widget build(BuildContext context) {
+    List<String> cities = [
+      'Nagpur',
+      'Mumbai',
+      'Delhi',
+      'Bangalore',
+      'Chennai',
+      'Kolkata',
+      'Hyderabad',
+    ];
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Row(
           children: <Widget>[
             IconButton(
               onPressed: () {},
               icon: const Icon(Icons.menu_rounded),
             ),
-            _buildLocationDropdown(), // Custom dropdown for location
+            _buildLocationDropdown(cities), // Custom dropdown for location
             const Spacer(),
             IconButton(
               onPressed: () {},
@@ -103,16 +118,21 @@ class CustomerHomeScreen extends StatelessWidget {
   }
 
   // Custom Dropdown Button for Location
-  Widget _buildLocationDropdown() {
-    return DropdownButton<String>(
-      items: <String>['Khapri, Nagpur', 'Other Location'].map((String value) {
+  Widget _buildLocationDropdown(List<String> cities) {
+    return DropdownButton(
+      value: _selectedLocation,
+      items: cities.map((String value) {
         return DropdownMenuItem<String>(
           value: value,
           child: Text(value),
         );
       }).toList(),
-      onChanged: (String? newValue) {},
-      hint: const Text('Your Location'),
+      onChanged: (String? newValue) {
+        setState(() {
+          _selectedLocation = newValue!;
+        });
+      },
+      hint: const Text('Select Location'),
     );
   }
 

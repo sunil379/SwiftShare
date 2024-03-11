@@ -105,7 +105,7 @@ class OwnerHomeScreen extends StatelessWidget {
   // Custom Dropdown Button for Location
   Widget _buildLocationDropdown() {
     return DropdownButton<String>(
-      items: <String>['Khapri, Nagpur', 'Other Location'].map((String value) {
+      items: <String>['Nagpur', 'Other Location'].map((String value) {
         return DropdownMenuItem<String>(
           value: value,
           child: Text(value),
