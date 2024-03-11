@@ -1,20 +1,28 @@
 // forget password
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-class ForgetPasswordScreen extends StatelessWidget {
+class ForgetPasswordScreen extends StatefulWidget {
   final FirebaseAuth auth;
   final TextEditingController emailController;
   const ForgetPasswordScreen(
       {super.key, required this.emailController, required this.auth});
 
+  @override
+  _ForgetPasswordScreenState createState() => _ForgetPasswordScreenState();
+}
+
+class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
+  final TextEditingController newPasswordController = TextEditingController();
+  bool isResettingPassword = false;
+
   Future<void> _resetPassword(BuildContext context) async {
     try {
-      String email = emailController.text.trim();
+      String email = widget.emailController.text.trim();
       if (email.isNotEmpty) {
-        await auth.sendPasswordResetEmail(email: email);
+        await widget.auth.sendPasswordResetEmail(email: email);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Password reset email sent to $email')),
         );
@@ -25,7 +33,25 @@ class ForgetPasswordScreen extends StatelessWidget {
       }
     } catch (error) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to send password reset email : $error')),
+        SnackBar(content: Text('Failed to send password reset email: $error')),
+      );
+    }
+  }
+
+  Future<void> _changePassword(BuildContext context) async {
+    try {
+      String newPassword = newPasswordController.text.trim();
+      await widget.auth.confirmPasswordReset(
+        newPassword: newPassword,
+        code:
+            'code_from_email', // You need to provide the code sent to the user's email
+      );
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Password changed successfully')),
+      );
+    } catch (error) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to change password: $error')),
       );
     }
   }
@@ -63,7 +89,7 @@ class ForgetPasswordScreen extends StatelessWidget {
               height: 16,
             ),
             TextField(
-              controller: emailController,
+              controller: widget.emailController,
               decoration: const InputDecoration(labelText: 'Email Address'),
             ),
             const SizedBox(
@@ -85,7 +111,35 @@ class ForgetPasswordScreen extends StatelessWidget {
                   ),
                 ),
               ),
-            )
+            ),
+            const SizedBox(
+              height: 16,
+            ),
+            TextField(
+              controller: newPasswordController,
+              decoration: const InputDecoration(labelText: 'New Password'),
+              obscureText: true,
+            ),
+            const SizedBox(
+              height: 16,
+            ),
+            ElevatedButton(
+              onPressed: () {
+                _changePassword(context);
+              },
+              child: const Padding(
+                padding: EdgeInsets.symmetric(
+                  vertical: 12,
+                  horizontal: 24,
+                ),
+                child: Text(
+                  'Change Password',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
       ),

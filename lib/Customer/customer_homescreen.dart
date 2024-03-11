@@ -26,7 +26,12 @@ class CustomerHomeScreen extends StatelessWidget {
       body: ListView(
         children: <Widget>[
           CarouselSlider(
-            items: <String>['', '', ''].map((String imageUrl) {
+            items: const [
+              'assets/images/customer/Customer Add 1.png',
+              'assets/images/customer/Customer Add 2.png',
+              'assets/images/customer/Customer Add 3.png',
+              'assets/images/customer/Customer Add 4.png'
+            ].map((String imageUrl) {
               return Builder(
                 builder: (BuildContext context) {
                   return Container(
@@ -36,7 +41,7 @@ class CustomerHomeScreen extends StatelessWidget {
                       color: Colors.grey,
                       borderRadius: BorderRadius.circular(8.0),
                     ),
-                    child: Image.network(
+                    child: Image.asset(
                       imageUrl,
                       fit: BoxFit.cover,
                     ),
@@ -66,9 +71,12 @@ class CustomerHomeScreen extends StatelessWidget {
               onSubmitted: (String value) {},
             ),
           ),
-          _buildVehicleItem(context, 'Vehicle 1', 'Price 1', 'URL_1'),
-          _buildVehicleItem(context, 'Vehicle 2', 'Price 2', 'URL_2'),
-          _buildVehicleItem(context, 'Vehicle 3', 'Price 3', 'URL_3'),
+          _buildVehicleItem(context, 'Vehicle 1', 'Price 1',
+              'assets/images/customer/Customer Add 1.png'),
+          _buildVehicleItem(context, 'Vehicle 2', 'Price 2',
+              'assets/images/customer/Customer Add 2.png'),
+          _buildVehicleItem(context, 'Vehicle 3', 'Price 3',
+              'assets/images/customer/Customer Add 3.png'),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -118,7 +126,7 @@ class CustomerHomeScreen extends StatelessWidget {
         margin: const EdgeInsets.all(8.0),
         child: Column(
           children: <Widget>[
-            Image.network(
+            Image.asset(
               imageUrl,
               height: 200,
               width: double.infinity,
