@@ -32,6 +32,15 @@ class _CustomerRegistrationScreenState
   String? drivingLicenseURL;
   double uploadProgress = 0.0; // Track upload progress
 
+  bool _validateInputs() {
+    return nameController.text.isNotEmpty &&
+        mobileController.text.isNotEmpty &&
+        addressController.text.isNotEmpty &&
+        emailController.text.isNotEmpty &&
+        passwordController.text.isNotEmpty &&
+        confirmPasswordController.text.isNotEmpty;
+  }
+
   Future<void> _createAccount(BuildContext context) async {
     try {
       final String name = nameController.text;
@@ -40,6 +49,12 @@ class _CustomerRegistrationScreenState
       final String email = emailController.text;
       final String password = passwordController.text;
 
+      if (!_validateInputs()) {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text("Please fill in all required fields."),
+        ));
+        return;
+      }
       // Check if password and confirm password match
       if (password != confirmPasswordController.text) {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
@@ -56,7 +71,10 @@ class _CustomerRegistrationScreenState
       );
 
       // Add user details to Firestore
-      await _firestore.collection('users').doc(userCredential.user!.uid).set({
+      await _firestore
+          .collection('customers')
+          .doc(userCredential.user!.uid)
+          .set({
         'name': name,
         'mobile': mobile,
         'address': address,

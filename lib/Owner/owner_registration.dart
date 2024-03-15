@@ -38,6 +38,14 @@ class _OwnerRegistrationScreenState extends State<OwnerRegistrationScreen> {
       final String address = addressController.text;
       final String email = emailController.text;
       final String password = passwordController.text;
+      bool _validateInputs() {
+        return nameController.text.isNotEmpty &&
+            mobileController.text.isNotEmpty &&
+            addressController.text.isNotEmpty &&
+            emailController.text.isNotEmpty &&
+            passwordController.text.isNotEmpty &&
+            confirmPasswordController.text.isNotEmpty;
+      }
 
       // Check if password and confirm password match
       if (password != confirmPasswordController.text) {
@@ -73,6 +81,12 @@ class _OwnerRegistrationScreenState extends State<OwnerRegistrationScreen> {
           ),
         ),
       );
+      if (!_validateInputs()) {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text("Please fill in all required fields."),
+        ));
+        return;
+      }
 
       // Navigate to another screen or perform any action after successful registration
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
