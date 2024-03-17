@@ -1,14 +1,43 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:swiftshare_one/Customer/navigation_drawer.dart';
 
 class CustomerHomeScreen extends StatefulWidget {
   const CustomerHomeScreen({super.key});
+
   @override
   State<CustomerHomeScreen> createState() => _CustomerHomeScreenState();
 }
 
 class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
   String _selectedLocation = 'Select Location';
+  late String _userName = '';
+  late String _email = '';
+  @override
+  void initState() {
+    super.initState();
+    _fetchUserData();
+  }
+
+  Future<void> _fetchUserData() async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      // Use current user's UID to fetch user data from Firestore
+      final userDoc = await FirebaseFirestore.instance
+          .collection('customers')
+          .doc(user.uid)
+          .get();
+      if (userDoc.exists) {
+        setState(() {
+          _userName = userDoc['name'];
+          _email = userDoc['email'];
+        });
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     List<String> cities = [
@@ -20,15 +49,20 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
       'Kolkata',
       'Hyderabad',
     ];
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Row(
           children: <Widget>[
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(Icons.menu_rounded),
-            ),
+            Builder(builder: (context) {
+              return IconButton(
+                onPressed: () {
+                  Scaffold.of(context).openDrawer();
+                },
+                icon: const Icon(Icons.menu_rounded),
+              );
+            }),
             _buildLocationDropdown(cities), // Custom dropdown for location
             const Spacer(),
             IconButton(
@@ -94,6 +128,10 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
               'assets/images/customer/Customer Add 3.png'),
         ],
       ),
+      drawer: NavigationDrawers(
+        initialUserName: _userName,
+        initialEmail: _email,
+      ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
@@ -119,14 +157,20 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
 
   // Custom Dropdown Button for Location
   Widget _buildLocationDropdown(List<String> cities) {
-    return DropdownButton(
+    return DropdownButton<String>(
       value: _selectedLocation,
-      items: cities.map((String value) {
-        return DropdownMenuItem<String>(
-          value: value,
-          child: Text(value),
-        );
-      }).toList(),
+      items: [
+        const DropdownMenuItem<String>(
+          value: 'Select Location',
+          child: Text('Select Location'),
+        ),
+        ...cities.map((String value) {
+          return DropdownMenuItem<String>(
+            value: value,
+            child: Text(value),
+          );
+        }),
+      ],
       onChanged: (String? newValue) {
         setState(() {
           _selectedLocation = newValue!;
