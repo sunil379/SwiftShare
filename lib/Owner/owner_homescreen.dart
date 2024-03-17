@@ -1,20 +1,68 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:swiftshare_one/owner/navigation_drawer.dart';
 
-class OwnerHomeScreen extends StatelessWidget {
+class OwnerHomeScreen extends StatefulWidget {
   const OwnerHomeScreen({super.key});
+  @override
+  State<OwnerHomeScreen> createState() => _OwnerHomeScreenState();
+}
+
+class _OwnerHomeScreenState extends State<OwnerHomeScreen> {
+  String _selectedLocation = 'Select Location';
+  late String _userName = '';
+  late String _email = '';
+  @override
+  void initState() {
+    super.initState();
+    _fetchUserData();
+  }
+
+  Future<void> _fetchUserData() async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      // Use current user's UID to fetch user data from Firestore
+      final userDoc = await FirebaseFirestore.instance
+          .collection('owners')
+          .doc(user.uid)
+          .get();
+      if (userDoc.exists) {
+        setState(() {
+          _userName = userDoc['name'];
+          _email = userDoc['email'];
+        });
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    List<String> cities = [
+      'Nagpur',
+      'Mumbai',
+      'Delhi',
+      'Bangalore',
+      'Chennai',
+      'Kolkata',
+      'Hyderabad',
+    ];
+
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Row(
           children: <Widget>[
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(Icons.menu_rounded),
-            ),
-            _buildLocationDropdown(), // Custom dropdown for location
+            Builder(builder: (context) {
+              return IconButton(
+                onPressed: () {
+                  Scaffold.of(context).openDrawer();
+                },
+                icon: const Icon(Icons.menu_rounded),
+              );
+            }),
+            _buildLocationDropdown(cities), // Custom dropdown for location
             const Spacer(),
             IconButton(
               onPressed: () {},
@@ -60,24 +108,11 @@ class OwnerHomeScreen extends StatelessWidget {
               viewportFraction: 0.8,
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              decoration: const InputDecoration(
-                labelText: "Search Vehicle",
-                border: OutlineInputBorder(),
-                suffixIcon: Icon(Icons.search),
-              ),
-              onSubmitted: (String value) {},
-            ),
-          ),
-          _buildVehicleItem(context, 'Vehicle 1', 'Price 1',
-              'assets/images/owner/Owner Add 1.png'),
-          _buildVehicleItem(context, 'Vehicle 2', 'Price 2',
-              'assets/images/owner/Owner Add 2.png'),
-          _buildVehicleItem(context, 'Vehicle 3', 'Price 3',
-              'assets/images/owner/Owner Add 3.png'),
         ],
+      ),
+      drawer: NavigationDrawers(
+        initialUserName: _userName,
+        initialEmail: _email,
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
@@ -86,12 +121,12 @@ class OwnerHomeScreen extends StatelessWidget {
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.explore),
-            label: 'Explore',
+            icon: Icon(Icons.book_outlined),
+            label: 'Bookings',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.directions_car),
-            label: 'Trips',
+            icon: Icon(Icons.money),
+            label: 'Earnings',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.account_circle),
@@ -103,51 +138,27 @@ class OwnerHomeScreen extends StatelessWidget {
   }
 
   // Custom Dropdown Button for Location
-  Widget _buildLocationDropdown() {
+  Widget _buildLocationDropdown(List<String> cities) {
     return DropdownButton<String>(
-      items: <String>['Nagpur', 'Other Location'].map((String value) {
-        return DropdownMenuItem<String>(
-          value: value,
-          child: Text(value),
-        );
-      }).toList(),
-      onChanged: (String? newValue) {},
-      hint: const Text('Your Location'),
-    );
-  }
-
-  Widget _buildVehicleItem(
-      BuildContext context, String name, String price, String imageUrl) {
-    return GestureDetector(
-      onTap: () {
-        // Implement navigation to vehicle details page
-      },
-      child: Card(
-        margin: const EdgeInsets.all(8.0),
-        child: Column(
-          children: <Widget>[
-            Image.asset(
-              imageUrl,
-              height: 200,
-              width: double.infinity,
-              fit: BoxFit.cover,
-            ),
-            ListTile(
-              title: Text(name),
-              subtitle: Text(price),
-              trailing: TextButton(
-                onPressed: () {
-                  // Implement rent now functionality
-                },
-                child: const Text(
-                  'Rent Now',
-                  style: TextStyle(color: Colors.blue),
-                ),
-              ),
-            ),
-          ],
+      value: _selectedLocation,
+      items: [
+        const DropdownMenuItem<String>(
+          value: 'Select Location',
+          child: Text('Select Location'),
         ),
-      ),
+        ...cities.map((String value) {
+          return DropdownMenuItem<String>(
+            value: value,
+            child: Text(value),
+          );
+        }),
+      ],
+      onChanged: (String? newValue) {
+        setState(() {
+          _selectedLocation = newValue!;
+        });
+      },
+      hint: const Text('Select Location'),
     );
   }
 }
