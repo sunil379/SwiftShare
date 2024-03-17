@@ -12,7 +12,7 @@ class OwnerLoginScreen extends StatelessWidget {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn googleSignIn = GoogleSignIn();
 
-  Future<void> _signInWithGoogle() async {
+  Future<void> _signInWithGoogle(BuildContext context) async {
     try {
       final GoogleSignInAccount? googleSignInAccount =
           await googleSignIn.signIn();
@@ -24,6 +24,8 @@ class OwnerLoginScreen extends StatelessWidget {
           idToken: googleSignInAuthentication.idToken,
         );
         await _auth.signInWithCredential(credential);
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => const OwnerHomeScreen()));
       }
     } catch (error) {
       print("Error signing in with Google: $error");
@@ -177,7 +179,7 @@ class OwnerLoginScreen extends StatelessWidget {
               const SizedBox(height: 16),
               OutlinedButton.icon(
                 onPressed: () {
-                  _signInWithGoogle();
+                  _signInWithGoogle(context);
                 },
                 icon: const Icon(Icons.desktop_windows_outlined),
                 label: const Text('Sign in with Google'),
