@@ -72,7 +72,7 @@ class _OwnerRegistrationScreenState extends State<OwnerRegistrationScreen> {
         'vehicleRC_URL': vehicleRCURL,
       });
       // Navigate to OTP verification screen
-      await Navigator.push(
+      await Navigator.pushReplacement(
         context,
         MaterialPageRoute(
           builder: (context) => OTPVerificationScreen(

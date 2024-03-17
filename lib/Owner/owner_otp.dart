@@ -50,8 +50,10 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
       });
 
       // Navigate HomeScreen
-      await Navigator.push(context,
-          MaterialPageRoute(builder: (context) => const OwnerHomeScreen()));
+      await Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const OwnerHomeScreen()),
+      );
     } catch (error) {
       setState(() {
         isLoading = false;
