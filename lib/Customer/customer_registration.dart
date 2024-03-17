@@ -83,7 +83,7 @@ class _CustomerRegistrationScreenState
         'drivingLicenseURL': drivingLicenseURL,
       });
       // Navigate to OTP verification screen
-      await Navigator.push(
+      await Navigator.pushReplacement(
         context,
         MaterialPageRoute(
           builder: (context) => OTPVerificationScreen(
