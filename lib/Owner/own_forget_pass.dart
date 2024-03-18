@@ -1,7 +1,8 @@
+// owner forget password
 // ignore_for_file: use_build_context_synchronously, library_private_types_in_public_api
-
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:swiftshare_one/Owner/owner_homescreen.dart';
 
 class ForgetPasswordScreen extends StatefulWidget {
   final FirebaseAuth auth;
@@ -61,6 +62,10 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
           const SnackBar(content: Text('Password changed successfully')),
         );
         // You might want to navigate the user back to login screen or any other screen after password change
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const OwnerHomeScreen()),
+        );
       }
     } catch (error) {
       ScaffoldMessenger.of(context).showSnackBar(
