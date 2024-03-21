@@ -9,14 +9,14 @@ const endAlignment = Alignment.bottomCenter;
 Color color1 = Colors.white;
 Color color2 = Colors.lightBlue;
 
-class SplashScreen extends StatefulWidget {
-  const SplashScreen({super.key});
+class EntryScreen extends StatefulWidget {
+  const EntryScreen({super.key});
 
   @override
-  State<SplashScreen> createState() => _SplashScreenState();
+  State<EntryScreen> createState() => _EntryScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> {
+class _EntryScreenState extends State<EntryScreen> {
   late SharedPreferences _prefs;
   bool _isFirstTime = true;
 
@@ -58,7 +58,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const Image(
-                        image: AssetImage('images/rectangle-7.png'),
+                        image: AssetImage('assets/images/rectangle-7.png'),
                         width: 250,
                         height: 170,
                         fit: BoxFit.cover,
@@ -85,7 +85,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 const Expanded(
                   flex: 2,
                   child: Image(
-                    image: AssetImage('images/rectangle-4.png'),
+                    image: AssetImage('assets/images/rectangle-4.png'),
                   ),
                 ),
                 Container(
