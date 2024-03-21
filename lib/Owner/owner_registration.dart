@@ -25,11 +25,29 @@ class _OwnerRegistrationScreenState extends State<OwnerRegistrationScreen> {
   final TextEditingController confirmPasswordController =
       TextEditingController();
 
+  final _nameFocusNode = FocusNode();
+  final _mobileFocusNode = FocusNode();
+  final _addressFocusNode = FocusNode();
+  final _emailFocusNode = FocusNode();
+  final _passwordFocusNode = FocusNode();
+  final _retypePasswordFocusNode = FocusNode();
+
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   String? identityProofURL;
   String? vehicleRCURL;
   double uploadProgress = 0.0; // Track upload progress
+
+  @override
+  void dispose() {
+    _nameFocusNode.dispose();
+    _mobileFocusNode.dispose();
+    _addressFocusNode.dispose();
+    _emailFocusNode.dispose();
+    _passwordFocusNode.dispose();
+    _retypePasswordFocusNode.dispose();
+    super.dispose();
+  }
 
   Future<void> _createAccount(BuildContext context) async {
     try {
@@ -38,6 +56,7 @@ class _OwnerRegistrationScreenState extends State<OwnerRegistrationScreen> {
       final String address = addressController.text;
       final String email = emailController.text;
       final String password = passwordController.text;
+
       bool _validateInputs() {
         return nameController.text.isNotEmpty &&
             mobileController.text.isNotEmpty &&
@@ -184,36 +203,67 @@ class _OwnerRegistrationScreenState extends State<OwnerRegistrationScreen> {
             ),
             const SizedBox(height: 16),
             TextField(
+              focusNode: _nameFocusNode,
               controller: nameController,
               decoration: const InputDecoration(labelText: 'Name'),
+              textInputAction: TextInputAction.next,
+              onSubmitted: (value) {
+                _nameFocusNode.unfocus();
+                FocusScope.of(context).requestFocus(_mobileFocusNode);
+              },
             ),
             const SizedBox(height: 8),
             TextField(
+              focusNode: _mobileFocusNode,
               controller: mobileController,
               decoration: const InputDecoration(
                   labelText: 'Mobile Number',
                   hintText: "Please enter country code (e.g.+91) "),
               keyboardType: TextInputType.phone,
+              textInputAction: TextInputAction.next,
+              onSubmitted: (value) {
+                _mobileFocusNode.unfocus();
+                FocusScope.of(context).requestFocus(_addressFocusNode);
+              },
             ),
             const SizedBox(height: 8),
             TextField(
+              focusNode: _addressFocusNode,
               controller: addressController,
               decoration: const InputDecoration(labelText: 'Address'),
+              textInputAction: TextInputAction.next,
+              onSubmitted: (value) {
+                _addressFocusNode.unfocus();
+                FocusScope.of(context).requestFocus(_emailFocusNode);
+              },
             ),
             const SizedBox(height: 8),
             TextField(
+              focusNode: _emailFocusNode,
               controller: emailController,
               decoration: const InputDecoration(labelText: 'Email Address'),
               keyboardType: TextInputType.emailAddress,
+              textInputAction: TextInputAction.next,
+              onSubmitted: (value) {
+                _addressFocusNode.unfocus();
+                FocusScope.of(context).requestFocus(_passwordFocusNode);
+              },
             ),
             const SizedBox(height: 8),
             TextField(
+              focusNode: _passwordFocusNode,
               controller: passwordController,
               decoration: const InputDecoration(labelText: 'Password'),
+              textInputAction: TextInputAction.next,
+              onSubmitted: (value) {
+                _passwordFocusNode.unfocus();
+                FocusScope.of(context).requestFocus(_retypePasswordFocusNode);
+              },
               obscureText: true,
             ),
             const SizedBox(height: 8),
             TextField(
+              focusNode: _retypePasswordFocusNode,
               controller: confirmPasswordController,
               decoration: const InputDecoration(labelText: 'Confirm Password'),
               obscureText: true,
