@@ -67,8 +67,13 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
             const Spacer(),
             IconButton(
               onPressed: () {},
-              icon: const Icon(Icons.account_circle),
+              icon: const Icon(Icons.notifications),
             ),
+            const Spacer(),
+            IconButton(
+              onPressed: () {},
+              icon: const Icon(Icons.settings),
+            )
           ],
         ),
       ),

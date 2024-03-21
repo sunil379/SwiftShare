@@ -66,8 +66,13 @@ class _OwnerHomeScreenState extends State<OwnerHomeScreen> {
             const Spacer(),
             IconButton(
               onPressed: () {},
-              icon: const Icon(Icons.account_circle),
+              icon: const Icon(Icons.notifications),
             ),
+            const Spacer(),
+            IconButton(
+              onPressed: () {},
+              icon: const Icon(Icons.settings),
+            )
           ],
         ),
       ),
