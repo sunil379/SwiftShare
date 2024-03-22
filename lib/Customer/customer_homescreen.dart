@@ -1,7 +1,10 @@
+// ignore_for_file: avoid_print
+
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:swiftshare_one/Customer/customervehicleinfo.dart';
 import 'package:swiftshare_one/Customer/navigation_drawer.dart';
 
 class CustomerHomeScreen extends StatefulWidget {
@@ -38,6 +41,81 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
     }
   }
 
+  void _selectLocation(String? newValue) {
+    setState(() {
+      _selectedLocation = newValue ?? 'Select Location';
+    });
+  }
+
+  void _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      firstDate: DateTime.now(),
+      lastDate: DateTime(DateTime.now().year + 1),
+    );
+    if (picked != null) {
+      // Handle selected date
+      print('Selected date : $picked');
+    }
+  }
+
+  void _selectTime(BuildContext context) async {
+    final TimeOfDay? picked = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(),
+    );
+    if (picked != null) {
+      // Handle selected date
+      print('Selected time: $picked');
+    }
+  }
+
+  void _submitReview() {
+    // Implement review submission
+    print('Review submitted');
+  }
+
+  void _navigateToCarInfoPage(
+      String carName,
+      String carImage,
+      String carRating,
+      String carRenter,
+      String carSeats,
+      String carAC,
+      String carSafetyRating,
+      String carAddress,
+      String carFuelInfo,
+      String carPrice,
+      List<String> carFeatures) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => CarInfoPage(
+          carName: carName,
+          carImage: carImage,
+          carRating: carRating,
+          carRenter: carRenter,
+          carSeats: carSeats,
+          carAC: carAC,
+          carSafetyRating: carSafetyRating,
+          carAddress: carAddress,
+          carFuelInfo: carFuelInfo,
+          carPrice: carPrice,
+          carFeatures: carFeatures,
+          onSelectLocation: () {
+            _selectLocation(_selectedLocation);
+          },
+          onSelectDate: () {
+            _selectDate(context);
+          },
+          onSelectTime: () {
+            _selectTime(context);
+          },
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     List<String> cities = [
@@ -69,7 +147,6 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
               onPressed: () {},
               icon: const Icon(Icons.notifications),
             ),
-            const Spacer(),
             IconButton(
               onPressed: () {},
               icon: const Icon(Icons.settings),
@@ -189,7 +266,19 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
       BuildContext context, String name, String price, String imageUrl) {
     return GestureDetector(
       onTap: () {
-        // Implement navigation to vehicle details page
+        _navigateToCarInfoPage(
+            name,
+            imageUrl,
+            '4.5', // Placeholder for car rating
+            'John Doe', // Placeholder for car renter
+            '4', // Placeholder for car seats
+            'Yes', // Placeholder for car AC
+            '5', // Placeholder for car safety rating
+            '123 Street, City', // Placeholder for car address
+            'Petrol, 20 kmpl', // Placeholder for car fuel info
+            '\$50 per day', // Placeholder for car price
+            ['Bluetooth', 'GPS', 'USB'] // Placeholder for car features
+            );
       },
       child: Card(
         margin: const EdgeInsets.all(8.0),
@@ -206,7 +295,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
               subtitle: Text(price),
               trailing: TextButton(
                 onPressed: () {
-                  // Implement rent now functionality
+                  _submitReview();
                 },
                 child: const Text(
                   'Rent Now',
