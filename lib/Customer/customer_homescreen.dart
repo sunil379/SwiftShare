@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:swiftshare_one/Customer/customer_trips.dart';
 import 'package:swiftshare_one/Customer/customervehicleinfo.dart';
 import 'package:swiftshare_one/Customer/navigation_drawer.dart';
 
@@ -15,6 +16,31 @@ class CustomerHomeScreen extends StatefulWidget {
 }
 
 class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
+  int _selectedIndex = 0;
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+      switch (_selectedIndex) {
+        case 0:
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const MyTripsPage()));
+          break;
+        case 1:
+          // Handle Explore button tap
+          // Navigate to Explore screen or perform relevant action
+          break;
+        case 2:
+          // Handle Trips button tap
+          // Navigate to Trips screen or perform relevant action
+          break;
+        case 3:
+          // Handle Account button tap
+          // Navigate to Account screen or perform relevant action
+          break;
+      }
+    });
+  }
+
   String _selectedLocation = 'Select Location';
   late String _userName = '';
   late String _email = '';
@@ -166,17 +192,24 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
               return Builder(
                 builder: (BuildContext context) {
                   return Container(
-                    width: MediaQuery.of(context).size.width,
-                    margin: const EdgeInsets.symmetric(horizontal: 5.0),
-                    decoration: BoxDecoration(
-                      color: Colors.grey,
-                      borderRadius: BorderRadius.circular(8.0),
-                    ),
-                    child: Image.asset(
-                      imageUrl,
-                      fit: BoxFit.cover,
-                    ),
-                  );
+                      width: MediaQuery.of(context).size.width,
+                      margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                      decoration: BoxDecoration(
+                        color: Colors.grey,
+                        borderRadius: BorderRadius.circular(12.0),
+                        border: Border.all(
+                          color: Colors.grey,
+                          width: 10.0,
+                        ),
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(6.0),
+                        child: Image.asset(
+                          imageUrl,
+                          height: 180,
+                          fit: BoxFit.cover,
+                        ),
+                      ));
                 },
               );
             }).toList(),
@@ -193,13 +226,27 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              decoration: const InputDecoration(
-                labelText: "Search Vehicle",
-                border: OutlineInputBorder(),
-                suffixIcon: Icon(Icons.search),
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(
+                    20.0), // Adjust the border radius as needed
+                border: Border.all(
+                  color: Colors.black, // Adjust the border color as needed
+                  width: 2.0, // Adjust the border width as needed
+                ),
               ),
-              onSubmitted: (String value) {},
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: TextField(
+                  decoration: const InputDecoration(
+                    hintText: "Search Vehicle",
+                    border:
+                        InputBorder.none, // Remove the default TextField border
+                    suffixIcon: Icon(Icons.search),
+                  ),
+                  onSubmitted: (String value) {},
+                ),
+              ),
             ),
           ),
           _buildVehicleItem(context, 'Vehicle 1', 'Price 1',
@@ -215,22 +262,32 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
         initialEmail: _email,
       ),
       bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,
+        backgroundColor: Colors.blue, // Set background color to blue
+        selectedItemColor: Colors.white, // Set item color to white
+        unselectedItemColor: Colors.white, // Set item color to white
+        elevation: 0,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home_outlined),
             label: 'Home',
+            backgroundColor: Colors.black,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.explore),
             label: 'Explore',
+            backgroundColor: Colors.black,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.directions_car),
             label: 'Trips',
+            backgroundColor: Colors.black,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.account_circle),
             label: 'Account',
+            backgroundColor: Colors.black,
           ),
         ],
       ),
@@ -289,6 +346,19 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
               height: 200,
               width: double.infinity,
               fit: BoxFit.cover,
+              frameBuilder: (BuildContext context, Widget child, int? frame,
+                  bool wasSynchronouslyLoaded) {
+                return Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12.0),
+                    border: Border.all(
+                      color: Colors.black,
+                      width: 6.0,
+                    ),
+                  ),
+                  child: child,
+                );
+              },
             ),
             ListTile(
               title: Text(name),
