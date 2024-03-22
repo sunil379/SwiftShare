@@ -317,7 +317,7 @@ class _CustomerRegistrationScreenState
                 child: const Text(
                   'Submit the Identity Proof',
                   style: TextStyle(
-                    fontSize: 18,
+                    fontSize: 16,
                   ),
                 ),
               ),
@@ -339,7 +339,7 @@ class _CustomerRegistrationScreenState
                 child: const Text(
                   'Submit the Driving License',
                   style: TextStyle(
-                    fontSize: 18,
+                    fontSize: 16,
                   ),
                 ),
               ),
@@ -348,7 +348,13 @@ class _CustomerRegistrationScreenState
                   value: uploadProgress,
                   minHeight: 10,
                 ),
-              const SizedBox(height: 30),
+              SizedBox(
+                height: 30,
+                child: Divider(
+                  color: Colors.blueGrey.shade900,
+                  thickness: 2.0,
+                ),
+              ),
               ElevatedButton(
                 onPressed: () => _createAccount(context),
                 style: ElevatedButton.styleFrom(
