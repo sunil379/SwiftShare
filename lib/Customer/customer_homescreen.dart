@@ -22,8 +22,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
       _selectedIndex = index;
       switch (_selectedIndex) {
         case 0:
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const MyTripsPage()));
+          // Handle Home button tap
           break;
         case 1:
           // Handle Explore button tap
@@ -31,6 +30,8 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
           break;
         case 2:
           // Handle Trips button tap
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const MyTripsPage()));
           // Navigate to Trips screen or perform relevant action
           break;
         case 3:
