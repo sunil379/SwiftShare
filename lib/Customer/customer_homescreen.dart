@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:swiftshare_one/Customer/all_images_screen.dart';
 import 'package:swiftshare_one/Customer/customer_trips.dart';
 import 'package:swiftshare_one/Customer/customervehicleinfo.dart';
 import 'package:swiftshare_one/Customer/navigation_drawer.dart';
@@ -104,7 +105,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
 
   void _navigateToCarInfoPage(
       String carName,
-      String carImage,
+      List<String> imageUrls,
       String carRating,
       String carRenter,
       String carSeats,
@@ -119,7 +120,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
       MaterialPageRoute(
         builder: (context) => CarInfoPage(
           carName: carName,
-          carImage: carImage,
+          carImageUrls: imageUrls,
           carRating: carRating,
           carRenter: carRenter,
           carSeats: carSeats,
@@ -250,12 +251,46 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
               ),
             ),
           ),
-          _buildVehicleItem(context, 'Vehicle 1', 'Price 1',
-              'assets/images/customer/Customer Add 1.png'),
-          _buildVehicleItem(context, 'Vehicle 2', 'Price 2',
-              'assets/images/customer/Customer Add 2.png'),
-          _buildVehicleItem(context, 'Vehicle 3', 'Price 3',
-              'assets/images/customer/Customer Add 3.png'),
+          _buildVehicleItem(
+            context,
+            'Car',
+            [
+              'assets/images/customer/Customer Add 1.png',
+              'assets/images/customer/Customer Add 2.png',
+              'assets/images/customer/Customer Add 3.png',
+              'assets/images/customer/Customer Add 4.png',
+            ],
+          ),
+          _buildVehicleItem(
+            context,
+            'Bike',
+            [
+              'assets/images/customer/Customer Add 1.png',
+              'assets/images/customer/Customer Add 2.png',
+              'assets/images/customer/Customer Add 3.png',
+              'assets/images/customer/Customer Add 4.png',
+            ],
+          ),
+          _buildVehicleItem(
+            context,
+            'Scooty',
+            [
+              'assets/images/customer/Customer Add 1.png',
+              'assets/images/customer/Customer Add 2.png',
+              'assets/images/customer/Customer Add 3.png',
+              'assets/images/customer/Customer Add 4.png',
+            ],
+          ),
+          _buildVehicleItem(
+            context,
+            'Electric Vehicle',
+            [
+              'assets/images/customer/Customer Add 1.png',
+              'assets/images/customer/Customer Add 2.png',
+              'assets/images/customer/Customer Add 3.png',
+              'assets/images/customer/Customer Add 4.png',
+            ],
+          ),
         ],
       ),
       drawer: NavigationDrawers(
@@ -321,49 +356,107 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
   }
 
   Widget _buildVehicleItem(
-      BuildContext context, String name, String price, String imageUrl) {
+      BuildContext context, String name, List<String> imageUrls) {
+    List<Widget> imagesToShow = imageUrls
+        .take(3) // Show only the first two images
+        .map((imageUrl) => Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: SizedBox(
+                width: 120, // Adjust the width as needed
+                child: Stack(
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(8.0),
+                      child: Image.asset(
+                        imageUrl,
+                        height: 100,
+                        width: 120,
+                        fit: BoxFit.cover,
+                        frameBuilder: (BuildContext context, Widget child,
+                            int? frame, bool wasSynchronouslyLoaded) {
+                          return Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: Colors
+                                    .black, // Adjust border color as needed
+                                width: 2.0, // Adjust border width as needed
+                              ),
+                            ),
+                            child: child,
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ))
+        .toList();
+
+    if (imageUrls.length > 2) {
+      imagesToShow.add(
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          child: GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => AllImagesScreen(
+                    name: name,
+                    imageUrls: imageUrls, //
+                  ),
+                ),
+              );
+            },
+            child: const Text(
+              '> See all',
+              style: TextStyle(
+                color: Colors.blue,
+              ),
+            ),
+          ),
+        ),
+      );
+    }
     return GestureDetector(
       onTap: () {
         _navigateToCarInfoPage(
-            name,
-            imageUrl,
-            '4.5', // Placeholder for car rating
-            'John Doe', // Placeholder for car renter
-            '4', // Placeholder for car seats
-            'Yes', // Placeholder for car AC
-            '5', // Placeholder for car safety rating
-            '123 Street, City', // Placeholder for car address
-            'Petrol, 20 kmpl', // Placeholder for car fuel info
-            '\$50 per day', // Placeholder for car price
-            ['Bluetooth', 'GPS', 'USB'] // Placeholder for car features
-            );
+          name,
+          imageUrls,
+          '4.5', // Placeholder for car rating
+          'John Doe', // Placeholder for car renter
+          '4', // Placeholder for car seats
+          'Yes', // Placeholder for car AC
+          '5', // Placeholder for car safety rating
+          '123 Street, City', // Placeholder for car address
+          'Petrol, 20 kmpl', // Placeholder for car fuel info
+          '\$50 per day', // Placeholder for car price
+          ['Bluetooth', 'GPS', 'USB'], // Placeholder for car features
+        );
       },
       child: Card(
         margin: const EdgeInsets.all(8.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Image.asset(
-              imageUrl,
-              height: 200,
-              width: double.infinity,
-              fit: BoxFit.cover,
-              frameBuilder: (BuildContext context, Widget child, int? frame,
-                  bool wasSynchronouslyLoaded) {
-                return Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12.0),
-                    border: Border.all(
-                      color: Colors.black,
-                      width: 6.0,
-                    ),
-                  ),
-                  child: child,
-                );
-              },
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                name,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18.0,
+                ),
+              ),
+            ),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: imagesToShow,
+              ),
             ),
             ListTile(
-              title: Text(name),
-              subtitle: Text(price),
               trailing: TextButton(
                 onPressed: () {
                   _submitReview();
