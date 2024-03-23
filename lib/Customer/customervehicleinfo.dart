@@ -283,12 +283,12 @@ class _CarInfoPageState extends State<CarInfoPage> {
                   return Container(
                     width: 80,
                     margin: const EdgeInsets.only(right: 8),
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       shape: BoxShape.circle,
-                      image: DecorationImage(
-                        image: AssetImage('assets/profile_${index + 1}.png'),
-                        fit: BoxFit.cover,
-                      ),
+                      // image: DecorationImage(
+                      //   // image: AssetImage('assets/profile_${index + 1}.png'),
+                      //   fit: BoxFit.cover,
+                      // ),
                     ),
                   );
                 },

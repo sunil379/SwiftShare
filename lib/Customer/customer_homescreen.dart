@@ -240,13 +240,30 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 child: TextField(
-                  decoration: const InputDecoration(
-                    hintText: "Search Vehicle",
-                    border:
-                        InputBorder.none, // Remove the default TextField border
-                    suffixIcon: Icon(Icons.search),
+                  decoration: InputDecoration(
+                    hintText: 'Search Vehicle',
+                    hintStyle: const TextStyle(fontSize: 16),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15),
+                      borderSide: const BorderSide(
+                        width: 0,
+                        style: BorderStyle.none,
+                      ),
+                    ),
+                    filled: true,
+                    fillColor: Colors.grey[100],
+                    contentPadding: const EdgeInsets.only(
+                      left: 30,
+                    ),
+                    suffixIcon: const Padding(
+                      padding: EdgeInsets.only(right: 24.0, left: 16.0),
+                      child: Icon(
+                        Icons.search,
+                        color: Colors.black,
+                        size: 24,
+                      ),
+                    ),
                   ),
-                  onSubmitted: (String value) {},
                 ),
               ),
             ),
@@ -256,7 +273,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
             'Car',
             [
               'assets/images/customer/acura_0.png',
-              'assets/images/customer/acura_1.png',
+              'assets/images/customer/honda_0.png',
               'assets/images/customer/camaro_0.png',
               'assets/images/customer/citroen_0.png',
             ],
@@ -265,30 +282,26 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
             context,
             'Bike',
             [
-              'assets/images/customer/Customer Add 1.png',
-              'assets/images/customer/Customer Add 2.png',
-              'assets/images/customer/Customer Add 3.png',
-              'assets/images/customer/Customer Add 4.png',
+              'assets/images/bikes/livo/maxresdefault.jpg',
+              'assets/images/bikes/shine/maxresdefault (2).jpg',
+              'assets/images/bikes/sp125/BS6-Honda-SP-125-Fi-Review-1.jpg',
+              'assets/images/bikes/splendor/hero-splendor-service-dealer-home-free-1-1200x675.jpg'
             ],
           ),
           _buildVehicleItem(
             context,
             'Scooty',
             [
-              'assets/images/customer/Customer Add 1.png',
+              'assets/images/scooty/activa/honda-activa-6g-2.jpg',
               'assets/images/customer/Customer Add 2.png',
-              'assets/images/customer/Customer Add 3.png',
-              'assets/images/customer/Customer Add 4.png',
+              'assets/images/scooty/pleasure/13299_0.jpg',
             ],
           ),
           _buildVehicleItem(
             context,
             'Electric Vehicle',
             [
-              'assets/images/customer/Customer Add 1.png',
-              'assets/images/customer/Customer Add 2.png',
-              'assets/images/customer/Customer Add 3.png',
-              'assets/images/customer/Customer Add 4.png',
+              'assets/images/ev/tesla_1.png',
             ],
           ),
         ],

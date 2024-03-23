@@ -31,8 +31,8 @@ class MainScreen extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(vertical: 1),
                 child: Image.asset(
                   'assets/images/rectangle_7.png', // Replace with your image path
-                  width: 200, // Adjust the width as needed
-                  height: 180, // Adjust the height as needed
+                  width: 100, // Adjust the width as needed
+                  height: 90, // Adjust the height as needed
                 ),
               ),
               const Text(
