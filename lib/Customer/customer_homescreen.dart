@@ -380,14 +380,14 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
             );
           },
           child: SizedBox(
-            width: 300, // Adjust the width as needed
+            width: 360, // Adjust the width as needed
             child: Stack(
               children: [
                 ClipRRect(
                   borderRadius: BorderRadius.circular(8.0),
                   child: Image.asset(
                     imageUrl,
-                    height: 180,
+                    height: 200,
                     width: 350,
                     fit: BoxFit.cover,
                     frameBuilder: (BuildContext context, Widget child,
@@ -397,7 +397,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                           border: Border.all(
                             color:
                                 Colors.black, // Adjust border color as needed
-                            width: 2.0, // Adjust border width as needed
+                            width: 4.0, // Adjust border width as needed
                           ),
                         ),
                         child: child,
