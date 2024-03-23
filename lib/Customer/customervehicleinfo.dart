@@ -5,7 +5,7 @@ import 'package:intl/intl.dart';
 
 class CarInfoPage extends StatefulWidget {
   final String carName;
-  final String carImage;
+  final List<String> carImageUrls;
   final String carRating;
   final String carRenter;
   final String carSeats;
@@ -22,7 +22,7 @@ class CarInfoPage extends StatefulWidget {
   const CarInfoPage({
     super.key,
     required this.carName,
-    required this.carImage,
+    required this.carImageUrls,
     required this.carRating,
     required this.carRenter,
     required this.carSeats,
@@ -96,31 +96,45 @@ class _CarInfoPageState extends State<CarInfoPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
+            SizedBox(
               height: 200,
               width: double.infinity,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage(widget.carImage),
-                  fit: BoxFit.cover,
-                ),
-              ),
-              child: Align(
-                alignment: Alignment.bottomLeft,
-                child: Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10),
+              child: Stack(
+                children: [
+                  ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: widget.carImageUrls.length,
+                    itemBuilder: (context, index) {
+                      return Container(
+                        width: 400, // Adjust width as needed
+                        margin: const EdgeInsets.only(right: 8),
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage(widget.carImageUrls[index]),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      );
+                    },
                   ),
-                  child: Text(
-                    widget.carRating,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
+                  Align(
+                    alignment: Alignment.bottomLeft,
+                    child: Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Text(
+                        widget.carRating,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
                   ),
-                ),
+                ],
               ),
             ),
             const SizedBox(height: 16),
