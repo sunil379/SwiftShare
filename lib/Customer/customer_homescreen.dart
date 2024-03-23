@@ -255,10 +255,10 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
             context,
             'Car',
             [
-              'assets/images/customer/Customer Add 1.png',
-              'assets/images/customer/Customer Add 2.png',
-              'assets/images/customer/Customer Add 3.png',
-              'assets/images/customer/Customer Add 4.png',
+              'assets/images/customer/acura_0.png',
+              'assets/images/customer/acura_1.png',
+              'assets/images/customer/camaro_0.png',
+              'assets/images/customer/citroen_0.png',
             ],
           ),
           _buildVehicleItem(
@@ -358,42 +358,61 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
   Widget _buildVehicleItem(
       BuildContext context, String name, List<String> imageUrls) {
     List<Widget> imagesToShow = imageUrls
-        .take(3) // Show only the first two images
-        .map((imageUrl) => Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: SizedBox(
-                width: 120, // Adjust the width as needed
-                child: Stack(
-                  children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(8.0),
-                      child: Image.asset(
-                        imageUrl,
-                        height: 100,
-                        width: 120,
-                        fit: BoxFit.cover,
-                        frameBuilder: (BuildContext context, Widget child,
-                            int? frame, bool wasSynchronouslyLoaded) {
-                          return Container(
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                color: Colors
-                                    .black, // Adjust border color as needed
-                                width: 2.0, // Adjust border width as needed
-                              ),
-                            ),
-                            child: child,
-                          );
-                        },
-                      ),
-                    ),
-                  ],
+        .take(3) // Show only the first three images
+        .map((imageUrl) {
+      return Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: GestureDetector(
+          onTap: () {
+            // Handle individual photo tap here
+            _navigateToCarInfoPage(
+              name,
+              [imageUrl], // Pass only the tapped image URL
+              '4.5', // Placeholder for car rating
+              'John Doe', // Placeholder for car renter
+              '4', // Placeholder for car seats
+              'Yes', // Placeholder for car AC
+              '5', // Placeholder for car safety rating
+              '123 Street, City', // Placeholder for car address
+              'Petrol, 20 kmpl', // Placeholder for car fuel info
+              '\$50 per day', // Placeholder for car price
+              ['Bluetooth', 'GPS', 'USB'], // Placeholder for car features
+            );
+          },
+          child: SizedBox(
+            width: 300, // Adjust the width as needed
+            child: Stack(
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(8.0),
+                  child: Image.asset(
+                    imageUrl,
+                    height: 180,
+                    width: 350,
+                    fit: BoxFit.cover,
+                    frameBuilder: (BuildContext context, Widget child,
+                        int? frame, bool wasSynchronouslyLoaded) {
+                      return Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color:
+                                Colors.black, // Adjust border color as needed
+                            width: 2.0, // Adjust border width as needed
+                          ),
+                        ),
+                        child: child,
+                      );
+                    },
+                  ),
                 ),
-              ),
-            ))
-        .toList();
+              ],
+            ),
+          ),
+        ),
+      );
+    }).toList();
 
-    if (imageUrls.length > 2) {
+    if (imageUrls.length > 3) {
       imagesToShow.add(
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -419,56 +438,39 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
         ),
       );
     }
-    return GestureDetector(
-      onTap: () {
-        _navigateToCarInfoPage(
-          name,
-          imageUrls,
-          '4.5', // Placeholder for car rating
-          'John Doe', // Placeholder for car renter
-          '4', // Placeholder for car seats
-          'Yes', // Placeholder for car AC
-          '5', // Placeholder for car safety rating
-          '123 Street, City', // Placeholder for car address
-          'Petrol, 20 kmpl', // Placeholder for car fuel info
-          '\$50 per day', // Placeholder for car price
-          ['Bluetooth', 'GPS', 'USB'], // Placeholder for car features
-        );
-      },
-      child: Card(
-        margin: const EdgeInsets.all(8.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                name,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18.0,
-                ),
+    return Card(
+      margin: const EdgeInsets.all(8.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              name,
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 18.0,
               ),
             ),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: imagesToShow,
+          ),
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: imagesToShow,
+            ),
+          ),
+          ListTile(
+            trailing: TextButton(
+              onPressed: () {
+                _submitReview();
+              },
+              child: const Text(
+                'Rent Now',
+                style: TextStyle(color: Colors.blue),
               ),
             ),
-            ListTile(
-              trailing: TextButton(
-                onPressed: () {
-                  _submitReview();
-                },
-                child: const Text(
-                  'Rent Now',
-                  style: TextStyle(color: Colors.blue),
-                ),
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
