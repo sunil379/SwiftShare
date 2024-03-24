@@ -370,7 +370,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
     List<VehicleDetails> vehicleDetails = [
       VehicleDetails(
         rating: '4.5',
-        renter: 'John Doe',
+        renter: 'John Cena',
         seats: '4',
         ac: 'Yes',
         safetyRating: '5',
@@ -436,7 +436,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
       ),
       VehicleDetails(
         rating: '4.0',
-        renter: 'Jane Doe',
+        renter: 'Jane Doer',
         seats: '2',
         ac: 'Yes',
         safetyRating: '4',
@@ -447,7 +447,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
       ),
       VehicleDetails(
         rating: '4.0',
-        renter: 'Jane Doe',
+        renter: 'James Doe',
         seats: '2',
         ac: 'Yes',
         safetyRating: '4',
@@ -547,28 +547,25 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
       // Add details for other images as needed
     ];
 
-    List<Widget> imagesToShow = List.generate(imageUrls.length, (index) {
-      String imageUrl = imageUrls[index];
-      VehicleDetails details = vehicleDetails[
-          index % vehicleDetails.length]; // Fetch details for this vehicle
-
+    // Function to build the image widget
+    Widget buildImageWidget(
+        String imageUrl, String name, VehicleDetails details) {
       return Padding(
         padding: const EdgeInsets.all(8.0),
         child: GestureDetector(
           onTap: () {
-            // Handle individual photo tap here
             _navigateToCarInfoPage(
               name,
-              [imageUrl], // Pass only the tapped image URL
-              details.rating, // Car rating
-              details.renter, // Car renter
-              details.seats, // Car seats
-              details.ac, // Car AC
-              details.safetyRating, // Car safety rating
-              details.address, // Car address
-              details.fuelInfo, // Car fuel info
-              details.price, // Car price
-              details.features, // Car features
+              [imageUrl],
+              details.rating,
+              details.renter,
+              details.seats,
+              details.ac,
+              details.safetyRating,
+              details.address,
+              details.fuelInfo,
+              details.price,
+              details.features,
             );
           },
           child: SizedBox(
@@ -619,6 +616,13 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
           ),
         ),
       );
+    }
+
+    List<Widget> imagesToShow = imageUrls.take(2).map((imageUrl) {
+      int index = imageUrls.indexOf(imageUrl);
+      VehicleDetails details = vehicleDetails[
+          index % vehicleDetails.length]; // Fetch details for this vehicle
+      return buildImageWidget(imageUrl, name, details);
     }).toList();
 
     if (imageUrls.length > 2) {
@@ -632,7 +636,8 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                 MaterialPageRoute(
                   builder: (context) => AllImagesScreen(
                     name: name,
-                    imageUrls: imageUrls, //
+                    imageUrls: imageUrls,
+                    vehicleDetails: vehicleDetails,
                   ),
                 ),
               );

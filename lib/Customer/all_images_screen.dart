@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:swiftshare_one/Customer/customervehicleinfo.dart';
+import 'package:swiftshare_one/Customer/vehicle_details.dart';
 
 class AllImagesScreen extends StatelessWidget {
   final String name;
   final List<String> imageUrls;
+  final List<VehicleDetails> vehicleDetails;
 
   const AllImagesScreen({
     super.key,
     required this.name,
     required this.imageUrls,
+    required this.vehicleDetails,
   });
 
   @override
@@ -20,21 +23,23 @@ class AllImagesScreen extends StatelessWidget {
       body: ListView.builder(
         itemCount: imageUrls.length,
         itemBuilder: (context, index) {
+          String imageUrl = imageUrls[index];
+          VehicleDetails details = vehicleDetails[index];
           return GestureDetector(
             onTap: () {
               _navigateToCarInfoPage(
                 context,
                 name,
-                imageUrls,
-                '4.5', // Placeholder for car rating
-                'John Doe', // Placeholder for car renter
-                '4', // Placeholder for car seats
-                'Yes', // Placeholder for car AC
-                '5', // Placeholder for car safety rating
-                '123 Street, City', // Placeholder for car address
-                'Petrol, 20 kmpl', // Placeholder for car fuel info
-                '\$50 per day', // Placeholder for car price
-                ['Bluetooth', 'GPS', 'USB'],
+                [imageUrl],
+                details.rating,
+                details.renter,
+                details.seats,
+                details.ac,
+                details.safetyRating,
+                details.address,
+                details.fuelInfo,
+                details.price,
+                details.features,
               );
             },
             child: Padding(
@@ -42,7 +47,7 @@ class AllImagesScreen extends StatelessWidget {
               child: SizedBox(
                 height: 200, // Set desired height for each image
                 child: Image.asset(
-                  imageUrls[index],
+                  imageUrl,
                   fit: BoxFit.cover,
                 ),
               ),
@@ -54,20 +59,19 @@ class AllImagesScreen extends StatelessWidget {
   }
 
   void _navigateToCarInfoPage(
-      BuildContext context,
-      String carName,
-      List<String> imageUrls,
-      String carRating,
-      String carRenter,
-      String carSeats,
-      String carAC,
-      String carSafetyRating,
-      String carAddress,
-      String carFuelInfo,
-      String carPrice,
-      List<String> carFeatures) {
-    // Replace this with your navigation logic to CarInfoPage
-    // Pass the necessary parameters to CarInfoPage
+    BuildContext context,
+    String carName,
+    List<String> imageUrls,
+    String carRating,
+    String carRenter,
+    String carSeats,
+    String carAC,
+    String carSafetyRating,
+    String carAddress,
+    String carFuelInfo,
+    String carPrice,
+    List<String> carFeatures,
+  ) {
     Navigator.push(
       context,
       MaterialPageRoute(
