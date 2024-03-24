@@ -367,186 +367,195 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
   Widget _buildVehicleItem(
       BuildContext context, String name, List<String> imageUrls) {
     // Placeholder vehicle details for each image
-    List<VehicleDetails> vehicleDetails = [
-      VehicleDetails(
-        rating: '4.5',
-        renter: 'Jay Sharma',
-        seats: '4',
-        ac: 'Yes',
-        safetyRating: '5',
-        address: '123 Street, City',
-        fuelInfo: 'Petrol, 20 kmpl',
-        price: '\$50 per day',
-        features: ['Bluetooth', 'GPS', 'USB'],
-      ),
-      VehicleDetails(
-        rating: '4.0',
-        renter: 'Abhijit Banerjee',
-        seats: '2',
-        ac: 'Yes',
-        safetyRating: '4',
-        address: '456 Street, City',
-        fuelInfo: 'Diesel, 15 kmpl',
-        price: '\$40 per day',
-        features: ['Bluetooth', 'USB'],
-      ),
-      VehicleDetails(
-        rating: '4.0',
-        renter: 'Rohit Sharma',
-        seats: '2',
-        ac: 'Yes',
-        safetyRating: '4',
-        address: '456 Street, City',
-        fuelInfo: 'Diesel, 15 kmpl',
-        price: '\$40 per day',
-        features: ['Bluetooth', 'USB'],
-      ),
-      VehicleDetails(
-        rating: '4.0',
-        renter: 'Raj Verma',
-        seats: '2',
-        ac: 'Yes',
-        safetyRating: '4',
-        address: '456 Street, City',
-        fuelInfo: 'Diesel, 15 kmpl',
-        price: '\$40 per day',
-        features: ['Bluetooth', 'USB'],
-      ),
-      VehicleDetails(
-        rating: '4.0',
-        renter: 'Dev Raj',
-        seats: '2',
-        ac: 'Yes',
-        safetyRating: '4',
-        address: '456 Street, City',
-        fuelInfo: 'Diesel, 15 kmpl',
-        price: '\$40 per day',
-        features: ['Bluetooth', 'USB'],
-      ),
-      VehicleDetails(
-        rating: '4.0',
-        renter: 'Jane Doe',
-        seats: '2',
-        ac: 'Yes',
-        safetyRating: '4',
-        address: '456 Street, City',
-        fuelInfo: 'Diesel, 15 kmpl',
-        price: '\$40 per day',
-        features: ['Bluetooth', 'USB'],
-      ),
-      VehicleDetails(
-        rating: '4.0',
-        renter: 'Jane Doer',
-        seats: '2',
-        ac: 'Yes',
-        safetyRating: '4',
-        address: '456 Street, City',
-        fuelInfo: 'Diesel, 15 kmpl',
-        price: '\$40 per day',
-        features: ['Bluetooth', 'USB'],
-      ),
-      VehicleDetails(
-        rating: '4.0',
-        renter: 'James Doe',
-        seats: '2',
-        ac: 'Yes',
-        safetyRating: '4',
-        address: '456 Street, City',
-        fuelInfo: 'Diesel, 15 kmpl',
-        price: '\$40 per day',
-        features: ['Bluetooth', 'USB'],
-      ),
-      VehicleDetails(
-        rating: '4.0',
-        renter: 'Jane Doe',
-        seats: '2',
-        ac: 'Yes',
-        safetyRating: '4',
-        address: '456 Street, City',
-        fuelInfo: 'Diesel, 15 kmpl',
-        price: '\$40 per day',
-        features: ['Bluetooth', 'USB'],
-      ),
-      VehicleDetails(
-        rating: '4.0',
-        renter: 'Jane Doe',
-        seats: '2',
-        ac: 'Yes',
-        safetyRating: '4',
-        address: '456 Street, City',
-        fuelInfo: 'Diesel, 15 kmpl',
-        price: '\$40 per day',
-        features: ['Bluetooth', 'USB'],
-      ),
-      VehicleDetails(
-        rating: '4.0',
-        renter: 'Jane Doe',
-        seats: '2',
-        ac: 'Yes',
-        safetyRating: '4',
-        address: '456 Street, City',
-        fuelInfo: 'Diesel, 15 kmpl',
-        price: '\$40 per day',
-        features: ['Bluetooth', 'USB'],
-      ),
-      VehicleDetails(
-        rating: '4.0',
-        renter: 'Jane Doe',
-        seats: '2',
-        ac: 'Yes',
-        safetyRating: '4',
-        address: '456 Street, City',
-        fuelInfo: 'Diesel, 15 kmpl',
-        price: '\$40 per day',
-        features: ['Bluetooth', 'USB'],
-      ),
-      VehicleDetails(
-        rating: '4.0',
-        renter: 'Jane Doe',
-        seats: '2',
-        ac: 'Yes',
-        safetyRating: '4',
-        address: '456 Street, City',
-        fuelInfo: 'Diesel, 15 kmpl',
-        price: '\$40 per day',
-        features: ['Bluetooth', 'USB'],
-      ),
-      VehicleDetails(
-        rating: '4.0',
-        renter: 'Jane Doe',
-        seats: '2',
-        ac: 'Yes',
-        safetyRating: '4',
-        address: '456 Street, City',
-        fuelInfo: 'Diesel, 15 kmpl',
-        price: '\$40 per day',
-        features: ['Bluetooth', 'USB'],
-      ),
-      VehicleDetails(
-        rating: '4.0',
-        renter: 'Jane Doe',
-        seats: '2',
-        ac: 'Yes',
-        safetyRating: '4',
-        address: '456 Street, City',
-        fuelInfo: 'Diesel, 15 kmpl',
-        price: '\$40 per day',
-        features: ['Bluetooth', 'USB'],
-      ),
-      VehicleDetails(
-        rating: '4.0',
-        renter: 'Jane Doe',
-        seats: '2',
-        ac: 'Yes',
-        safetyRating: '4',
-        address: '456 Street, City',
-        fuelInfo: 'Diesel, 15 kmpl',
-        price: '\$40 per day',
-        features: ['Bluetooth', 'USB'],
-      ),
-      // Add details for other images as needed
-    ];
+    Map<String, List<VehicleDetails>> initialDetailsMap = {
+      'Car': [
+        VehicleDetails(
+          rating: '4.5',
+          renter: 'Jay Sharma',
+          seats: '4',
+          ac: 'Yes',
+          safetyRating: '5',
+          address: '123 Street, City',
+          fuelInfo: 'Petrol, 20 kmpl',
+          price: '\$50 per day',
+          features: ['Bluetooth', 'GPS', 'USB'],
+        ),
+        VehicleDetails(
+          rating: '4.0',
+          renter: 'Abhijit Banerjee',
+          seats: '2',
+          ac: 'Yes',
+          safetyRating: '4',
+          address: '456 Street, City',
+          fuelInfo: 'Diesel, 15 kmpl',
+          price: '\$40 per day',
+          features: ['Bluetooth', 'USB'],
+        ),
+        VehicleDetails(
+          rating: '4.0',
+          renter: 'Rohit Sharma',
+          seats: '2',
+          ac: 'Yes',
+          safetyRating: '4',
+          address: '456 Street, City',
+          fuelInfo: 'Diesel, 15 kmpl',
+          price: '\$40 per day',
+          features: ['Bluetooth', 'USB'],
+        ),
+        VehicleDetails(
+          rating: '4.0',
+          renter: 'Raj Verma',
+          seats: '2',
+          ac: 'Yes',
+          safetyRating: '4',
+          address: '456 Street, City',
+          fuelInfo: 'Diesel, 15 kmpl',
+          price: '\$40 per day',
+          features: ['Bluetooth', 'USB'],
+        ),
+      ],
+      'Bike': [
+        VehicleDetails(
+          rating: '4.0',
+          renter: 'Dev Raj',
+          seats: '2',
+          ac: 'Yes',
+          safetyRating: '4',
+          address: '456 Street, City',
+          fuelInfo: 'Diesel, 15 kmpl',
+          price: '\$40 per day',
+          features: ['Bluetooth', 'USB'],
+        ),
+        VehicleDetails(
+          rating: '4.0',
+          renter: 'Jane Doe',
+          seats: '2',
+          ac: 'Yes',
+          safetyRating: '4',
+          address: '456 Street, City',
+          fuelInfo: 'Diesel, 15 kmpl',
+          price: '\$40 per day',
+          features: ['Bluetooth', 'USB'],
+        ),
+        VehicleDetails(
+          rating: '4.0',
+          renter: 'Jane Doer',
+          seats: '2',
+          ac: 'Yes',
+          safetyRating: '4',
+          address: '456 Street, City',
+          fuelInfo: 'Diesel, 15 kmpl',
+          price: '\$40 per day',
+          features: ['Bluetooth', 'USB'],
+        ),
+        VehicleDetails(
+          rating: '4.0',
+          renter: 'James Doe',
+          seats: '2',
+          ac: 'Yes',
+          safetyRating: '4',
+          address: '456 Street, City',
+          fuelInfo: 'Diesel, 15 kmpl',
+          price: '\$40 per day',
+          features: ['Bluetooth', 'USB'],
+        ),
+      ],
+      'Scooty': [
+        VehicleDetails(
+          rating: '4.0',
+          renter: 'Jane Doe',
+          seats: '2',
+          ac: 'Yes',
+          safetyRating: '4',
+          address: '456 Street, City',
+          fuelInfo: 'Diesel, 15 kmpl',
+          price: '\$40 per day',
+          features: ['Bluetooth', 'USB'],
+        ),
+        VehicleDetails(
+          rating: '4.0',
+          renter: 'Jane Doe',
+          seats: '2',
+          ac: 'Yes',
+          safetyRating: '4',
+          address: '456 Street, City',
+          fuelInfo: 'Diesel, 15 kmpl',
+          price: '\$40 per day',
+          features: ['Bluetooth', 'USB'],
+        ),
+        VehicleDetails(
+          rating: '4.0',
+          renter: 'Jane Doe',
+          seats: '2',
+          ac: 'Yes',
+          safetyRating: '4',
+          address: '456 Street, City',
+          fuelInfo: 'Diesel, 15 kmpl',
+          price: '\$40 per day',
+          features: ['Bluetooth', 'USB'],
+        ),
+        VehicleDetails(
+          rating: '4.0',
+          renter: 'Jane Doe',
+          seats: '2',
+          ac: 'Yes',
+          safetyRating: '4',
+          address: '456 Street, City',
+          fuelInfo: 'Diesel, 15 kmpl',
+          price: '\$40 per day',
+          features: ['Bluetooth', 'USB'],
+        ),
+      ],
+      'Electric Vehicle': [
+        VehicleDetails(
+          rating: '4.0',
+          renter: 'Jane Doe',
+          seats: '2',
+          ac: 'Yes',
+          safetyRating: '4',
+          address: '456 Street, City',
+          fuelInfo: 'Diesel, 15 kmpl',
+          price: '\$40 per day',
+          features: ['Bluetooth', 'USB'],
+        ),
+        VehicleDetails(
+          rating: '4.0',
+          renter: 'Jane Doe',
+          seats: '2',
+          ac: 'Yes',
+          safetyRating: '4',
+          address: '456 Street, City',
+          fuelInfo: 'Diesel, 15 kmpl',
+          price: '\$40 per day',
+          features: ['Bluetooth', 'USB'],
+        ),
+        VehicleDetails(
+          rating: '4.0',
+          renter: 'Jane Doe',
+          seats: '2',
+          ac: 'Yes',
+          safetyRating: '4',
+          address: '456 Street, City',
+          fuelInfo: 'Diesel, 15 kmpl',
+          price: '\$40 per day',
+          features: ['Bluetooth', 'USB'],
+        ),
+        VehicleDetails(
+          rating: '4.0',
+          renter: 'Jane Doe',
+          seats: '2',
+          ac: 'Yes',
+          safetyRating: '4',
+          address: '456 Street, City',
+          fuelInfo: 'Diesel, 15 kmpl',
+          price: '\$40 per day',
+          features: ['Bluetooth', 'USB'],
+        ),
+      ] // Add details for other images as needed
+    };
 
+    // Fetch initial details based on the category name
+    List<VehicleDetails> initialDetails = initialDetailsMap[name] ?? [];
     // Function to build the image widget
     Widget buildImageWidget(
         String imageUrl, String name, VehicleDetails details) {
@@ -618,15 +627,26 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
       );
     }
 
-    List<Widget> imagesToShow = imageUrls.take(2).map((imageUrl) {
-      int index = imageUrls.indexOf(imageUrl);
-      VehicleDetails details = vehicleDetails[
-          index % vehicleDetails.length]; // Fetch details for this vehicle
-      return buildImageWidget(imageUrl, name, details);
+    // List to hold all widgets (images + "See all" button if necessary)
+    List<Widget> widgetsToShow = [];
+
+    // Build widgets for initial 2 images
+    List<Widget> initialImages =
+        imageUrls.take(2).toList().asMap().entries.map((entry) {
+      int index = entry.key;
+      String imageUrl = entry.value;
+      if (index < initialDetails.length) {
+        return buildImageWidget(imageUrl, name, initialDetails[index]);
+      } else {
+        return Container(); // Return an empty container if no initial detail is available for this index
+      }
     }).toList();
 
+    // Add initial images to the list of widgets to show
+    widgetsToShow.addAll(initialImages);
+
     if (imageUrls.length > 2) {
-      imagesToShow.add(
+      widgetsToShow.add(
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
           child: GestureDetector(
@@ -637,7 +657,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                   builder: (context) => AllImagesScreen(
                     name: name,
                     imageUrls: imageUrls,
-                    vehicleDetails: vehicleDetails,
+                    vehicleDetails: initialDetails,
                   ),
                 ),
               );
@@ -671,7 +691,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Row(
-              children: imagesToShow,
+              children: widgetsToShow,
             ),
           ),
           ListTile(
