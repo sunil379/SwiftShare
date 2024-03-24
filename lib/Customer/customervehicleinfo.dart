@@ -15,7 +15,6 @@ class CarInfoPage extends StatefulWidget {
   final String carFuelInfo;
   final String carPrice;
   final List<String> carFeatures;
-  final void Function()? onSelectLocation;
   final void Function()? onSelectDate;
   final void Function()? onSelectTime;
 
@@ -32,7 +31,6 @@ class CarInfoPage extends StatefulWidget {
     required this.carFuelInfo,
     required this.carPrice,
     required this.carFeatures,
-    this.onSelectLocation,
     this.onSelectDate,
     this.onSelectTime,
   });
@@ -79,10 +77,6 @@ class _CarInfoPageState extends State<CarInfoPage> {
         _selectedTime = picked;
       });
     }
-  }
-
-  void _selectLocation(BuildContext context) {
-    // Implement location selection functionality
   }
 
   @override
@@ -237,15 +231,6 @@ class _CarInfoPageState extends State<CarInfoPage> {
                       _selectTime(context);
                     },
                     child: const Text('Set Time'),
-                  ),
-                ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: ElevatedButton(
-                    onPressed: () {
-                      _selectLocation(context);
-                    },
-                    child: const Text('Set Location'),
                   ),
                 ),
               ],
