@@ -83,7 +83,7 @@ class _CarInfoPageState extends State<CarInfoPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Car Info'),
+        title: const Text('Vehicle Info'),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
@@ -251,12 +251,28 @@ class _CarInfoPageState extends State<CarInfoPage> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: 16),
             ElevatedButton(
-              onPressed: () {
-                // Handle review submission
-              },
-              child: const Text('Submit Review'),
+              onPressed: () {},
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.indigo,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+              child: const Padding(
+                padding: EdgeInsets.symmetric(
+                  vertical: 12,
+                  horizontal: 10,
+                ),
+                child: Text(
+                  ' Rent ',
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
             ),
             const SizedBox(height: 16),
             SizedBox(

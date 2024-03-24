@@ -370,7 +370,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
     List<VehicleDetails> vehicleDetails = [
       VehicleDetails(
         rating: '4.5',
-        renter: 'John Cena',
+        renter: 'Jay Sharma',
         seats: '4',
         ac: 'Yes',
         safetyRating: '5',
