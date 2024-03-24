@@ -8,6 +8,7 @@ import 'package:swiftshare_one/Customer/all_images_screen.dart';
 import 'package:swiftshare_one/Customer/customer_trips.dart';
 import 'package:swiftshare_one/Customer/customervehicleinfo.dart';
 import 'package:swiftshare_one/Customer/navigation_drawer.dart';
+import 'package:swiftshare_one/Customer/vehicle_details.dart';
 
 class CustomerHomeScreen extends StatefulWidget {
   const CustomerHomeScreen({super.key});
@@ -69,12 +70,6 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
     }
   }
 
-  void _selectLocation(String? newValue) {
-    setState(() {
-      _selectedLocation = newValue ?? 'Select Location';
-    });
-  }
-
   void _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
@@ -130,9 +125,6 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
           carFuelInfo: carFuelInfo,
           carPrice: carPrice,
           carFeatures: carFeatures,
-          onSelectLocation: () {
-            _selectLocation(_selectedLocation);
-          },
           onSelectDate: () {
             _selectDate(context);
           },
@@ -282,26 +274,30 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
             context,
             'Bike',
             [
-              'assets/images/bikes/livo/maxresdefault.jpg',
-              'assets/images/bikes/shine/maxresdefault (2).jpg',
-              'assets/images/bikes/sp125/BS6-Honda-SP-125-Fi-Review-1.jpg',
-              'assets/images/bikes/splendor/hero-splendor-service-dealer-home-free-1-1200x675.jpg'
+              'assets/images/customer/acura_0.png',
+              'assets/images/customer/honda_0.png',
+              'assets/images/customer/camaro_0.png',
+              'assets/images/customer/citroen_0.png',
             ],
           ),
           _buildVehicleItem(
             context,
             'Scooty',
             [
-              'assets/images/scooty/activa/honda-activa-6g-2.jpg',
-              'assets/images/customer/Customer Add 2.png',
-              'assets/images/scooty/pleasure/13299_0.jpg',
+              'assets/images/customer/acura_0.png',
+              'assets/images/customer/honda_0.png',
+              'assets/images/customer/camaro_0.png',
+              'assets/images/customer/citroen_0.png',
             ],
           ),
           _buildVehicleItem(
             context,
             'Electric Vehicle',
             [
-              'assets/images/ev/tesla_1.png',
+              'assets/images/customer/acura_0.png',
+              'assets/images/customer/honda_0.png',
+              'assets/images/customer/camaro_0.png',
+              'assets/images/customer/citroen_0.png',
             ],
           ),
         ],
@@ -370,9 +366,192 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
 
   Widget _buildVehicleItem(
       BuildContext context, String name, List<String> imageUrls) {
-    List<Widget> imagesToShow = imageUrls
-        .take(3) // Show only the first three images
-        .map((imageUrl) {
+    // Placeholder vehicle details for each image
+    List<VehicleDetails> vehicleDetails = [
+      VehicleDetails(
+        rating: '4.5',
+        renter: 'John Doe',
+        seats: '4',
+        ac: 'Yes',
+        safetyRating: '5',
+        address: '123 Street, City',
+        fuelInfo: 'Petrol, 20 kmpl',
+        price: '\$50 per day',
+        features: ['Bluetooth', 'GPS', 'USB'],
+      ),
+      VehicleDetails(
+        rating: '4.0',
+        renter: 'Abhijit Banerjee',
+        seats: '2',
+        ac: 'Yes',
+        safetyRating: '4',
+        address: '456 Street, City',
+        fuelInfo: 'Diesel, 15 kmpl',
+        price: '\$40 per day',
+        features: ['Bluetooth', 'USB'],
+      ),
+      VehicleDetails(
+        rating: '4.0',
+        renter: 'Rohit Sharma',
+        seats: '2',
+        ac: 'Yes',
+        safetyRating: '4',
+        address: '456 Street, City',
+        fuelInfo: 'Diesel, 15 kmpl',
+        price: '\$40 per day',
+        features: ['Bluetooth', 'USB'],
+      ),
+      VehicleDetails(
+        rating: '4.0',
+        renter: 'Raj Verma',
+        seats: '2',
+        ac: 'Yes',
+        safetyRating: '4',
+        address: '456 Street, City',
+        fuelInfo: 'Diesel, 15 kmpl',
+        price: '\$40 per day',
+        features: ['Bluetooth', 'USB'],
+      ),
+      VehicleDetails(
+        rating: '4.0',
+        renter: 'Dev Raj',
+        seats: '2',
+        ac: 'Yes',
+        safetyRating: '4',
+        address: '456 Street, City',
+        fuelInfo: 'Diesel, 15 kmpl',
+        price: '\$40 per day',
+        features: ['Bluetooth', 'USB'],
+      ),
+      VehicleDetails(
+        rating: '4.0',
+        renter: 'Jane Doe',
+        seats: '2',
+        ac: 'Yes',
+        safetyRating: '4',
+        address: '456 Street, City',
+        fuelInfo: 'Diesel, 15 kmpl',
+        price: '\$40 per day',
+        features: ['Bluetooth', 'USB'],
+      ),
+      VehicleDetails(
+        rating: '4.0',
+        renter: 'Jane Doe',
+        seats: '2',
+        ac: 'Yes',
+        safetyRating: '4',
+        address: '456 Street, City',
+        fuelInfo: 'Diesel, 15 kmpl',
+        price: '\$40 per day',
+        features: ['Bluetooth', 'USB'],
+      ),
+      VehicleDetails(
+        rating: '4.0',
+        renter: 'Jane Doe',
+        seats: '2',
+        ac: 'Yes',
+        safetyRating: '4',
+        address: '456 Street, City',
+        fuelInfo: 'Diesel, 15 kmpl',
+        price: '\$40 per day',
+        features: ['Bluetooth', 'USB'],
+      ),
+      VehicleDetails(
+        rating: '4.0',
+        renter: 'Jane Doe',
+        seats: '2',
+        ac: 'Yes',
+        safetyRating: '4',
+        address: '456 Street, City',
+        fuelInfo: 'Diesel, 15 kmpl',
+        price: '\$40 per day',
+        features: ['Bluetooth', 'USB'],
+      ),
+      VehicleDetails(
+        rating: '4.0',
+        renter: 'Jane Doe',
+        seats: '2',
+        ac: 'Yes',
+        safetyRating: '4',
+        address: '456 Street, City',
+        fuelInfo: 'Diesel, 15 kmpl',
+        price: '\$40 per day',
+        features: ['Bluetooth', 'USB'],
+      ),
+      VehicleDetails(
+        rating: '4.0',
+        renter: 'Jane Doe',
+        seats: '2',
+        ac: 'Yes',
+        safetyRating: '4',
+        address: '456 Street, City',
+        fuelInfo: 'Diesel, 15 kmpl',
+        price: '\$40 per day',
+        features: ['Bluetooth', 'USB'],
+      ),
+      VehicleDetails(
+        rating: '4.0',
+        renter: 'Jane Doe',
+        seats: '2',
+        ac: 'Yes',
+        safetyRating: '4',
+        address: '456 Street, City',
+        fuelInfo: 'Diesel, 15 kmpl',
+        price: '\$40 per day',
+        features: ['Bluetooth', 'USB'],
+      ),
+      VehicleDetails(
+        rating: '4.0',
+        renter: 'Jane Doe',
+        seats: '2',
+        ac: 'Yes',
+        safetyRating: '4',
+        address: '456 Street, City',
+        fuelInfo: 'Diesel, 15 kmpl',
+        price: '\$40 per day',
+        features: ['Bluetooth', 'USB'],
+      ),
+      VehicleDetails(
+        rating: '4.0',
+        renter: 'Jane Doe',
+        seats: '2',
+        ac: 'Yes',
+        safetyRating: '4',
+        address: '456 Street, City',
+        fuelInfo: 'Diesel, 15 kmpl',
+        price: '\$40 per day',
+        features: ['Bluetooth', 'USB'],
+      ),
+      VehicleDetails(
+        rating: '4.0',
+        renter: 'Jane Doe',
+        seats: '2',
+        ac: 'Yes',
+        safetyRating: '4',
+        address: '456 Street, City',
+        fuelInfo: 'Diesel, 15 kmpl',
+        price: '\$40 per day',
+        features: ['Bluetooth', 'USB'],
+      ),
+      VehicleDetails(
+        rating: '4.0',
+        renter: 'Jane Doe',
+        seats: '2',
+        ac: 'Yes',
+        safetyRating: '4',
+        address: '456 Street, City',
+        fuelInfo: 'Diesel, 15 kmpl',
+        price: '\$40 per day',
+        features: ['Bluetooth', 'USB'],
+      ),
+      // Add details for other images as needed
+    ];
+
+    List<Widget> imagesToShow = List.generate(imageUrls.length, (index) {
+      String imageUrl = imageUrls[index];
+      VehicleDetails details = vehicleDetails[
+          index % vehicleDetails.length]; // Fetch details for this vehicle
+
       return Padding(
         padding: const EdgeInsets.all(8.0),
         child: GestureDetector(
@@ -381,19 +560,19 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
             _navigateToCarInfoPage(
               name,
               [imageUrl], // Pass only the tapped image URL
-              '4.5', // Placeholder for car rating
-              'John Doe', // Placeholder for car renter
-              '4', // Placeholder for car seats
-              'Yes', // Placeholder for car AC
-              '5', // Placeholder for car safety rating
-              '123 Street, City', // Placeholder for car address
-              'Petrol, 20 kmpl', // Placeholder for car fuel info
-              '\$50 per day', // Placeholder for car price
-              ['Bluetooth', 'GPS', 'USB'], // Placeholder for car features
+              details.rating, // Car rating
+              details.renter, // Car renter
+              details.seats, // Car seats
+              details.ac, // Car AC
+              details.safetyRating, // Car safety rating
+              details.address, // Car address
+              details.fuelInfo, // Car fuel info
+              details.price, // Car price
+              details.features, // Car features
             );
           },
           child: SizedBox(
-            width: 360, // Adjust the width as needed
+            width: 360,
             child: Stack(
               children: [
                 ClipRRect(
@@ -408,14 +587,31 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                       return Container(
                         decoration: BoxDecoration(
                           border: Border.all(
-                            color:
-                                Colors.black, // Adjust border color as needed
-                            width: 4.0, // Adjust border width as needed
+                            color: Colors.black,
+                            width: 4.0,
                           ),
                         ),
                         child: child,
                       );
                     },
+                  ),
+                ),
+                Positioned(
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: Container(
+                    color: Colors.black54,
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                    child: Text(
+                      name,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
                   ),
                 ),
               ],
@@ -425,7 +621,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
       );
     }).toList();
 
-    if (imageUrls.length > 3) {
+    if (imageUrls.length > 2) {
       imagesToShow.add(
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -451,6 +647,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
         ),
       );
     }
+
     return Card(
       margin: const EdgeInsets.all(8.0),
       child: Column(
