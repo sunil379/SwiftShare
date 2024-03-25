@@ -374,7 +374,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
           seats: '4',
           ac: 'Yes',
           safetyRating: '5',
-          address: '123 Street, City',
+          address: '1600 Amphitheatre Parkway, Mountain View, CA',
           fuelInfo: 'Petrol, 20 kmpl',
           price: '\$50 per day',
           features: ['Bluetooth', 'GPS', 'USB'],

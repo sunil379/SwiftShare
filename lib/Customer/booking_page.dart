@@ -1,6 +1,7 @@
-// ignore_for_file: library_private_types_in_public_api
+// ignore_for_file: deprecated_member_use
 
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class BookingPage extends StatefulWidget {
   final String carName;
@@ -83,6 +84,21 @@ class _BookingPageState extends State<BookingPage> {
                 fontSize: 16,
               ),
             ),
+            const SizedBox(height: 16),
+            Text(
+              'Address : ${widget.carAddress}',
+              style: const TextStyle(
+                fontSize: 16,
+              ),
+            ),
+            const SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: () {
+                // Navigate to Google Maps with the address
+                _openGoogleMaps(widget.carAddress);
+              },
+              child: const Text('See Location'),
+            ),
             const SizedBox(height: 8),
             const Text(
               'Payment Option: Cash on Delivery',
@@ -96,7 +112,6 @@ class _BookingPageState extends State<BookingPage> {
               child: const Text('Confirm Booking'),
             ),
             const SizedBox(height: 16),
-            // Integrate Maps widget here
           ],
         ),
       ),
@@ -122,5 +137,21 @@ class _BookingPageState extends State<BookingPage> {
         ],
       ),
     );
+  }
+
+  // Function to open Google Maps with a specific address
+  // Function to open Google Maps with a specific address
+  Future<void> _openGoogleMaps(String address) async {
+    // Encode the address for the URL
+    final encodedAddress = Uri.encodeComponent(address);
+    // Create the Google Maps URL with the encoded address
+    final url =
+        'https://www.google.com/maps/search/?api=1&query=$encodedAddress';
+    // Launch the URL
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 }

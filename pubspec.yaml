@@ -52,6 +52,7 @@ dependencies:
   country_code_picker: ^3.0.0
   get: ^4.6.6
   unicons: ^2.1.1
+  url_launcher: ^6.2.5
 
 flutter_native_splash:
   # color: "#FFCC00"
