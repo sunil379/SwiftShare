@@ -1,7 +1,6 @@
 // ignore_for_file: library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
-import 'package:swiftshare_one/Customer/maps.dart';
 
 class BookingPage extends StatefulWidget {
   final String carName;
@@ -43,13 +42,6 @@ class _BookingPageState extends State<BookingPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Booking Details'),
-        actions: [
-          IconButton(
-              onPressed: () {
-                _showMaps();
-              },
-              icon: const Icon(Icons.map))
-        ],
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
@@ -105,7 +97,6 @@ class _BookingPageState extends State<BookingPage> {
             ),
             const SizedBox(height: 16),
             // Integrate Maps widget here
-            const Maps(),
           ],
         ),
       ),
@@ -130,12 +121,6 @@ class _BookingPageState extends State<BookingPage> {
           ),
         ],
       ),
-    );
-  }
-
-  void _showMaps() {
-    Navigator.of(context).push(
-      MaterialPageRoute(builder: (context) => const Maps()),
     );
   }
 }
