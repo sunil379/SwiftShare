@@ -39,33 +39,12 @@ class _MapsState extends State<Maps> {
     );
   }
 
-  Widget _buildBookingDetails() {
-    return Column(
-      children: [
-        const ListTile(
-          title: Text('Mahindra Thar AX (O) Hard Top Diesel MT RWD'),
-          subtitle: Text(
-              'Start 14 Feb 2024 End 20 Feb 2024\nPick-up location Mankapur, Nagpur 4.9 km Away'),
-        ),
-        ListTile(
-          title: const Text('Payment'),
-          subtitle: const Text('MasterCard **** **** **** 4567 5485'),
-          trailing: ElevatedButton(
-            onPressed: () {},
-            child: const Text('Pay ₹500 /day'),
-          ),
-        ),
-      ],
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
         children: <Widget>[
           _buildMap(),
-          _buildBookingDetails(),
         ],
       ),
     );
