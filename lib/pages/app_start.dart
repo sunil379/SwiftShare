@@ -59,8 +59,8 @@ class _EntryScreenState extends State<EntryScreen> {
                     children: [
                       const Image(
                         image: AssetImage('assets/images/rectangle_7.png'),
-                        width: 250,
-                        height: 170,
+                        width: 200,
+                        height: 150,
                         fit: BoxFit.cover,
                       ),
                       Text(
