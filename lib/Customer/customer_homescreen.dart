@@ -25,6 +25,12 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
       switch (_selectedIndex) {
         case 0:
           // Handle Home button tap
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const CustomerHomeScreen(),
+            ),
+          );
           break;
         case 1:
           // Handle Explore button tap
@@ -32,8 +38,12 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
           break;
         case 2:
           // Handle Trips button tap
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const MyTripsPage()));
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const MyTripsPage(),
+            ),
+          );
           // Navigate to Trips screen or perform relevant action
           break;
         case 3:
@@ -44,7 +54,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
     });
   }
 
-  String _selectedLocation = 'Select Location';
+  // String _selectedLocation = 'Select Location';
   late String _userName = '';
   late String _email = '';
   @override
@@ -103,6 +113,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
       List<String> imageUrls,
       String carRating,
       String carRenter,
+      String model,
       String carSeats,
       String carAC,
       String carSafetyRating,
@@ -118,6 +129,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
           carImageUrls: imageUrls,
           carRating: carRating,
           carRenter: carRenter,
+          model: model,
           carSeats: carSeats,
           carAC: carAC,
           carSafetyRating: carSafetyRating,
@@ -138,44 +150,58 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    List<String> cities = [
-      'Nagpur',
-      'Mumbai',
-      'Delhi',
-      'Bangalore',
-      'Chennai',
-      'Kolkata',
-      'Hyderabad',
-    ];
+    // List<String> cities = [
+    //   'Nagpur',
+    //   'Mumbai',
+    //   'Delhi',
+    //   'Bangalore',
+    //   'Chennai',
+    //   'Kolkata',
+    //   'Hyderabad',
+    // ];
 
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
+        backgroundColor: Colors.blueGrey.shade900,
         title: Row(
           children: <Widget>[
-            Builder(builder: (context) {
-              return IconButton(
-                onPressed: () {
-                  Scaffold.of(context).openDrawer();
-                },
-                icon: const Icon(Icons.menu_rounded),
-              );
-            }),
-            _buildLocationDropdown(cities), // Custom dropdown for location
+            Builder(
+              builder: (context) {
+                return IconButton(
+                  onPressed: () {
+                    Scaffold.of(context).openDrawer();
+                  },
+                  icon: const Icon(Icons.menu_rounded),
+                  color: Colors.white,
+                );
+              },
+            ),
+            const Text(
+              'SwiftShare',
+              style: TextStyle(
+                color: Color.fromARGB(255, 200, 2, 75),
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            // _buildLocationDropdown(cities), // Custom dropdown for location
             const Spacer(),
             IconButton(
               onPressed: () {},
               icon: const Icon(Icons.notifications),
+              color: Colors.white,
             ),
             IconButton(
               onPressed: () {},
               icon: const Icon(Icons.settings),
+              color: Colors.white,
             )
           ],
         ),
       ),
       body: ListView(
         children: <Widget>[
+          const SizedBox(height: 4.0),
           CarouselSlider(
             items: const [
               'assets/images/customer/Customer Add 1.png',
@@ -218,85 +244,91 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
               viewportFraction: 0.8,
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(
-                    20.0), // Adjust the border radius as needed
-                border: Border.all(
-                  color: Colors.black, // Adjust the border color as needed
-                  width: 2.0, // Adjust the border width as needed
-                ),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: TextField(
-                  decoration: InputDecoration(
-                    hintText: 'Search Vehicle',
-                    hintStyle: const TextStyle(fontSize: 16),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15),
-                      borderSide: const BorderSide(
-                        width: 0,
-                        style: BorderStyle.none,
-                      ),
-                    ),
-                    filled: true,
-                    fillColor: Colors.grey[100],
-                    contentPadding: const EdgeInsets.only(
-                      left: 30,
-                    ),
-                    suffixIcon: const Padding(
-                      padding: EdgeInsets.only(right: 24.0, left: 16.0),
-                      child: Icon(
-                        Icons.search,
-                        color: Colors.black,
-                        size: 24,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+          // Padding(
+          //   padding: const EdgeInsets.all(8.0),
+          //   child: Container(
+          //     decoration: BoxDecoration(
+          //       borderRadius: BorderRadius.circular(
+          //           20.0), // Adjust the border radius as needed
+          //       border: Border.all(
+          //         color: Colors.black, // Adjust the border color as needed
+          //         width: 2.0, // Adjust the border width as needed
+          //       ),
+          //     ),
+          //     child: Padding(
+          //       padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          //       child: TextField(
+          //         decoration: InputDecoration(
+          //           hintText: 'Search Vehicle',
+          //           hintStyle: const TextStyle(fontSize: 16),
+          //           border: OutlineInputBorder(
+          //             borderRadius: BorderRadius.circular(15),
+          //             borderSide: const BorderSide(
+          //               width: 0,
+          //               style: BorderStyle.none,
+          //             ),
+          //           ),
+          //           filled: true,
+          //           fillColor: Colors.grey[100],
+          //           contentPadding: const EdgeInsets.only(
+          //             left: 30,
+          //           ),
+          //           suffixIcon: const Padding(
+          //             padding: EdgeInsets.only(right: 24.0, left: 16.0),
+          //             child: Icon(
+          //               Icons.search,
+          //               color: Colors.black,
+          //               size: 24,
+          //             ),
+          //           ),
+          //         ),
+          //       ),
+          //     ),
+          //   ),
+          // ),
+          const SizedBox(height: 7.0),
+          const Padding(
+            padding: EdgeInsets.symmetric(
+                horizontal: 20), // Adjust horizontal margin here
+            child: Divider(
+              thickness: 1.5, // Adjust the thickness of the line
+              color: Colors.black, // Set the color of the line
             ),
           ),
           _buildVehicleItem(
             context,
             'Car',
             [
-              'assets/images/customer/acura_0.png',
-              'assets/images/customer/honda_0.png',
-              'assets/images/customer/camaro_0.png',
-              'assets/images/customer/citroen_0.png',
+              'assets/images/cars/c1.jpeg',
+              'assets/images/cars/n1.jpeg',
+              'assets/images/cars/t1.jpeg',
+              'assets/images/cars/x1.jpeg',
             ],
           ),
           _buildVehicleItem(
             context,
             'Bike',
             [
-              'assets/images/customer/acura_0.png',
-              'assets/images/customer/honda_0.png',
-              'assets/images/customer/camaro_0.png',
-              'assets/images/customer/citroen_0.png',
+              'assets/images/bikes/l1.jpg',
+              'assets/images/bikes/h1.jpg',
+              'assets/images/bikes/sp1.jpg',
             ],
           ),
           _buildVehicleItem(
             context,
             'Scooty',
             [
-              'assets/images/customer/acura_0.png',
-              'assets/images/customer/honda_0.png',
-              'assets/images/customer/camaro_0.png',
-              'assets/images/customer/citroen_0.png',
+              'assets/images/scooty/a1.jpg',
+              'assets/images/scooty/p1.jpg',
+              'assets/images/scooty/a3.jpg',
+              'assets/images/scooty/a4.jpeg',
             ],
           ),
           _buildVehicleItem(
             context,
             'Electric Vehicle',
             [
-              'assets/images/customer/acura_0.png',
-              'assets/images/customer/honda_0.png',
-              'assets/images/customer/camaro_0.png',
+              'assets/images/ev/tesla_1.png',
             ],
           ),
         ],
@@ -339,29 +371,29 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
   }
 
   // Custom Dropdown Button for Location
-  Widget _buildLocationDropdown(List<String> cities) {
-    return DropdownButton<String>(
-      value: _selectedLocation,
-      items: [
-        const DropdownMenuItem<String>(
-          value: 'Select Location',
-          child: Text('Select Location'),
-        ),
-        ...cities.map((String value) {
-          return DropdownMenuItem<String>(
-            value: value,
-            child: Text(value),
-          );
-        }),
-      ],
-      onChanged: (String? newValue) {
-        setState(() {
-          _selectedLocation = newValue!;
-        });
-      },
-      hint: const Text('Select Location'),
-    );
-  }
+  // Widget _buildLocationDropdown(List<String> cities) {
+  //   return DropdownButton<String>(
+  //     value: _selectedLocation,
+  //     items: [
+  //       const DropdownMenuItem<String>(
+  //         value: 'Select Location',
+  //         child: Text('Select Location'),
+  //       ),
+  //       ...cities.map((String value) {
+  //         return DropdownMenuItem<String>(
+  //           value: value,
+  //           child: Text(value),
+  //         );
+  //       }),
+  //     ],
+  //     onChanged: (String? newValue) {
+  //       setState(() {
+  //         _selectedLocation = newValue!;
+  //       });
+  //     },
+  //     hint: const Text('Select Location'),
+  //   );
+  // }
 
   Widget _buildVehicleItem(
       BuildContext context, String name, List<String> imageUrls) {
@@ -378,6 +410,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
           fuelInfo: 'Petrol, 20 kmpl',
           price: '\$50 per day',
           features: ['Bluetooth', 'GPS', 'USB'],
+          model: 'Honda City',
         ),
         VehicleDetails(
           rating: '4.0',
@@ -389,6 +422,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
           fuelInfo: 'Diesel, 15 kmpl',
           price: '\$40 per day',
           features: ['Bluetooth', 'USB'],
+          model: 'Tata Nexon',
         ),
         VehicleDetails(
           rating: '4.0',
@@ -400,6 +434,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
           fuelInfo: 'Diesel, 15 kmpl',
           price: '\$40 per day',
           features: ['Bluetooth', 'USB'],
+          model: 'Mahaindra Thar',
         ),
         VehicleDetails(
           rating: '4.0',
@@ -411,6 +446,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
           fuelInfo: 'Diesel, 15 kmpl',
           price: '\$40 per day',
           features: ['Bluetooth', 'USB'],
+          model: 'Mahindra XUV',
         ),
       ],
       'Bike': [
@@ -424,6 +460,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
           fuelInfo: 'Diesel, 15 kmpl',
           price: '\$40 per day',
           features: ['Bluetooth', 'USB'],
+          model: 'Livo',
         ),
         VehicleDetails(
           rating: '4.0',
@@ -435,6 +472,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
           fuelInfo: 'Diesel, 15 kmpl',
           price: '\$40 per day',
           features: ['Bluetooth', 'USB'],
+          model: 'Splendor',
         ),
         VehicleDetails(
           rating: '4.8',
@@ -446,6 +484,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
           fuelInfo: 'Petrol, 25 kmpl',
           price: '\$60 per day',
           features: ['Bluetooth', 'GPS', 'USB', 'Sunroof'],
+          model: 'SP125',
         ),
         VehicleDetails(
           rating: '4.2',
@@ -457,6 +496,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
           fuelInfo: 'Diesel, 18 kmpl',
           price: '\$45 per day',
           features: ['Bluetooth', 'USB', 'Parking Sensors'],
+          model: '',
         ),
       ],
       'Scooty': [
@@ -470,6 +510,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
           fuelInfo: 'Petrol, 30 kmpl',
           price: '\$30 per day',
           features: ['Bluetooth', 'USB', 'Helmet Included'],
+          model: 'Activa 2020',
         ),
         VehicleDetails(
           rating: '4.3',
@@ -481,6 +522,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
           fuelInfo: 'Petrol, 25 kmpl',
           price: '\$35 per day',
           features: ['Bluetooth', 'USB', 'Phone Mount'],
+          model: 'Pleasure',
         ),
         VehicleDetails(
           rating: '4.4',
@@ -492,6 +534,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
           fuelInfo: 'Electric, 50 kmpl',
           price: '\$20 per day',
           features: ['Bluetooth', 'USB', 'Locking Mechanism'],
+          model: 'Activa 2018',
         ),
         VehicleDetails(
           rating: '4.7',
@@ -503,6 +546,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
           fuelInfo: 'Electric, 60 kmpl',
           price: '\$25 per day',
           features: ['Bluetooth', 'USB', 'Portable Charger'],
+          model: 'Activa 2019',
         ),
       ],
       'Electric Vehicle': [
@@ -516,28 +560,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
           fuelInfo: 'Electric, 300 km range',
           price: '\$80 per day',
           features: ['Bluetooth', 'USB', 'Autopilot'],
-        ),
-        VehicleDetails(
-          rating: '4.0',
-          renter: 'Jane Doe',
-          seats: '2',
-          ac: 'Yes',
-          safetyRating: '4',
-          address: '456 Street, City',
-          fuelInfo: 'Diesel, 15 kmpl',
-          price: '\$40 per day',
-          features: ['Bluetooth', 'USB'],
-        ),
-        VehicleDetails(
-          rating: '4.2',
-          renter: 'Isabella Brown',
-          seats: '2',
-          ac: 'Yes',
-          safetyRating: '4',
-          address: '987 Road, Forest',
-          fuelInfo: 'Electric, 250 km range',
-          price: '\$70 per day',
-          features: ['Bluetooth', 'USB', 'Collision Avoidance'],
+          model: 'Tesla',
         ),
       ] // Add details for other images as needed
     };
@@ -556,6 +579,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
               [imageUrl],
               details.rating,
               details.renter,
+              details.model,
               details.seats,
               details.ac,
               details.safetyRating,

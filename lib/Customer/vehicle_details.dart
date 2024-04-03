@@ -3,6 +3,7 @@
 class VehicleDetails {
   final String rating;
   final String renter;
+  final String model;
   final String seats;
   final String ac;
   final String safetyRating;
@@ -14,6 +15,7 @@ class VehicleDetails {
   VehicleDetails({
     required this.rating,
     required this.renter,
+    required this.model,
     required this.seats,
     required this.ac,
     required this.safetyRating,

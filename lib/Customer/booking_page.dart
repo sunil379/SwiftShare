@@ -1,4 +1,4 @@
-// ignore_for_file: deprecated_member_use
+// ignore_for_file: deprecated_member_use, library_private_types_in_public_api, prefer_final_fields
 
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -7,6 +7,7 @@ class BookingPage extends StatefulWidget {
   final String carName;
   final String carRating;
   final String carRenter;
+  final String model;
   final String carSeats;
   final String carAC;
   final String carSafetyRating;
@@ -22,6 +23,7 @@ class BookingPage extends StatefulWidget {
     required this.carName,
     required this.carRating,
     required this.carRenter,
+    required this.model,
     required this.carSeats,
     required this.carAC,
     required this.carSafetyRating,
@@ -38,6 +40,7 @@ class BookingPage extends StatefulWidget {
 }
 
 class _BookingPageState extends State<BookingPage> {
+  bool _locationButtonClicked = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -108,7 +111,7 @@ class _BookingPageState extends State<BookingPage> {
             ),
             const SizedBox(height: 16),
             ElevatedButton(
-              onPressed: _confirmBooking,
+              onPressed: _locationButtonClicked ? _confirmBooking : null,
               child: const Text('Confirm Booking'),
             ),
             const SizedBox(height: 16),
@@ -127,12 +130,16 @@ class _BookingPageState extends State<BookingPage> {
         title: const Text('Booking Confirmation'),
         content: Text('You have successfully booked ${widget.carName}'),
         actions: [
-          TextButton(
-            onPressed: () {
-              // Navigate back to the previous screen or any other action
-              Navigator.of(context).pop();
-            },
-            child: const Text('OK'),
+          Center(
+            child: TextButton(
+              onPressed: () {
+                // Navigate back to the previous screen or any other action
+                Navigator.of(context).pop();
+              },
+              child: const Text(
+                'OK',
+              ),
+            ),
           ),
         ],
       ),
@@ -150,6 +157,9 @@ class _BookingPageState extends State<BookingPage> {
     // Launch the URL
     if (await canLaunch(url)) {
       await launch(url);
+      setState(() {
+        _locationButtonClicked = true;
+      });
     } else {
       throw 'Could not launch $url';
     }

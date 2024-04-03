@@ -58,7 +58,7 @@ class _EntryScreenState extends State<EntryScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const Image(
-                        image: AssetImage('assets/images/rectangle_7.png'),
+                        image: AssetImage('assets/images/rectangle-7.png'),
                         width: 200,
                         height: 150,
                         fit: BoxFit.cover,

@@ -9,6 +9,7 @@ class CarInfoPage extends StatefulWidget {
   final List<String> carImageUrls;
   final String carRating;
   final String carRenter;
+  final String model;
   final String carSeats;
   final String carAC;
   final String carSafetyRating;
@@ -25,6 +26,7 @@ class CarInfoPage extends StatefulWidget {
     required this.carImageUrls,
     required this.carRating,
     required this.carRenter,
+    required this.model,
     required this.carSeats,
     required this.carAC,
     required this.carSafetyRating,
@@ -143,6 +145,14 @@ class _CarInfoPageState extends State<CarInfoPage> {
             const SizedBox(height: 8),
             Text(
               'Renter: ${widget.carRenter}',
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              'Model : ${widget.model}',
               style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
@@ -293,6 +303,7 @@ class _CarInfoPageState extends State<CarInfoPage> {
                         carName: widget.carName,
                         carRating: widget.carRating,
                         carRenter: widget.carRenter,
+                        model: widget.model,
                         carSeats: widget.carSeats,
                         carAC: widget.carAC,
                         carSafetyRating: widget.carSafetyRating,

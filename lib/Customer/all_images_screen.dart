@@ -33,6 +33,7 @@ class AllImagesScreen extends StatelessWidget {
                 [imageUrl],
                 details.rating,
                 details.renter,
+                details.model,
                 details.seats,
                 details.ac,
                 details.safetyRating,
@@ -64,6 +65,7 @@ class AllImagesScreen extends StatelessWidget {
     List<String> imageUrls,
     String carRating,
     String carRenter,
+    String model,
     String carSeats,
     String carAC,
     String carSafetyRating,
@@ -87,6 +89,7 @@ class AllImagesScreen extends StatelessWidget {
           carFuelInfo: carFuelInfo,
           carPrice: carPrice,
           carFeatures: carFeatures,
+          model: model,
         ),
       ),
     );
