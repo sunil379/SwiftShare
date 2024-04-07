@@ -23,6 +23,7 @@ class _MyTripsPageState extends State<MyTripsPage>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: const Text('My Trips'),
         // bottom: TabBar(
         //   controller: _tabController,
@@ -31,6 +32,29 @@ class _MyTripsPageState extends State<MyTripsPage>
         //     Tab(text: 'Previous'),
         //   ],
         // ),
+        leading: GestureDetector(
+          onTap: () {
+            Navigator.pop(context);
+          },
+          child: Container(
+            width: 45,
+            height: 45,
+            margin: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(15),
+                ),
+                border: Border.all(
+                  color: Colors.grey,
+                  width: 1,
+                )),
+            child: const Icon(
+              Icons.keyboard_arrow_left,
+              color: Colors.black,
+            ),
+          ),
+        ),
       ),
       // body: TabBarView(
       //   controller: _tabController,

@@ -5,6 +5,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:swiftshare_one/Customer/all_images_screen.dart';
+import 'package:swiftshare_one/Customer/customer_notification.dart';
 import 'package:swiftshare_one/Customer/customer_trips.dart';
 import 'package:swiftshare_one/Customer/customervehicleinfo.dart';
 import 'package:swiftshare_one/Customer/navigation_drawer.dart';
@@ -187,7 +188,12 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
             // _buildLocationDropdown(cities), // Custom dropdown for location
             const Spacer(),
             IconButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const NotificationsPage()));
+              },
               icon: const Icon(Icons.notifications),
               color: Colors.white,
             ),
@@ -289,7 +295,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
           const SizedBox(height: 7.0),
           const Padding(
             padding: EdgeInsets.symmetric(
-                horizontal: 20), // Adjust horizontal margin here
+                horizontal: 10), // Adjust horizontal margin here
             child: Divider(
               thickness: 1.5, // Adjust the thickness of the line
               color: Colors.black, // Set the color of the line

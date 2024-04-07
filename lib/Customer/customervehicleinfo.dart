@@ -145,18 +145,19 @@ class _CarInfoPageState extends State<CarInfoPage> {
                       );
                     },
                   ),
+                  const SizedBox(height: 6),
                   Align(
                     alignment: Alignment.bottomLeft,
                     child: Container(
-                      padding: const EdgeInsets.all(8),
+                      padding: const EdgeInsets.all(4),
                       decoration: BoxDecoration(
                         color: Colors.white,
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(6),
                       ),
                       child: Text(
                         widget.carRating,
                         style: const TextStyle(
-                          fontSize: 16,
+                          fontSize: 14,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -257,7 +258,9 @@ class _CarInfoPageState extends State<CarInfoPage> {
             ),
             const SizedBox(height: 16),
             Container(
-              margin: const EdgeInsets.all(10),
+              margin: const EdgeInsets.all(2),
+              padding:
+                  const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
               decoration: BoxDecoration(
                 color: Colors.white, // Background color
                 borderRadius: BorderRadius.circular(10),
