@@ -135,8 +135,13 @@ class _CarInfoPageState extends State<CarInfoPage> {
                     itemBuilder: (context, index) {
                       return Container(
                         width: 400, // Adjust width as needed
-                        margin: const EdgeInsets.only(right: 8),
+                        // margin: const EdgeInsets.only(right: 8),
                         decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12.0),
+                          border: Border.all(
+                            color: Colors.grey,
+                            width: 5.0,
+                          ),
                           image: DecorationImage(
                             image: AssetImage(widget.carImageUrls[index]),
                             fit: BoxFit.cover,
@@ -176,7 +181,7 @@ class _CarInfoPageState extends State<CarInfoPage> {
             ),
             const SizedBox(height: 8),
             Text(
-              'Renter: ${widget.carRenter}',
+              'Owner : ${widget.carRenter}',
               style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
@@ -192,7 +197,7 @@ class _CarInfoPageState extends State<CarInfoPage> {
             ),
             const SizedBox(height: 8),
             Text(
-              'Seats: ${widget.carSeats}',
+              'Seats : ${widget.carSeats}',
               style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
@@ -200,7 +205,7 @@ class _CarInfoPageState extends State<CarInfoPage> {
             ),
             const SizedBox(height: 8),
             Text(
-              'AC: ${widget.carAC}',
+              'AC : ${widget.carAC}',
               style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
@@ -208,7 +213,7 @@ class _CarInfoPageState extends State<CarInfoPage> {
             ),
             const SizedBox(height: 8),
             Text(
-              'Safety Rating: ${widget.carSafetyRating}',
+              'Safety Rating : ${widget.carSafetyRating}',
               style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
@@ -216,7 +221,7 @@ class _CarInfoPageState extends State<CarInfoPage> {
             ),
             const SizedBox(height: 16),
             Text(
-              'Address: ${widget.carAddress}',
+              'Address : ${widget.carAddress}',
               style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
@@ -224,7 +229,7 @@ class _CarInfoPageState extends State<CarInfoPage> {
             ),
             const SizedBox(height: 8),
             Text(
-              'Fuel Info: ${widget.carFuelInfo}',
+              'Fuel Info : ${widget.carFuelInfo}',
               style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
@@ -232,7 +237,7 @@ class _CarInfoPageState extends State<CarInfoPage> {
             ),
             const SizedBox(height: 8),
             const Text(
-              'Features:',
+              'Features :',
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
@@ -250,7 +255,7 @@ class _CarInfoPageState extends State<CarInfoPage> {
             ),
             const SizedBox(height: 8),
             Text(
-              'Price: ${widget.carPrice}',
+              'Price : ${widget.carPrice}',
               style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,

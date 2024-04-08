@@ -75,14 +75,14 @@ class _BookingPageState extends State<BookingPage> {
             ),
             const SizedBox(height: 8),
             Text(
-              'Renter Name: ${widget.carRenter}',
+              'Owner Name : ${widget.carRenter}',
               style: const TextStyle(
                 fontSize: 16,
               ),
             ),
             const SizedBox(height: 8),
             Text(
-              'Price: ${widget.carPrice}',
+              'Price : ${widget.carPrice}',
               style: const TextStyle(
                 fontSize: 16,
               ),
