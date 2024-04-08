@@ -9,6 +9,7 @@ import 'package:swiftshare_one/Customer/customer_notification.dart';
 import 'package:swiftshare_one/Customer/customer_trips.dart';
 import 'package:swiftshare_one/Customer/customervehicleinfo.dart';
 import 'package:swiftshare_one/Customer/navigation_drawer.dart';
+import 'package:swiftshare_one/Customer/settings_page.dart';
 import 'package:swiftshare_one/Customer/vehicle_details.dart';
 
 class CustomerHomeScreen extends StatefulWidget {
@@ -190,15 +191,24 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
             IconButton(
               onPressed: () {
                 Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const NotificationsPage()));
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const NotificationsPage(),
+                  ),
+                );
               },
               icon: const Icon(Icons.notifications),
               color: Colors.white,
             ),
             IconButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const SettingsPage(),
+                  ),
+                );
+              },
               icon: const Icon(Icons.settings),
               color: Colors.white,
             )
@@ -735,13 +745,18 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
             ),
           ),
           ListTile(
-            trailing: TextButton(
+            leading: TextButton(
               onPressed: () {
                 _submitReview();
               },
               child: const Text(
-                'Rent Now',
-                style: TextStyle(color: Colors.blue),
+                'Rent Now !!',
+                style: TextStyle(
+                  color: Colors.blue,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+                textAlign: TextAlign.center,
               ),
             ),
           ),

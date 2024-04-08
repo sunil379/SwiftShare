@@ -59,13 +59,6 @@ class _NavigationDrawerState extends State<NavigationDrawers> {
             },
           ),
           ListTile(
-            leading: const Icon(Icons.notifications),
-            title: const Text('Notifications'),
-            onTap: () {
-              // Navigate to Notifications page
-            },
-          ),
-          ListTile(
             leading: const Icon(Icons.folder),
             title: const Text('My Documents'),
             onTap: () {
@@ -84,13 +77,6 @@ class _NavigationDrawerState extends State<NavigationDrawers> {
             title: const Text('About Us'),
             onTap: () {
               // Navigate to About Us page
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.settings),
-            title: const Text('Settings'),
-            onTap: () {
-              // Navigate to Settings page
             },
           ),
           ListTile(
