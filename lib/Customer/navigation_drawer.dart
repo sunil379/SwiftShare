@@ -3,7 +3,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:swiftshare_one/Customer/customer_login.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 
 class NavigationDrawers extends StatefulWidget {
   final String initialUserName;
@@ -79,43 +78,6 @@ class _NavigationDrawerState extends State<NavigationDrawers> {
             onTap: () {
               // Navigate to About Us page
             },
-          ),
-          const Divider(
-            thickness: 1.5,
-            color: Colors.black,
-          ), // Add a divider for visual separation
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              IconButton(
-                icon: const Icon(Icons.linkedin),
-                onPressed: () {
-                  // Handle LinkedIn tap
-                },
-              ),
-              IconButton(
-                icon: const Icon(Icons.instagram),
-                onPressed: () {
-                  // Handle Instagram tap
-                },
-              ),
-              IconButton(
-                icon: const Icon(Icons.send),
-                onPressed: () {
-                  // Handle Telegram tap
-                },
-              ),
-              IconButton(
-                icon: const Icon(Icons.twitter),
-                onPressed: () {
-                  // Handle Twitter tap
-                },
-              ),
-            ],
-          ),
-          const Divider(
-            thickness: 1.5,
-            color: Colors.black,
           ),
           ListTile(
             leading: const Icon(Icons.logout),
