@@ -5,6 +5,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:swiftshare_one/Customer/all_images_screen.dart';
+import 'package:swiftshare_one/Customer/customer_account.dart';
 import 'package:swiftshare_one/Customer/customer_notification.dart';
 import 'package:swiftshare_one/Customer/customer_trips.dart';
 import 'package:swiftshare_one/Customer/customervehicleinfo.dart';
@@ -50,8 +51,12 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
           // Navigate to Trips screen or perform relevant action
           break;
         case 3:
-          // Handle Account button tap
-          // Navigate to Account screen or perform relevant action
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const AccountDetailsScreen(),
+            ),
+          );
           break;
       }
     });
@@ -324,10 +329,10 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
           //     ),
           //   ),
           // ),
-          const SizedBox(height: 7.0),
+          const SizedBox(height: 4.0),
           const Padding(
             padding: EdgeInsets.symmetric(
-                horizontal: 10), // Adjust horizontal margin here
+                horizontal: 8), // Adjust horizontal margin here
             child: Divider(
               thickness: 1.5, // Adjust the thickness of the line
               color: Colors.black, // Set the color of the line
