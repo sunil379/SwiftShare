@@ -91,18 +91,23 @@ class SettingsPage extends StatelessWidget {
       elevation: 2,
       margin: const EdgeInsets.symmetric(vertical: 12.0),
       child: ListTile(
-        leading: Icon(icon, color: Colors.black),
+        leading: Icon(
+          icon,
+          color: Colors.black,
+          size: 36.0,
+        ),
         title: Text(
           title,
           style: const TextStyle(
             // color: Colors.white,
             fontSize: 18,
-            fontWeight: FontWeight.bold,
+            fontWeight: FontWeight.w900,
           ),
         ),
         trailing: const Icon(
           Icons.keyboard_arrow_right_outlined,
           color: Colors.black,
+          size: 30,
         ),
         onTap: () {
           Navigator.push(

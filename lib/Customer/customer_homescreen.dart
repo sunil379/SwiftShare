@@ -21,6 +21,7 @@ class CustomerHomeScreen extends StatefulWidget {
 
 class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
   int _selectedIndex = 0;
+  int _currentCarouselIndex = 0;
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -105,11 +106,6 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
     }
   }
 
-  void _submitReview() {
-    // Implement review submission
-    print('Review submitted');
-  }
-
   void _navigateToCarInfoPage(
       String carName,
       List<String> imageUrls,
@@ -161,7 +157,12 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
     //   'Kolkata',
     //   'Hyderabad',
     // ];
-
+    List<String> carouselItems = [
+      'assets/images/customer/Customer Add 1.png',
+      'assets/images/customer/Customer Add 2.png',
+      'assets/images/customer/Customer Add 3.png',
+      'assets/images/customer/Customer Add 4.png',
+    ];
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -219,12 +220,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
         children: <Widget>[
           const SizedBox(height: 4.0),
           CarouselSlider(
-            items: const [
-              'assets/images/customer/Customer Add 1.png',
-              'assets/images/customer/Customer Add 2.png',
-              'assets/images/customer/Customer Add 3.png',
-              'assets/images/customer/Customer Add 4.png'
-            ].map((String imageUrl) {
+            items: carouselItems.map((imageUrl) {
               return Builder(
                 builder: (BuildContext context) {
                   return Container(
@@ -258,7 +254,33 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
               enableInfiniteScroll: true,
               autoPlayAnimationDuration: const Duration(milliseconds: 800),
               viewportFraction: 0.8,
+              autoPlayInterval: const Duration(seconds: 3),
+              onPageChanged: (index, reason) {
+                setState(() {
+                  _currentCarouselIndex = index;
+                });
+              },
             ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: carouselItems.map((imageUrl) {
+              int index = carouselItems.indexOf(imageUrl);
+              return Container(
+                width: 10.0,
+                height: 8.0,
+                margin: const EdgeInsets.symmetric(
+                  vertical: 10.0,
+                  horizontal: 2.0,
+                ),
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: _currentCarouselIndex == index
+                      ? Colors.black
+                      : Colors.grey.withOpacity(0.5),
+                ),
+              );
+            }).toList(),
           ),
           // Padding(
           //   padding: const EdgeInsets.all(8.0),
@@ -746,9 +768,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
           ),
           ListTile(
             leading: TextButton(
-              onPressed: () {
-                _submitReview();
-              },
+              onPressed: () {},
               child: const Text(
                 'Rent Now !!',
                 style: TextStyle(
