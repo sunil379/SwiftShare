@@ -1,6 +1,4 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:swiftshare_one/Customer/customer_homescreen.dart';
 import 'package:swiftshare_one/pages/entry.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -142,23 +140,7 @@ class _EntryScreenState extends State<EntryScreen> {
         ),
       );
     } else {
-      return StreamBuilder(
-        stream: FirebaseAuth.instance.authStateChanges(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            // Waiting for Firebase Authentication to check the state
-            return const CircularProgressIndicator(); // or a loading screen
-          } else {
-            if (snapshot.hasData) {
-              // User is already logged in, navigate to HomeScreen
-              return const CustomerHomeScreen();
-            } else {
-              // User is not logged in, navigate to EntryScreen
-              return const EntryScreen();
-            }
-          }
-        },
-      );
+      return const MainScreen();
     }
   }
 }

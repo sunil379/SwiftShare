@@ -94,20 +94,20 @@ class SettingsPage extends StatelessWidget {
         leading: Icon(
           icon,
           color: Colors.black,
-          size: 36.0,
+          size: 32.0,
         ),
         title: Text(
           title,
           style: const TextStyle(
             // color: Colors.white,
             fontSize: 18,
-            fontWeight: FontWeight.w900,
+            fontWeight: FontWeight.bold,
           ),
         ),
         trailing: const Icon(
           Icons.keyboard_arrow_right_outlined,
           color: Colors.black,
-          size: 30,
+          size: 28,
         ),
         onTap: () {
           Navigator.push(
