@@ -1,5 +1,4 @@
-// ignore_for_file: library_private_types_in_public_api, use_build_context_synchronously, avoid_print
-
+// ignore_for_file: use_build_context_synchronously, avoid_print, library_private_types_in_public_api
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -57,7 +56,6 @@ class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
         });
       }
       print('Error fetching user details: $error');
-      // Show error message using ScaffoldMessenger
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Error fetching user details: $error'),
@@ -70,103 +68,141 @@ class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Account Details'),
-          centerTitle: true,
-          leading: GestureDetector(
-            onTap: () {
-              Navigator.pop(context);
-            },
-            child: Container(
-              width: 45,
-              height: 45,
-              margin: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(15),
-                ),
-                border: Border.all(
-                  color: Colors.grey,
-                  width: 1,
-                ),
+      appBar: AppBar(
+        title: const Text(
+          'Account Details',
+          style: TextStyle(
+            fontSize: 28,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        centerTitle: true,
+        leading: GestureDetector(
+          onTap: () {
+            Navigator.pop(context);
+          },
+          child: Container(
+            width: 45,
+            height: 45,
+            margin: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: const BorderRadius.all(
+                Radius.circular(15),
               ),
-              child: const Icon(
-                Icons.keyboard_arrow_left,
-                color: Colors.black,
+              border: Border.all(
+                color: Colors.grey,
+                width: 1,
               ),
+            ),
+            child: const Icon(
+              Icons.keyboard_arrow_left,
+              color: Colors.black,
             ),
           ),
         ),
-        body: _isLoading
-            ? const Center(
-                child: CircularProgressIndicator(),
-              )
-            : Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Name: $_name',
-                      style: const TextStyle(
-                        fontSize: 18,
-                      ),
+      ),
+      body: _isLoading
+          ? const Center(
+              child: CircularProgressIndicator(),
+            )
+          : Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const SizedBox(
+                    width: 120,
+                    height: 120,
+                    child: CircleAvatar(
+                      radius: 60,
+                      child: Icon(Icons.account_circle, size: 80),
                     ),
-                    const SizedBox(height: 12),
-                    Text(
-                      'Mobile: $_mobile',
-                      style: const TextStyle(
-                        fontSize: 18,
-                      ),
+                  ),
+                  const SizedBox(height: 24),
+                  _buildDetailField('Name', _name, Colors.blue),
+                  const SizedBox(height: 8.0),
+                  _buildDetailField('Mobile', _mobile, Colors.green),
+                  const SizedBox(height: 8.0),
+                  _buildDetailField('Address', _address, Colors.orange),
+                  const SizedBox(height: 8.0),
+                  _buildDetailField('Email', _email, Colors.purple),
+                  const SizedBox(height: 24),
+                  if (_identityProofURL.isNotEmpty)
+                    _buildPDFButton(
+                      'View Identity Proof',
+                      _identityProofURL,
+                      Colors.blue,
                     ),
-                    const SizedBox(height: 12),
-                    Text(
-                      'Address: $_address',
-                      style: const TextStyle(
-                        fontSize: 18,
-                      ),
+                  const SizedBox(height: 12),
+                  if (_drivingLicenseURL.isNotEmpty)
+                    _buildPDFButton(
+                      'View Driving License',
+                      _drivingLicenseURL,
+                      Colors.green,
                     ),
-                    const SizedBox(height: 12),
-                    Text(
-                      'Email: $_email',
-                      style: const TextStyle(
-                        fontSize: 18,
-                      ),
-                    ),
-                    const SizedBox(height: 12),
-                    _identityProofURL.isNotEmpty
-                        ? ElevatedButton(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      PDFViewer(documentURL: _identityProofURL),
-                                ),
-                              );
-                            },
-                            child: const Text('View Identity Proof'),
-                          )
-                        : const SizedBox(),
-                    const SizedBox(height: 12),
-                    _drivingLicenseURL.isNotEmpty
-                        ? ElevatedButton(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => PDFViewer(
-                                      documentURL: _drivingLicenseURL),
-                                ),
-                              );
-                            },
-                            child: const Text('View Driving License'),
-                          )
-                        : const SizedBox(),
-                  ],
-                ),
-              ));
+                  const SizedBox(height: 24),
+                ],
+              ),
+            ),
+    );
+  }
+
+  Widget _buildDetailField(String label, String value, Color color) {
+    return Container(
+      decoration: BoxDecoration(
+        color: color,
+        borderRadius: BorderRadius.circular(18.0), // Set border radius
+        border: Border.all(
+          color: Colors.grey,
+          width: 4.0,
+        ), // Add border
+      ),
+      padding: const EdgeInsets.all(16.0),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(
+            '$label : ',
+            style: const TextStyle(fontSize: 18, color: Colors.white),
+          ),
+          const SizedBox(
+            width: 8,
+          ), // Add a horizontal margin of 8 between label and value
+          Expanded(
+            child: Text(
+              value,
+              style: const TextStyle(fontSize: 18),
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildPDFButton(
+      String buttonText, String documentURL, Color backgroundColor) {
+    return Center(
+      child: ElevatedButton(
+        onPressed: () {
+          _showPDF(documentURL);
+        },
+        style: ElevatedButton.styleFrom(
+          backgroundColor: backgroundColor, // Background color of the button
+        ),
+        child: Text(buttonText),
+      ),
+    );
+  }
+
+  void _showPDF(String documentURL) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => PDFViewer(documentURL: documentURL),
+      ),
+    );
   }
 }
 
@@ -181,8 +217,19 @@ class PDFViewer extends StatelessWidget {
       appBar: AppBar(
         title: const Text('PDF Viewer'),
       ),
-      body: PDFView(
-        filePath: documentURL,
+      body: Center(
+        child: SizedBox(
+          height: double.infinity,
+          width: double.infinity,
+          child: PDFView(
+            filePath: documentURL,
+            enableSwipe: true,
+            swipeHorizontal: true,
+            autoSpacing: false,
+            pageFling: false,
+            pageSnap: true,
+          ),
+        ),
       ),
     );
   }

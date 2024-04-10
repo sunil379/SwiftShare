@@ -36,11 +36,11 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
             ),
           );
           break;
+        // case 1:
+        //   // Handle Explore button tap
+        //   // Navigate to Explore screen or perform relevant action
+        //   break;
         case 1:
-          // Handle Explore button tap
-          // Navigate to Explore screen or perform relevant action
-          break;
-        case 2:
           // Handle Trips button tap
           Navigator.push(
             context,
@@ -50,7 +50,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
           );
           // Navigate to Trips screen or perform relevant action
           break;
-        case 3:
+        case 2:
           Navigator.push(
             context,
             MaterialPageRoute(
@@ -393,11 +393,11 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
             label: 'Home',
             backgroundColor: Colors.black,
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.explore),
-            label: 'Explore',
-            backgroundColor: Colors.black,
-          ),
+          // BottomNavigationBarItem(
+          //   icon: Icon(Icons.explore),
+          //   label: 'Explore',
+          //   backgroundColor: Colors.black,
+          // ),
           BottomNavigationBarItem(
             icon: Icon(Icons.directions_car),
             label: 'Trips',
@@ -451,7 +451,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
           safetyRating: '5',
           address: '1600 Amphitheatre Parkway, Mountain View, CA',
           fuelInfo: 'Petrol, 20 kmpl',
-          price: 'Rs 50 per day',
+          price: 'Rs 2000 per day',
           features: ['Bluetooth', 'GPS', 'USB'],
           model: 'Honda City',
         ),
@@ -463,7 +463,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
           safetyRating: '4',
           address: '456 Street, City',
           fuelInfo: 'Diesel, 15 kmpl',
-          price: 'Rs 40 per day',
+          price: 'Rs 2000 per day',
           features: ['Bluetooth', 'USB'],
           model: 'Tata Nexon',
         ),
@@ -475,7 +475,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
           safetyRating: '4',
           address: '456 Street, City',
           fuelInfo: 'Diesel, 15 kmpl',
-          price: 'Rs 40 per day',
+          price: 'Rs 2000 per day',
           features: ['Bluetooth', 'USB'],
           model: 'Mahaindra Thar',
         ),
@@ -487,7 +487,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
           safetyRating: '4',
           address: '456 Street, City',
           fuelInfo: 'Diesel, 15 kmpl',
-          price: 'Rs 40 per day',
+          price: 'Rs 2000 per day',
           features: ['Bluetooth', 'USB'],
           model: 'Mahindra XUV',
         ),
@@ -501,7 +501,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
           safetyRating: '4',
           address: '456 Street, City',
           fuelInfo: 'Diesel, 15 kmpl',
-          price: 'Rs 40 per day',
+          price: 'Rs 1500 per day',
           features: ['Bluetooth', 'USB'],
           model: 'Livo',
         ),
@@ -513,7 +513,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
           safetyRating: '4',
           address: '456 Street, City',
           fuelInfo: 'Diesel, 15 kmpl',
-          price: 'Rs 40 per day',
+          price: 'Rs 1500 per day',
           features: ['Bluetooth', 'USB'],
           model: 'Splendor',
         ),
@@ -525,7 +525,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
           safetyRating: '5',
           address: '789 Avenue, Town',
           fuelInfo: 'Petrol, 25 kmpl',
-          price: 'Rs 60 per day',
+          price: 'Rs 1500 per day',
           features: ['Bluetooth', 'GPS', 'USB', 'Sunroof'],
           model: 'SP125',
         ),
@@ -537,7 +537,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
           safetyRating: '4',
           address: '321 Boulevard, City',
           fuelInfo: 'Diesel, 18 kmpl',
-          price: 'Rs 45 per day',
+          price: 'Rs 1500 per day',
           features: ['Bluetooth', 'USB', 'Parking Sensors'],
           model: '',
         ),
@@ -551,7 +551,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
           safetyRating: '4',
           address: '987 Road, Village',
           fuelInfo: 'Petrol, 30 kmpl',
-          price: 'Rs 30 per day',
+          price: 'Rs 1200 per day',
           features: ['Bluetooth', 'USB', 'Helmet Included'],
           model: 'Activa 2020',
         ),
@@ -563,7 +563,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
           safetyRating: '4',
           address: '654 Lane, Suburb',
           fuelInfo: 'Petrol, 25 kmpl',
-          price: 'Rs 35 per day',
+          price: 'Rs 1200 per day',
           features: ['Bluetooth', 'USB', 'Phone Mount'],
           model: 'Pleasure',
         ),
@@ -575,7 +575,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
           safetyRating: '4',
           address: '456 Avenue, Park',
           fuelInfo: 'Electric, 50 kmpl',
-          price: 'Rs 20 per day',
+          price: 'Rs 1200 per day',
           features: ['Bluetooth', 'USB', 'Locking Mechanism'],
           model: 'Activa 2018',
         ),
@@ -587,7 +587,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
           safetyRating: '4',
           address: '123 Street, Downtown',
           fuelInfo: 'Electric, 60 kmpl',
-          price: 'Rs 25 per day',
+          price: 'Rs 1200 per day',
           features: ['Bluetooth', 'USB', 'Portable Charger'],
           model: 'Activa 2019',
         ),
@@ -601,7 +601,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
           safetyRating: '5',
           address: '789 Boulevard, Lake',
           fuelInfo: 'Electric, 300 km range',
-          price: 'Rs 80 per day',
+          price: 'Rs 2500 per day',
           features: ['Bluetooth', 'USB', 'Autopilot'],
           model: 'Tesla',
         ),

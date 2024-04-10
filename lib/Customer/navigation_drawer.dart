@@ -2,6 +2,7 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:swiftshare_one/Customer/customer_account.dart';
 import 'package:swiftshare_one/Customer/customer_login.dart';
 
 class NavigationDrawers extends StatefulWidget {
@@ -29,7 +30,9 @@ class _NavigationDrawerState extends State<NavigationDrawers> {
     try {
       await FirebaseAuth.instance.signOut();
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => CustomerLoginScreen()),
+        MaterialPageRoute(
+          builder: (context) => CustomerLoginScreen(),
+        ),
       );
     } catch (e) {
       ScaffoldMessenger.of(context)
@@ -55,7 +58,12 @@ class _NavigationDrawerState extends State<NavigationDrawers> {
             leading: const Icon(Icons.dashboard),
             title: const Text('My Dashboard'),
             onTap: () {
-              // Navigate to My Dashboard page
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const AccountDetailsScreen(),
+                ),
+              );
             },
           ),
           ListTile(
