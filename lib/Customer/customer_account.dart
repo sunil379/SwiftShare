@@ -73,7 +73,6 @@ class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
           'Account Details',
           style: TextStyle(
             fontSize: 28,
-            fontWeight: FontWeight.bold,
           ),
         ),
         centerTitle: true,
@@ -120,26 +119,36 @@ class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
                     ),
                   ),
                   const SizedBox(height: 24),
-                  _buildDetailField('Name', _name, Colors.blue),
-                  const SizedBox(height: 8.0),
-                  _buildDetailField('Mobile', _mobile, Colors.green),
-                  const SizedBox(height: 8.0),
-                  _buildDetailField('Address', _address, Colors.orange),
-                  const SizedBox(height: 8.0),
-                  _buildDetailField('Email', _email, Colors.purple),
-                  const SizedBox(height: 24),
+                  _buildDetailField(
+                      'Name  ', ' $_name', Colors.white, Colors.blue),
+                  const SizedBox(height: 12.0),
+                  _buildDetailField(
+                      'Mobile ', ' $_mobile', Colors.white, Colors.blue),
+                  const SizedBox(height: 12.0),
+                  _buildDetailField(
+                      'Address', _address, Colors.white, Colors.blue),
+                  const SizedBox(height: 12.0),
+                  _buildDetailField(
+                      'Email   ', _email, Colors.white, Colors.blue),
+                  const SizedBox(height: 30),
+                  Divider(
+                    thickness: 2.5, // Adjust the thickness of the line
+                    color: Colors.black
+                        .withOpacity(0.4), // Set the color of the line
+                  ),
+                  const SizedBox(height: 30),
                   if (_identityProofURL.isNotEmpty)
                     _buildPDFButton(
                       'View Identity Proof',
                       _identityProofURL,
-                      Colors.blue,
+                      Colors.lightGreen,
                     ),
                   const SizedBox(height: 12),
                   if (_drivingLicenseURL.isNotEmpty)
                     _buildPDFButton(
                       'View Driving License',
                       _drivingLicenseURL,
-                      Colors.green,
+                      Colors.lightBlueAccent,
                     ),
                   const SizedBox(height: 24),
                 ],
@@ -148,15 +157,25 @@ class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
     );
   }
 
-  Widget _buildDetailField(String label, String value, Color color) {
+  Widget _buildDetailField(
+      String label, String value, Color startColor, Color endColor) {
     return Container(
+      width: 400,
       decoration: BoxDecoration(
-        color: color,
-        borderRadius: BorderRadius.circular(18.0), // Set border radius
+        gradient: LinearGradient(
+          begin: Alignment.centerLeft,
+          end: Alignment.centerRight,
+          colors: [
+            startColor.withOpacity(0.1), // Start color with some opacity
+            endColor.withOpacity(0.9), // End color with some opacity
+          ],
+          stops: const [0.27, 0.24], // Start and end at extreme points
+        ),
+        borderRadius: BorderRadius.circular(18.0),
         border: Border.all(
-          color: Colors.grey,
-          width: 4.0,
-        ), // Add border
+          color: Colors.black,
+          width: 2.0,
+        ),
       ),
       padding: const EdgeInsets.all(16.0),
       child: Row(
@@ -164,15 +183,23 @@ class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
         children: [
           Text(
             '$label : ',
-            style: const TextStyle(fontSize: 18, color: Colors.white),
+            style: const TextStyle(
+              fontSize: 18,
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+            ),
+            textAlign: TextAlign.left,
           ),
-          const SizedBox(
-            width: 8,
-          ), // Add a horizontal margin of 8 between label and value
+          const SizedBox(width: 8),
           Expanded(
             child: Text(
               value,
-              style: const TextStyle(fontSize: 18),
+              style: const TextStyle(
+                fontSize: 18,
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
+              textAlign: TextAlign.justify,
               overflow: TextOverflow.ellipsis,
             ),
           ),
@@ -184,14 +211,32 @@ class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
   Widget _buildPDFButton(
       String buttonText, String documentURL, Color backgroundColor) {
     return Center(
-      child: ElevatedButton(
-        onPressed: () {
-          _showPDF(documentURL);
-        },
-        style: ElevatedButton.styleFrom(
-          backgroundColor: backgroundColor, // Background color of the button
+      child: Container(
+        alignment: Alignment.center,
+        child: ElevatedButton(
+          onPressed: () {
+            _showPDF(documentURL);
+          },
+          style: ElevatedButton.styleFrom(
+            backgroundColor: backgroundColor,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ), // Background color of the button
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              vertical: 12,
+              horizontal: 10,
+            ),
+            child: Text(
+              buttonText,
+              style: const TextStyle(
+                fontSize: 16,
+                color: Colors.white,
+              ),
+            ),
+          ),
         ),
-        child: Text(buttonText),
       ),
     );
   }

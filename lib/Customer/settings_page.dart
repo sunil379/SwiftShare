@@ -12,7 +12,6 @@ class SettingsPage extends StatelessWidget {
           'Settings',
           style: TextStyle(
             fontSize: 28,
-            fontWeight: FontWeight.bold,
           ),
         ),
         leading: GestureDetector(

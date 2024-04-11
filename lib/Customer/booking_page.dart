@@ -46,7 +46,12 @@ class _BookingPageState extends State<BookingPage> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text('Booking Details'),
+        title: const Text(
+          'Booking Details',
+          style: TextStyle(
+            fontSize: 28,
+          ),
+        ),
         leading: GestureDetector(
           onTap: () {
             Navigator.pop(context);

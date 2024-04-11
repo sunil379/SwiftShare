@@ -329,15 +329,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
           //     ),
           //   ),
           // ),
-          const SizedBox(height: 4.0),
-          const Padding(
-            padding: EdgeInsets.symmetric(
-                horizontal: 8), // Adjust horizontal margin here
-            child: Divider(
-              thickness: 1.5, // Adjust the thickness of the line
-              color: Colors.black, // Set the color of the line
-            ),
-          ),
+          const SizedBox(height: 8.0),
           _buildVehicleItem(
             context,
             'Car',
@@ -348,6 +340,14 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
               'assets/images/cars/x1.jpeg',
             ],
           ),
+          const Padding(
+            padding: EdgeInsets.symmetric(
+                horizontal: 8), // Adjust horizontal margin here
+            child: Divider(
+              thickness: 2.0, // Adjust the thickness of the line
+              color: Colors.black, // Set the color of the line
+            ),
+          ),
           _buildVehicleItem(
             context,
             'Bike',
@@ -356,6 +356,14 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
               'assets/images/bikes/h1.jpg',
               'assets/images/bikes/sp1.jpg',
             ],
+          ),
+          const Padding(
+            padding: EdgeInsets.symmetric(
+                horizontal: 8), // Adjust horizontal margin here
+            child: Divider(
+              thickness: 2.0, // Adjust the thickness of the line
+              color: Colors.black, // Set the color of the line
+            ),
           ),
           _buildVehicleItem(
             context,
@@ -366,6 +374,14 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
               'assets/images/scooty/a3.jpg',
               'assets/images/scooty/a4.jpeg',
             ],
+          ),
+          const Padding(
+            padding: EdgeInsets.symmetric(
+                horizontal: 8), // Adjust horizontal margin here
+            child: Divider(
+              thickness: 2.0, // Adjust the thickness of the line
+              color: Colors.black, // Set the color of the line
+            ),
           ),
           _buildVehicleItem(
             context,
@@ -384,7 +400,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
         backgroundColor: Colors.blue, // Set background color to blue
-        selectedItemColor: Colors.white, // Set item color to white
+        selectedItemColor: Colors.black, // Set item color to white
         unselectedItemColor: Colors.white, // Set item color to white
         elevation: 0,
         items: const <BottomNavigationBarItem>[
