@@ -55,8 +55,17 @@ class _NavigationDrawerState extends State<NavigationDrawers> {
             ),
           ),
           ListTile(
-            leading: const Icon(Icons.dashboard),
-            title: const Text('My Dashboard'),
+            leading: const Icon(
+              Icons.dashboard,
+              color: Colors.purple,
+            ),
+            title: const Text(
+              'My Dashboard',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
             onTap: () {
               Navigator.push(
                 context,
@@ -67,29 +76,65 @@ class _NavigationDrawerState extends State<NavigationDrawers> {
             },
           ),
           ListTile(
-            leading: const Icon(Icons.folder),
-            title: const Text('My Documents'),
-            onTap: () {
-              // Navigate to My Documents page
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.share),
-            title: const Text('Refer & Earn'),
-            onTap: () {
-              // Navigate to Refer & Earn page
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.info),
-            title: const Text('About Us'),
+            leading: const Icon(
+              Icons.info,
+              color: Colors.yellow,
+            ),
+            title: const Text(
+              'About Us',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
             onTap: () {
               // Navigate to About Us page
             },
           ),
           ListTile(
-            leading: const Icon(Icons.logout),
-            title: const Text('Log out'),
+            leading: const Icon(
+              Icons.share,
+              color: Colors.deepOrange,
+            ),
+            title: const Text(
+              'Refer & Earn',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            onTap: () {
+              // Navigate to Refer & Earn page
+            },
+          ),
+          ListTile(
+            leading: const Icon(
+              Icons.star_outline_sharp,
+              color: Colors.blue,
+            ),
+            title: const Text(
+              'Rate App',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            onTap: () {
+              // Navigate to My Documents page
+            },
+          ),
+          ListTile(
+            leading: const Icon(
+              Icons.logout,
+              color: Colors.black,
+            ),
+            title: const Text(
+              'Log out',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
             onTap: () {
               _signOut();
             },

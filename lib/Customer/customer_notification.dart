@@ -8,7 +8,12 @@ class NotificationsPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text('Notifications'),
+        title: const Text(
+          'Notifications',
+          style: TextStyle(
+            fontSize: 28,
+          ),
+        ),
         leading: GestureDetector(
           onTap: () {
             Navigator.pop(context);

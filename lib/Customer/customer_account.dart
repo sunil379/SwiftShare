@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
 
 class AccountDetailsScreen extends StatefulWidget {
@@ -110,17 +111,24 @@ class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const SizedBox(
+                  Container(
                     width: 120,
                     height: 120,
-                    child: CircleAvatar(
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: Colors.grey,
+                          width: 4,
+                        )),
+                    child: const CircleAvatar(
                       radius: 60,
-                      child: Icon(Icons.account_circle, size: 80),
+                      backgroundColor: Colors.white,
+                      child: Icon(Icons.account_circle, size: 100),
                     ),
                   ),
                   const SizedBox(height: 24),
                   _buildDetailField(
-                      'Name  ', ' $_name', Colors.white, Colors.blue),
+                      'Name  ', '  $_name', Colors.white, Colors.blue),
                   const SizedBox(height: 12.0),
                   _buildDetailField(
                       'Mobile ', ' $_mobile', Colors.white, Colors.blue),
@@ -129,10 +137,10 @@ class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
                       'Address', _address, Colors.white, Colors.blue),
                   const SizedBox(height: 12.0),
                   _buildDetailField(
-                      'Email   ', _email, Colors.white, Colors.blue),
+                      'Email   ', ' $_email', Colors.white, Colors.blue),
                   const SizedBox(height: 30),
                   Divider(
-                    thickness: 2.5, // Adjust the thickness of the line
+                    thickness: 3.5, // Adjust the thickness of the line
                     color: Colors.black
                         .withOpacity(0.4), // Set the color of the line
                   ),
@@ -141,14 +149,14 @@ class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
                     _buildPDFButton(
                       'View Identity Proof',
                       _identityProofURL,
-                      Colors.lightGreen,
+                      Colors.deepPurple,
                     ),
                   const SizedBox(height: 12),
                   if (_drivingLicenseURL.isNotEmpty)
                     _buildPDFButton(
                       'View Driving License',
                       _drivingLicenseURL,
-                      Colors.lightBlueAccent,
+                      Colors.deepPurple,
                     ),
                   const SizedBox(height: 24),
                 ],
@@ -212,6 +220,7 @@ class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
       String buttonText, String documentURL, Color backgroundColor) {
     return Center(
       child: Container(
+        margin: const EdgeInsets.all(4.0),
         alignment: Alignment.center,
         child: ElevatedButton(
           onPressed: () {
@@ -231,7 +240,7 @@ class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
             child: Text(
               buttonText,
               style: const TextStyle(
-                fontSize: 16,
+                fontSize: 18,
                 color: Colors.white,
               ),
             ),

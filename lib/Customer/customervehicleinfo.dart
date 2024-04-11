@@ -125,7 +125,7 @@ class _CarInfoPageState extends State<CarInfoPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(
-              height: 200,
+              height: 250,
               width: double.infinity,
               child: Stack(
                 children: [

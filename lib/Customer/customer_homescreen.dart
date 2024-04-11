@@ -180,7 +180,10 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                   onPressed: () {
                     Scaffold.of(context).openDrawer();
                   },
-                  icon: const Icon(Icons.menu_rounded),
+                  icon: const Icon(
+                    Icons.menu_rounded,
+                    size: 30,
+                  ),
                   color: Colors.white,
                 );
               },
@@ -330,6 +333,14 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
           //   ),
           // ),
           const SizedBox(height: 8.0),
+          const Padding(
+            padding: EdgeInsets.symmetric(
+                horizontal: 8), // Adjust horizontal margin here
+            child: Divider(
+              thickness: 2.0, // Adjust the thickness of the line
+              color: Colors.black, // Set the color of the line
+            ),
+          ),
           _buildVehicleItem(
             context,
             'Car',
@@ -399,7 +410,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
-        backgroundColor: Colors.blue, // Set background color to blue
+        backgroundColor: Colors.lightBlue, // Set background color to blue
         selectedItemColor: Colors.black, // Set item color to white
         unselectedItemColor: Colors.white, // Set item color to white
         elevation: 0,
@@ -656,7 +667,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                   borderRadius: BorderRadius.circular(8.0),
                   child: Image.asset(
                     imageUrl,
-                    height: 200,
+                    height: 220,
                     width: 350,
                     fit: BoxFit.cover,
                     frameBuilder: (BuildContext context, Widget child,
