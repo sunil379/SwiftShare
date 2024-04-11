@@ -1,4 +1,4 @@
-// ignore_for_file: library_private_types_in_public_api, use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, library_private_types_in_public_api
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -8,8 +8,12 @@ import 'package:swiftshare_one/Customer/customer_login.dart';
 class NavigationDrawers extends StatefulWidget {
   final String initialUserName;
   final String initialEmail;
-  const NavigationDrawers(
-      {super.key, required this.initialEmail, required this.initialUserName});
+
+  const NavigationDrawers({
+    super.key,
+    required this.initialEmail,
+    required this.initialUserName,
+  });
 
   @override
   _NavigationDrawerState createState() => _NavigationDrawerState();
@@ -35,8 +39,9 @@ class _NavigationDrawerState extends State<NavigationDrawers> {
         ),
       );
     } catch (e) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text("Error signing out : $e")));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Error signing out: $e")),
+      );
     }
   }
 
@@ -46,12 +51,64 @@ class _NavigationDrawerState extends State<NavigationDrawers> {
       child: ListView(
         padding: EdgeInsets.zero,
         children: <Widget>[
-          UserAccountsDrawerHeader(
-            accountName: Text(userName),
-            accountEmail: Text(email),
-            currentAccountPicture: const CircleAvatar(
-              backgroundColor: Colors.white,
-              child: Icon(Icons.account_circle, size: 50),
+          SizedBox(
+            height: 300, // Adjust the height as needed
+            child: DrawerHeader(
+              padding: EdgeInsets.zero,
+              decoration: const BoxDecoration(
+                color: Colors.deepPurple,
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.only(left: 36.0),
+                    child: Container(
+                      width: 120,
+                      height: 120,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: Colors.white,
+                          width: 2.0,
+                        ),
+                      ),
+                      child: ClipOval(
+                        child: Image.asset(
+                          'assets/images/image-9.png',
+                          width: 100,
+                          height: 100,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 10.0),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Text(
+                      userName,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Text(
+                      email,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
           ListTile(

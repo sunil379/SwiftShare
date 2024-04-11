@@ -112,18 +112,23 @@ class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Container(
-                    width: 120,
-                    height: 120,
+                    width: 150,
+                    height: 150,
                     decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          color: Colors.grey,
-                          width: 4,
-                        )),
-                    child: const CircleAvatar(
-                      radius: 60,
-                      backgroundColor: Colors.white,
-                      child: Icon(Icons.account_circle, size: 100),
+                      color: Colors.white,
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: Colors.black,
+                        width: 2.0,
+                      ),
+                    ),
+                    child: ClipOval(
+                      child: Image.asset(
+                        'assets/images/image-9.png',
+                        width: 100,
+                        height: 100,
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
                   const SizedBox(height: 24),
