@@ -5,6 +5,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 class BookingPage extends StatefulWidget {
   final String carName;
+  final List<String> carImageUrls;
   final String carRating;
   final String carRenter;
   final String model;
@@ -21,6 +22,7 @@ class BookingPage extends StatefulWidget {
   const BookingPage({
     super.key,
     required this.carName,
+    required this.carImageUrls,
     required this.carRating,
     required this.carRenter,
     required this.model,
@@ -81,44 +83,148 @@ class _BookingPageState extends State<BookingPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Booking Details for ${widget.carName}',
-              style: const TextStyle(
-                fontSize: 24,
+            Row(
+              children: [
+                Text(
+                  'Model : ${widget.model}',
+                  style: const TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  children: [
+                    const Text(
+                      'Pickup Date:',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      '${widget.selectedDate.day}/${widget.selectedDate.month}/${widget.selectedDate.year}',
+                      style: const TextStyle(
+                        fontSize: 16,
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    const Text(
+                      'Owner Name:',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      widget.carRenter,
+                      style: const TextStyle(
+                        fontSize: 16,
+                      ),
+                    ),
+                  ],
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Pickup Time:',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      widget.selectedTime.format(context),
+                      style: const TextStyle(
+                        fontSize: 16,
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    const Text(
+                      'Price:',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      widget.carPrice,
+                      style: const TextStyle(
+                        fontSize: 16,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            // const SizedBox(height: 14.0),
+            // SizedBox(
+            //   height: 250,
+            //   width: double.infinity,
+            //   child: Stack(
+            //     children: [
+            //       ListView.builder(
+            //         scrollDirection: Axis.horizontal,
+            //         itemCount: widget.carImageUrls.length,
+            //         itemBuilder: (context, index) {
+            //           return Container(
+            //             width: 400, // Adjust width as needed
+            //             // margin: const EdgeInsets.only(right: 8),
+            //             decoration: BoxDecoration(
+            //               borderRadius: BorderRadius.circular(12.0),
+            //               border: Border.all(
+            //                 color: Colors.grey,
+            //                 width: 5.0,
+            //               ),
+            //               image: DecorationImage(
+            //                 image: AssetImage(widget.carImageUrls[index]),
+            //                 fit: BoxFit.cover,
+            //               ),
+            //             ),
+            //           );
+            //         },
+            //       ),
+            //       const SizedBox(height: 6),
+            //       Align(
+            //         alignment: Alignment.bottomLeft,
+            //         child: Container(
+            //           padding: const EdgeInsets.all(4),
+            //           decoration: BoxDecoration(
+            //             color: Colors.white,
+            //             borderRadius: BorderRadius.circular(6),
+            //           ),
+            //           child: Text(
+            //             widget.carRating,
+            //             style: const TextStyle(
+            //               fontSize: 12,
+            //               fontWeight: FontWeight.bold,
+            //             ),
+            //           ),
+            //         ),
+            //       ),
+            //     ],
+            //   ),
+            // ),
+            const SizedBox(height: 24),
+            const Text(
+              'Address : ',
+              style: TextStyle(
+                fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            const SizedBox(height: 16),
             Text(
-              'Pickup Date: ${widget.selectedDate.day}/${widget.selectedDate.month}/${widget.selectedDate.year}',
-              style: const TextStyle(
-                fontSize: 16,
-              ),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              'Pickup Time: ${widget.selectedTime.format(context)}',
-              style: const TextStyle(
-                fontSize: 16,
-              ),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              'Owner Name : ${widget.carRenter}',
-              style: const TextStyle(
-                fontSize: 16,
-              ),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              'Price : ${widget.carPrice}',
-              style: const TextStyle(
-                fontSize: 16,
-              ),
-            ),
-            const SizedBox(height: 16),
-            Text(
-              'Address : ${widget.carAddress}',
+              widget.carAddress,
               style: const TextStyle(
                 fontSize: 16,
               ),
@@ -152,7 +258,6 @@ class _BookingPageState extends State<BookingPage> {
 
   void _confirmBooking() {
     // Implement booking functionality here
-    // For example, you can show a confirmation dialog
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -162,8 +267,7 @@ class _BookingPageState extends State<BookingPage> {
           Center(
             child: TextButton(
               onPressed: () {
-                // Navigate back to the previous screen or any other action
-                Navigator.of(context).pop();
+                Navigator.pop(context);
               },
               child: const Text(
                 'OK',
@@ -175,7 +279,6 @@ class _BookingPageState extends State<BookingPage> {
     );
   }
 
-  // Function to open Google Maps with a specific address
   // Function to open Google Maps with a specific address
   Future<void> _openGoogleMaps(String address) async {
     // Encode the address for the URL

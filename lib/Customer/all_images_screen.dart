@@ -29,14 +29,15 @@ class AllImagesScreen extends StatelessWidget {
             height: 45,
             margin: const EdgeInsets.all(10),
             decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(15),
-                ),
-                border: Border.all(
-                  color: Colors.grey,
-                  width: 1,
-                )),
+              color: Colors.white,
+              borderRadius: const BorderRadius.all(
+                Radius.circular(15),
+              ),
+              border: Border.all(
+                color: Colors.grey,
+                width: 1,
+              ),
+            ),
             child: const Icon(
               Icons.keyboard_arrow_left,
               color: Colors.black,
@@ -69,8 +70,15 @@ class AllImagesScreen extends StatelessWidget {
             },
             child: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: SizedBox(
-                height: 200, // Set desired height for each image
+              child: Container(
+                height: 230,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12.0),
+                  border: Border.all(
+                    color: Colors.grey,
+                    width: 5.0,
+                  ),
+                ),
                 child: Image.asset(
                   imageUrl,
                   fit: BoxFit.cover,

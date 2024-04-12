@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
 
 class AccountDetailsScreen extends StatefulWidget {
@@ -44,8 +43,8 @@ class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
             _mobile = userData['mobile'];
             _address = userData['address'];
             _email = userData['email'];
-            _identityProofURL = userData['identityProofURL'] ?? '';
-            _drivingLicenseURL = userData['drivingLicenseURL'] ?? '';
+            _identityProofURL = userData['identityProofURL'];
+            _drivingLicenseURL = userData['drivingLicenseURL'];
             _isLoading = false;
           });
         }
@@ -205,15 +204,18 @@ class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
           ),
           const SizedBox(width: 8),
           Expanded(
-            child: Text(
-              value,
-              style: const TextStyle(
-                fontSize: 18,
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Text(
+                value,
+                style: const TextStyle(
+                  fontSize: 18,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+                textAlign: TextAlign.justify,
+                overflow: TextOverflow.ellipsis,
               ),
-              textAlign: TextAlign.justify,
-              overflow: TextOverflow.ellipsis,
             ),
           ),
         ],

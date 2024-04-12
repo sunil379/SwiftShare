@@ -1,6 +1,7 @@
 // ignore_for_file: library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:swiftshare_one/Customer/booking_page.dart';
 
@@ -43,8 +44,8 @@ class CarInfoPage extends StatefulWidget {
 }
 
 class _CarInfoPageState extends State<CarInfoPage> {
-  late DateTime _selectedDate;
-  late TimeOfDay _selectedTime;
+  DateTime? _selectedDate;
+  TimeOfDay? _selectedTime;
 
   final DateFormat _dateFormat = DateFormat('dd MMM yyyy');
   final DateFormat _timeFormat = DateFormat('hh:mm a');
@@ -52,20 +53,25 @@ class _CarInfoPageState extends State<CarInfoPage> {
   @override
   void initState() {
     super.initState();
-    _selectedDate = DateTime.now();
-    _selectedTime = TimeOfDay.now();
+    _selectedDate = null;
+    _selectedTime = null;
+  }
+
+  void _updateDateTimeSelection() {
+    setState(() {});
   }
 
   void _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
-      initialDate: _selectedDate,
+      initialDate: _selectedDate ?? DateTime.now(),
       firstDate: DateTime.now(),
       lastDate: DateTime(DateTime.now().year + 1),
     );
     if (picked != null && picked != _selectedDate) {
       setState(() {
         _selectedDate = picked;
+        _updateDateTimeSelection();
       });
     }
   }
@@ -73,11 +79,12 @@ class _CarInfoPageState extends State<CarInfoPage> {
   void _selectTime(BuildContext context) async {
     final TimeOfDay? picked = await showTimePicker(
       context: context,
-      initialTime: _selectedTime,
+      initialTime: _selectedTime ?? TimeOfDay.now(),
     );
     if (picked != null && picked != _selectedTime) {
       setState(() {
         _selectedTime = picked;
+        _updateDateTimeSelection();
       });
     }
   }
@@ -162,7 +169,7 @@ class _CarInfoPageState extends State<CarInfoPage> {
                       child: Text(
                         widget.carRating,
                         style: const TextStyle(
-                          fontSize: 14,
+                          fontSize: 12,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -219,14 +226,6 @@ class _CarInfoPageState extends State<CarInfoPage> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            const SizedBox(height: 16),
-            Text(
-              'Address : ${widget.carAddress}',
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
             const SizedBox(height: 8),
             Text(
               'Fuel Info : ${widget.carFuelInfo}',
@@ -256,6 +255,14 @@ class _CarInfoPageState extends State<CarInfoPage> {
             const SizedBox(height: 8),
             Text(
               'Price : ${widget.carPrice}',
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 16),
+            Text(
+              'Address : ${widget.carAddress}',
               style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
@@ -316,7 +323,7 @@ class _CarInfoPageState extends State<CarInfoPage> {
             ),
             const SizedBox(height: 16),
             Text(
-              'Selected Date: ${_dateFormat.format(_selectedDate)}',
+              'Selected Date: ${_selectedDate != null ? _dateFormat.format(_selectedDate!) : 'Not Selected'}',
               style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
@@ -324,7 +331,7 @@ class _CarInfoPageState extends State<CarInfoPage> {
             ),
             const SizedBox(height: 16),
             Text(
-              'Selected Time: ${_timeFormat.format(DateTime(2022, 1, 1, _selectedTime.hour, _selectedTime.minute))}',
+              'Selected Time: ${_selectedTime != null ? _timeFormat.format(DateTime(2022, 1, 1, _selectedTime!.hour, _selectedTime!.minute)) : 'Not Selected'}',
               style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
@@ -333,45 +340,57 @@ class _CarInfoPageState extends State<CarInfoPage> {
             const SizedBox(height: 16),
             Container(
               alignment: Alignment.center,
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => BookingPage(
-                        carName: widget.carName,
-                        carRating: widget.carRating,
-                        carRenter: widget.carRenter,
-                        model: widget.model,
-                        carSeats: widget.carSeats,
-                        carAC: widget.carAC,
-                        carSafetyRating: widget.carSafetyRating,
-                        carAddress: widget.carAddress,
-                        carFuelInfo: widget.carFuelInfo,
-                        carPrice: widget.carPrice,
-                        carFeatures: widget.carFeatures,
-                        selectedDate: _selectedDate,
-                        selectedTime: _selectedTime,
+              child: SizedBox(
+                width: 100,
+                height: 50,
+                child: ElevatedButton(
+                  onPressed: _selectedDate != null && _selectedTime != null
+                      ? () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => BookingPage(
+                                carName: widget.carName,
+                                carImageUrls: widget.carImageUrls,
+                                carRating: widget.carRating,
+                                carRenter: widget.carRenter,
+                                model: widget.model,
+                                carSeats: widget.carSeats,
+                                carAC: widget.carAC,
+                                carSafetyRating: widget.carSafetyRating,
+                                carAddress: widget.carAddress,
+                                carFuelInfo: widget.carFuelInfo,
+                                carPrice: widget.carPrice,
+                                carFeatures: widget.carFeatures,
+                                selectedDate: _selectedDate ?? DateTime.now(),
+                                selectedTime: _selectedTime ?? TimeOfDay.now(),
+                              ),
+                            ),
+                          );
+                        }
+                      : null,
+                  style: ButtonStyle(
+                    backgroundColor: _selectedDate != null &&
+                            _selectedTime != null
+                        ? MaterialStateProperty.all(Colors.indigo)
+                        : MaterialStateProperty.all(Colors.deepPurpleAccent),
+                    shape: MaterialStateProperty.all(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
                       ),
                     ),
-                  );
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.indigo,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
                   ),
-                ),
-                child: const Padding(
-                  padding: EdgeInsets.symmetric(
-                    vertical: 12,
-                    horizontal: 10,
-                  ),
-                  child: Text(
-                    ' Rent ',
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.white,
+                  child: const Padding(
+                    padding: EdgeInsets.symmetric(
+                      vertical: 3,
+                      horizontal: 2,
+                    ),
+                    child: Text(
+                      ' Rent ',
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                 ),
