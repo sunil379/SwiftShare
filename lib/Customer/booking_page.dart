@@ -43,8 +43,18 @@ class BookingPage extends StatefulWidget {
 
 class _BookingPageState extends State<BookingPage> {
   bool _locationButtonClicked = false;
+  String? _selectedPaymentMethod = 'Please Select Payment Option';
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedPaymentMethod = 'Please Select Payment Option';
+  }
+
   @override
   Widget build(BuildContext context) {
+    bool isPaymentMethodSelected =
+        _selectedPaymentMethod != 'Please Select Payment Option';
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -61,7 +71,7 @@ class _BookingPageState extends State<BookingPage> {
           child: Container(
             width: 45,
             height: 45,
-            margin: const EdgeInsets.all(10),
+            margin: const EdgeInsets.all(12),
             decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: const BorderRadius.all(
@@ -96,74 +106,185 @@ class _BookingPageState extends State<BookingPage> {
             ),
             const SizedBox(height: 16),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Column(
-                  children: [
-                    const Text(
-                      'Pickup Date:',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
+                Container(
+                  width: 150,
+                  height: 50,
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(
+                      color: Colors.black,
+                      width: 1,
                     ),
-                    const SizedBox(height: 8),
-                    Text(
-                      '${widget.selectedDate.day}/${widget.selectedDate.month}/${widget.selectedDate.year}',
-                      style: const TextStyle(
-                        fontSize: 16,
-                      ),
+                  ),
+                  child: const Text(
+                    'Pickup Date',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
                     ),
-                    const SizedBox(height: 16),
-                    const Text(
-                      'Owner Name:',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      widget.carRenter,
-                      style: const TextStyle(
-                        fontSize: 16,
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'Pickup Time:',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
+                const SizedBox(width: 20.0),
+                Container(
+                  width: 150,
+                  height: 50,
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: Colors.lightBlue,
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(
+                      color: Colors.black,
+                      width: 1,
                     ),
-                    const SizedBox(height: 8),
-                    Text(
-                      widget.selectedTime.format(context),
-                      style: const TextStyle(
-                        fontSize: 16,
-                      ),
+                  ),
+                  child: Text(
+                    '${widget.selectedDate.day}/${widget.selectedDate.month}/${widget.selectedDate.year}',
+                    style: const TextStyle(
+                      fontSize: 16,
+                      color: Colors.white,
                     ),
-                    const SizedBox(height: 16),
-                    const Text(
-                      'Price:',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 14),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Container(
+                  width: 150,
+                  height: 50,
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(
+                      color: Colors.black,
+                      width: 1,
                     ),
-                    const SizedBox(height: 8),
-                    Text(
-                      widget.carPrice,
-                      style: const TextStyle(
-                        fontSize: 16,
-                      ),
+                  ),
+                  child: const Text(
+                    'Pickup Time',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
                     ),
-                  ],
+                  ),
+                ),
+                const SizedBox(width: 20.0),
+                Container(
+                  width: 150,
+                  height: 50,
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    color: Colors.lightBlue,
+                    border: Border.all(
+                      color: Colors.black,
+                      width: 1,
+                    ),
+                  ),
+                  child: Text(
+                    widget.selectedTime.format(context),
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 14),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Container(
+                  width: 150,
+                  height: 50,
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(
+                      color: Colors.black,
+                      width: 1,
+                    ),
+                  ),
+                  child: const Text(
+                    'Owner Name',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 20.0),
+                Container(
+                  width: 150,
+                  height: 50,
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    color: Colors.lightBlue,
+                    border: Border.all(
+                      color: Colors.black,
+                      width: 1,
+                    ),
+                  ),
+                  child: Text(
+                    widget.carRenter,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 14),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Container(
+                  width: 150,
+                  height: 50,
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(
+                      color: Colors.black,
+                      width: 1,
+                    ),
+                  ),
+                  child: const Text(
+                    'Price',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 20.0),
+                Container(
+                  width: 150,
+                  height: 50,
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    color: Colors.lightBlue,
+                    border: Border.all(
+                      color: Colors.black,
+                      width: 1,
+                    ),
+                  ),
+                  child: Text(
+                    widget.carPrice,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -215,35 +336,66 @@ class _BookingPageState extends State<BookingPage> {
             //     ],
             //   ),
             // ),
-            const SizedBox(height: 24),
-            const Text(
-              'Address : ',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
+            const SizedBox(height: 20),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Payment Options : ',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Text(
+                  '$_selectedPaymentMethod selected!',
+                  style: const TextStyle(
+                    fontSize: 16,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                _buildPaymentMethod(
+                    icon: Icons.payment, methodName: 'Credit Card'),
+                const SizedBox(height: 12),
+                _buildPaymentMethod(
+                    icon: Icons.payment, methodName: 'Debit Card'),
+                const SizedBox(height: 12),
+                _buildPaymentMethod(
+                    icon: Icons.payment, methodName: 'Net Banking'),
+                const SizedBox(height: 12),
+                _buildPaymentMethod(
+                    icon: Icons.payment, methodName: 'Cash On Delivery'),
+              ],
             ),
-            Text(
-              widget.carAddress,
-              style: const TextStyle(
-                fontSize: 16,
-              ),
+            const SizedBox(height: 14),
+            OverflowBar(
+              children: [
+                const Text(
+                  'Address : ',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Text(
+                  widget.carAddress,
+                  style: const TextStyle(
+                    fontSize: 16,
+                  ),
+                ),
+              ],
             ),
             const SizedBox(height: 16),
             ElevatedButton(
-              onPressed: () {
-                // Navigate to Google Maps with the address
-                _openGoogleMaps(widget.carAddress);
-              },
+              onPressed: isPaymentMethodSelected
+                  ? () {
+                      // Navigate to Google Maps with the address
+                      _openGoogleMaps(widget.carAddress);
+                    }
+                  : null,
               child: const Text('See Location'),
             ),
             const SizedBox(height: 8),
-            const Text(
-              'Payment Option: Cash on Delivery',
-              style: TextStyle(
-                fontSize: 16,
-              ),
-            ),
             const SizedBox(height: 16),
             ElevatedButton(
               onPressed: _locationButtonClicked ? _confirmBooking : null,
@@ -256,27 +408,80 @@ class _BookingPageState extends State<BookingPage> {
     );
   }
 
-  void _confirmBooking() {
-    // Implement booking functionality here
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Booking Confirmation'),
-        content: Text('You have successfully booked ${widget.carName}'),
-        actions: [
-          Center(
-            child: TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: const Text(
-                'OK',
+  Widget _buildPaymentMethod({
+    required IconData icon,
+    required String methodName,
+  }) {
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 4.0),
+      padding: const EdgeInsets.symmetric(
+        vertical: 8.0,
+        horizontal: 8.0,
+      ),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(
+          color: Colors.black,
+          width: 2,
+        ),
+      ),
+      child: GestureDetector(
+        onTap: () {
+          if (methodName != 'Cash On Delivery') {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('This payment option is coming soon'),
+              ),
+            );
+          } else {
+            setState(() {
+              _selectedPaymentMethod =
+                  methodName; // Update selected payment method
+            });
+          }
+        },
+        child: Row(
+          children: [
+            Icon(icon),
+            const SizedBox(width: 12),
+            Text(
+              methodName,
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
               ),
             ),
-          ),
-        ],
+            const Spacer(),
+            const Icon(Icons.keyboard_arrow_right),
+          ],
+        ),
       ),
     );
+  }
+
+  void _confirmBooking() {
+    // Implement booking functionality here
+    if (_locationButtonClicked) {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('Booking Confirmation'),
+          content: Text('You have successfully booked ${widget.model}'),
+          actions: [
+            Center(
+              child: TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text(
+                  'OK',
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+    }
   }
 
   // Function to open Google Maps with a specific address
