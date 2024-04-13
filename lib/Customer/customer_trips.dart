@@ -3,52 +3,48 @@
 import 'package:flutter/material.dart';
 
 class MyTripsPage extends StatefulWidget {
-  const MyTripsPage({super.key});
+  final String? modelName;
+  final DateTime? pickupDate;
+  final TimeOfDay? pickupTime;
+  final String? ownerName;
+
+  const MyTripsPage({
+    super.key,
+    this.modelName,
+    this.pickupDate,
+    this.pickupTime,
+    this.ownerName,
+  });
 
   @override
   _MyTripsPageState createState() => _MyTripsPageState();
 }
 
-class _MyTripsPageState extends State<MyTripsPage>
-    with SingleTickerProviderStateMixin {
-  // late TabController _tabController;
-
-  @override
-  void initState() {
-    super.initState();
-    // _tabController = TabController(length: 2, vsync: this);
-  }
-
+class _MyTripsPageState extends State<MyTripsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text('My Trips'),
-        // bottom: TabBar(
-        //   controller: _tabController,
-        //   tabs: const [
-        //     Tab(text: 'Ongoing'),
-        //     Tab(text: 'Previous'),
-        //   ],
-        // ),
+        title: const Text('Current Trip'),
         leading: GestureDetector(
           onTap: () {
-            Navigator.pop(context);
+            Navigator.popUntil(context, (route) => route.isFirst);
           },
           child: Container(
             width: 45,
             height: 45,
             margin: const EdgeInsets.all(10),
             decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(15),
-                ),
-                border: Border.all(
-                  color: Colors.grey,
-                  width: 1,
-                )),
+              color: Colors.white,
+              borderRadius: const BorderRadius.all(
+                Radius.circular(15),
+              ),
+              border: Border.all(
+                color: Colors.grey,
+                width: 1,
+              ),
+            ),
             child: const Icon(
               Icons.keyboard_arrow_left,
               color: Colors.black,
@@ -56,73 +52,47 @@ class _MyTripsPageState extends State<MyTripsPage>
           ),
         ),
       ),
-      // body: TabBarView(
-      //   controller: _tabController,
-      //   children: [
-      //     _buildOngoingBookings(),
-      //     _buildPreviousBookings(),
-      //   ],
-      // ),
-      body: const Center(
-        child: Text(
-          'No Trips yet!',
-          style: TextStyle(
-            fontSize: 20, // Adjust the font size as needed
-            fontWeight: FontWeight.bold, // Adjust the font weight as needed
-          ),
-        ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: widget.modelName != null &&
+                widget.pickupDate != null &&
+                widget.pickupTime != null &&
+                widget.ownerName != null
+            ? Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Model: ${widget.modelName}',
+                    style: const TextStyle(
+                        fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    'Pickup Date: ${widget.pickupDate!.day}/${widget.pickupDate!.month}/${widget.pickupDate!.year}',
+                    style: const TextStyle(fontSize: 16),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    'Pickup Time: ${widget.pickupTime!.format(context)}',
+                    style: const TextStyle(fontSize: 16),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    'Owner Name: ${widget.ownerName}',
+                    style: const TextStyle(fontSize: 16),
+                  ),
+                ],
+              )
+            : const Center(
+                child: Text(
+                  'No trips yet!',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
       ),
     );
   }
-
-//   Widget _buildOngoingBookings() {
-//     return ListView.builder(
-//       itemCount: 2,
-//       itemBuilder: (context, index) {
-//         return Card(
-//           child: ListTile(
-//             leading: const Icon(Icons.directions_car),
-//             title: const Text('Your Booking: SS12911234'),
-//             subtitle: const Text('Hyundai - 2021'),
-//             trailing: const Column(
-//               crossAxisAlignment: CrossAxisAlignment.end,
-//               children: [
-//                 Text('29/11/2023'),
-//                 Text('05/01/2024'),
-//               ],
-//             ),
-//             onTap: () {
-//               // Navigate to more booking details screen
-//             },
-//           ),
-//         );
-//       },
-//     );
-//   }
-
-//   Widget _buildPreviousBookings() {
-//     return ListView.builder(
-//       itemCount: 2,
-//       itemBuilder: (context, index) {
-//         return Card(
-//           child: ListTile(
-//             leading: const Icon(Icons.history),
-//             title: const Text('Previous Booking: SS12911234'),
-//             subtitle: const Text('Hyundai - 2021'),
-//             trailing: const Column(
-//               crossAxisAlignment: CrossAxisAlignment.end,
-//               children: [
-//                 Text('29/11/2023'),
-//                 Text('05/01/2024'),
-//               ],
-//             ),
-//             onTap: () {
-//               // Navigate to more booking details screen
-//             },
-//           ),
-//         );
-//       },
-//     );
-//   }
-//
 }

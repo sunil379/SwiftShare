@@ -1,7 +1,10 @@
-// ignore_for_file: deprecated_member_use, library_private_types_in_public_api, prefer_final_fields
+// ignore_for_file: deprecated_member_use, library_private_types_in_public_api, prefer_final_fields, use_build_context_synchronously, unnecessary_null_comparison
 
 import 'package:flutter/material.dart';
+import 'package:swiftshare_one/Customer/customer_trips.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class BookingPage extends StatefulWidget {
   final String carName;
@@ -42,6 +45,8 @@ class BookingPage extends StatefulWidget {
 }
 
 class _BookingPageState extends State<BookingPage> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
   bool _locationButtonClicked = false;
   String? _selectedPaymentMethod = 'Please Select Payment Option';
 
@@ -111,6 +116,7 @@ class _BookingPageState extends State<BookingPage> {
                 Container(
                   width: 150,
                   height: 50,
+                  margin: const EdgeInsets.only(left: 16.0),
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(12),
@@ -157,6 +163,7 @@ class _BookingPageState extends State<BookingPage> {
                 Container(
                   width: 150,
                   height: 50,
+                  margin: const EdgeInsets.only(left: 16.0),
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(12),
@@ -203,6 +210,7 @@ class _BookingPageState extends State<BookingPage> {
                 Container(
                   width: 150,
                   height: 50,
+                  margin: const EdgeInsets.only(left: 16.0),
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(12),
@@ -249,6 +257,7 @@ class _BookingPageState extends State<BookingPage> {
                 Container(
                   width: 150,
                   height: 50,
+                  margin: const EdgeInsets.only(left: 16.0),
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(12),
@@ -336,21 +345,29 @@ class _BookingPageState extends State<BookingPage> {
             //     ],
             //   ),
             // ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 24),
+            const Divider(
+              color: Colors.black,
+              thickness: 2.5,
+            ),
+            const SizedBox(height: 24),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
                   'Payment Options : ',
                   style: TextStyle(
-                    fontSize: 18,
+                    fontSize: 20,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                Text(
-                  '$_selectedPaymentMethod selected!',
-                  style: const TextStyle(
-                    fontSize: 16,
+                Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    '$_selectedPaymentMethod selected!',
+                    style: const TextStyle(
+                      fontSize: 18,
+                    ),
                   ),
                 ),
                 const SizedBox(height: 16),
@@ -367,39 +384,103 @@ class _BookingPageState extends State<BookingPage> {
                     icon: Icons.payment, methodName: 'Cash On Delivery'),
               ],
             ),
-            const SizedBox(height: 14),
+            const SizedBox(height: 24),
+            const Divider(
+              color: Colors.black,
+              thickness: 2.5,
+            ),
+            const SizedBox(height: 24),
             OverflowBar(
               children: [
                 const Text(
                   'Address : ',
                   style: TextStyle(
-                    fontSize: 18,
+                    fontSize: 20,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 Text(
                   widget.carAddress,
                   style: const TextStyle(
-                    fontSize: 16,
+                    fontSize: 18,
                   ),
                 ),
               ],
             ),
             const SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: isPaymentMethodSelected
-                  ? () {
-                      // Navigate to Google Maps with the address
-                      _openGoogleMaps(widget.carAddress);
-                    }
-                  : null,
-              child: const Text('See Location'),
+            Container(
+              alignment: Alignment.center,
+              child: SizedBox(
+                width: 180,
+                height: 50,
+                child: ElevatedButton(
+                  onPressed: isPaymentMethodSelected
+                      ? () {
+                          // Navigate to Google Maps with the address
+                          _openGoogleMaps(widget.carAddress);
+                        }
+                      : null,
+                  style: ButtonStyle(
+                    backgroundColor: isPaymentMethodSelected != null
+                        ? MaterialStateProperty.all(Colors.redAccent)
+                        : MaterialStateProperty.all(Colors.redAccent),
+                    shape: MaterialStateProperty.all(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                  ),
+                  child: const Padding(
+                    padding: EdgeInsets.symmetric(
+                      vertical: 3,
+                      horizontal: 2,
+                    ),
+                    child: Text(
+                      'See Location',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             ),
-            const SizedBox(height: 8),
-            const SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: _locationButtonClicked ? _confirmBooking : null,
-              child: const Text('Confirm Booking'),
+            const SizedBox(height: 24),
+            const Divider(
+              color: Colors.black,
+              thickness: 2.5,
+            ),
+            const SizedBox(height: 24),
+            Container(
+              alignment: Alignment.center,
+              child: SizedBox(
+                width: double.maxFinite,
+                height: 60,
+                child: ElevatedButton(
+                  onPressed: _locationButtonClicked ? _confirmBooking : null,
+                  style: ButtonStyle(
+                    elevation: MaterialStateProperty.all(22),
+                    backgroundColor: isPaymentMethodSelected != null
+                        ? MaterialStateProperty.all(Colors.deepPurple)
+                        : MaterialStateProperty.all(Colors.deepPurple),
+                    shape: MaterialStateProperty.all(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                  ),
+                  child: const Text(
+                    'Confirm Booking',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
             ),
             const SizedBox(height: 16),
           ],
@@ -459,28 +540,64 @@ class _BookingPageState extends State<BookingPage> {
     );
   }
 
-  void _confirmBooking() {
+  Future<void> _confirmBooking() async {
     // Implement booking functionality here
     if (_locationButtonClicked) {
-      showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: const Text('Booking Confirmation'),
-          content: Text('You have successfully booked ${widget.model}'),
-          actions: [
-            Center(
-              child: TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: const Text(
-                  'OK',
+      try {
+        User? currentUser = _auth.currentUser;
+        final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+        Map<String, dynamic> bookingData = {
+          'vehicleName': widget.carName,
+          'model': widget.model,
+          'selectedDate': widget.selectedDate,
+          'selectedTime': widget.selectedTime.format(context),
+          'vehicleOwner': widget.carRenter,
+          'vehicleAddress': widget.carAddress,
+          'vehiclePrice': widget.carPrice,
+        };
+
+        if (currentUser != null) {
+          DocumentReference bookingRef = _firestore
+              .collection('customers')
+              .doc(currentUser.uid)
+              .collection('bookings')
+              .doc();
+          await bookingRef.set(bookingData);
+
+          showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+              title: const Text('Booking Confirmation'),
+              content: Text('You have successfully booked ${widget.model}'),
+              actions: [
+                Center(
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => MyTripsPage(
+                            modelName: widget.model,
+                            pickupDate: widget.selectedDate,
+                            pickupTime: widget.selectedTime,
+                            ownerName: widget.carRenter,
+                          ),
+                        ),
+                      );
+                    },
+                    child: const Text(
+                      'OK',
+                    ),
+                  ),
                 ),
-              ),
+              ],
             ),
-          ],
-        ),
-      );
+          );
+        }
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Error confirming booking : $e')));
+      }
     }
   }
 
