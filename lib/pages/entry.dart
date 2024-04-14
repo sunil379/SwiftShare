@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:swiftshare_one/Customer/customer_login.dart';
+import 'package:swiftshare_one/pages/app_start.dart';
 
 class MainScreen extends StatelessWidget {
   const MainScreen({super.key});
@@ -8,31 +9,28 @@ class MainScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [
               Colors.white,
-              Colors.blue.withOpacity(0.9),
+              Colors.lightBlue,
             ],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            stops: const [0.4, 1.0],
+            begin: startAlignment,
+            end: endAlignment,
           ),
         ),
         child: Center(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SizedBox(
                 height: MediaQuery.of(context).padding.top,
               ), // To adjust for status bar
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 1),
-                child: Image.asset(
-                  'assets/images/rectangle-7.png',
-                  width: 250, // Adjust the width as needed
-                  height: 170, // Adjust the height as needed
-                ),
+              Image.asset(
+                'assets/images/rectangle-7.png',
+                width: 250, // Adjust the width as needed
+                height: 170, // Adjust the height as needed
+                fit: BoxFit.cover,
               ),
               const Text(
                 'SWIFTSHARE',

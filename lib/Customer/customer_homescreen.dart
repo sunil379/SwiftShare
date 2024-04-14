@@ -1,5 +1,4 @@
 // ignore_for_file: avoid_print
-
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -72,12 +71,13 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
   }
 
   Future<void> _fetchUserData() async {
-    final user = FirebaseAuth.instance.currentUser;
-    if (user != null) {
+    final FirebaseAuth user = FirebaseAuth.instance;
+    User? currentUser = user.currentUser;
+    if (currentUser != null) {
       // Use current user's UID to fetch user data from Firestore
       final userDoc = await FirebaseFirestore.instance
           .collection('customers')
-          .doc(user.uid)
+          .doc(currentUser.uid)
           .get();
       if (userDoc.exists) {
         setState(() {

@@ -18,6 +18,9 @@ class CustomerRegistrationScreen extends StatefulWidget {
 
 class _CustomerRegistrationScreenState
     extends State<CustomerRegistrationScreen> {
+  final GlobalKey<ScaffoldMessengerState> _scaffoldMessengerKey =
+      GlobalKey<ScaffoldMessengerState>();
+
   final TextEditingController nameController = TextEditingController();
   final TextEditingController mobileController = TextEditingController();
   final TextEditingController addressController = TextEditingController();
@@ -38,17 +41,6 @@ class _CustomerRegistrationScreenState
   String? drivingLicenseURL;
   double uploadProgress = 0.0; // Track upload progress
 
-  @override
-  void dispose() {
-    _nameFocusNode.dispose();
-    _mobileFocusNode.dispose();
-    _addressFocusNode.dispose();
-    _emailFocusNode.dispose();
-    _passwordFocusNode.dispose();
-    _retypePasswordFocusNode.dispose();
-    super.dispose();
-  }
-
   bool _validateInputs() {
     return nameController.text.isNotEmpty &&
         mobileController.text.isNotEmpty &&
@@ -56,6 +48,22 @@ class _CustomerRegistrationScreenState
         emailController.text.isNotEmpty &&
         passwordController.text.isNotEmpty &&
         confirmPasswordController.text.isNotEmpty;
+  }
+
+  void _showSuccessSnackBar() {
+    _scaffoldMessengerKey.currentState?.showSnackBar(
+      const SnackBar(
+        content: Text("Details uploaded, moving to OTP verification"),
+      ),
+    );
+  }
+
+  void _showErrorSnackBar(String error) {
+    _scaffoldMessengerKey.currentState?.showSnackBar(
+      SnackBar(
+        content: Text("Error creating account: $error"),
+      ),
+    );
   }
 
   Future<void> _createAccount(BuildContext context) async {
@@ -99,6 +107,8 @@ class _CustomerRegistrationScreenState
         'identityProofURL': identityProofURL,
         'drivingLicenseURL': drivingLicenseURL,
       });
+
+      _showSuccessSnackBar();
       // Navigate to OTP verification screen
       await Navigator.pushReplacement(
         context,
@@ -106,18 +116,17 @@ class _CustomerRegistrationScreenState
           builder: (context) => OTPVerificationScreen(
             phoneNumber: mobile,
             userId: userCredential.user!.uid,
+            name: name,
+            mobile: mobile,
+            address: address,
+            email: email,
+            identityProofURL: identityProofURL ?? '',
+            drivingLicenseURL: identityProofURL ?? '',
           ),
         ),
       );
-
-      // Navigate to another screen or perform any action after successful registration
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text("Account created successfully."),
-      ));
     } catch (error) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text("Error creating account: $error"),
-      ));
+      _showErrorSnackBar(error.toString());
     }
   }
 
@@ -382,5 +391,16 @@ class _CustomerRegistrationScreenState
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _nameFocusNode.dispose();
+    _mobileFocusNode.dispose();
+    _addressFocusNode.dispose();
+    _emailFocusNode.dispose();
+    _passwordFocusNode.dispose();
+    _retypePasswordFocusNode.dispose();
+    super.dispose();
   }
 }

@@ -545,7 +545,7 @@ class _BookingPageState extends State<BookingPage> {
     if (_locationButtonClicked) {
       try {
         User? currentUser = _auth.currentUser;
-        final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+        final FirebaseFirestore firestore = FirebaseFirestore.instance;
         Map<String, dynamic> bookingData = {
           'vehicleName': widget.carName,
           'model': widget.model,
@@ -557,11 +557,11 @@ class _BookingPageState extends State<BookingPage> {
         };
 
         if (currentUser != null) {
-          DocumentReference bookingRef = _firestore
+          DocumentReference bookingRef = firestore
               .collection('customers')
               .doc(currentUser.uid)
               .collection('bookings')
-              .doc();
+              .doc(widget.model);
           await bookingRef.set(bookingData);
 
           showDialog(

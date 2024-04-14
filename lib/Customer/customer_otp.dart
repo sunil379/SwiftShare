@@ -10,11 +10,22 @@ import 'package:swiftshare_one/Customer/customer_homescreen.dart';
 class OTPVerificationScreen extends StatefulWidget {
   final String phoneNumber;
   final String userId; //userId field to accept the user document ID
-
+  final String name;
+  final String mobile;
+  final String address;
+  final String email;
+  final String identityProofURL;
+  final String drivingLicenseURL;
   const OTPVerificationScreen({
     super.key,
     required this.phoneNumber,
-    required this.userId, // Pass userId from the registration screen
+    required this.userId,
+    required this.name,
+    required this.mobile,
+    required this.address,
+    required this.email,
+    required this.identityProofURL,
+    required this.drivingLicenseURL, // Pass userId from the registration screen
   });
   @override
   _OTPVerificationScreenState createState() => _OTPVerificationScreenState();
@@ -25,7 +36,14 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
+  late ScaffoldMessengerState _scaffoldMessengerState;
   bool isLoading = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _scaffoldMessengerState = ScaffoldMessenger.of(context);
+  }
 
   Future<void> _verifyOTP(BuildContext context, String userId) async {
     setState(() {
@@ -37,19 +55,29 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
         verificationId: _verificationId!,
         smsCode: otpController.text.trim(),
       );
-
       final UserCredential userCredential =
           await _auth.signInWithCredential(credential);
-
       // Add user's phone number to Firestore
-      await _firestore.collection('users').doc(userCredential.user!.uid).set({
+      await _firestore
+          .collection('customers')
+          .doc(userCredential.user!.uid)
+          .set({
         'phoneNumber': widget.phoneNumber,
+        'name': widget.name,
+        'mobile': widget.mobile,
+        'address': widget.address,
+        'email': widget.email,
+        'identityProofURL': widget.identityProofURL,
+        'drivingLicenseURL': widget.drivingLicenseURL,
       });
 
       setState(() {
         isLoading = false;
       });
 
+      _scaffoldMessengerState.showSnackBar(const SnackBar(
+        content: Text("Account created successfully."),
+      ));
       // Navigate HomeScreen
       await Navigator.pushReplacement(
         context,
@@ -62,7 +90,7 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
         isLoading = false;
       });
 
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      _scaffoldMessengerState.showSnackBar(SnackBar(
         content: Text("Error verifying OTP: $error"),
       ));
     }
@@ -102,14 +130,43 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
         codeAutoRetrievalTimeout: codeAutoRetrievalTimeout,
       );
     } catch (error) {
-      print("Error sending OTP: $error");
+      _scaffoldMessengerState
+          .showSnackBar(SnackBar(content: Text('Error sending OTP: $error')));
     }
+  }
+
+  void _resendOTP() {
+    setState(() {
+      isLoading = true; // Show loading indicator
+    });
+
+    _sendOTP().then((_) {
+      setState(() {
+        isLoading = false; // Hide loading indicator
+      });
+      _scaffoldMessengerState.showSnackBar(
+        const SnackBar(content: Text('OTP resent successfully')),
+      );
+    }).catchError((error) {
+      setState(() {
+        isLoading = false; // Hide loading indicator
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error resending OTP: $error')),
+      );
+    });
   }
 
   @override
   void initState() {
     super.initState();
     _sendOTP();
+  }
+
+  @override
+  void dispose() {
+    otpController.dispose();
+    super.dispose();
   }
 
   @override
@@ -144,6 +201,17 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
               child: isLoading
                   ? const CircularProgressIndicator()
                   : const Text('Verify OTP'),
+            ),
+            const SizedBox(height: 8),
+            TextButton(
+              onPressed: isLoading ? null : _resendOTP,
+              child: const Text(
+                'Resend OTP',
+                style: TextStyle(
+                  color: Colors.blue,
+                  decoration: TextDecoration.underline,
+                ),
+              ),
             ),
           ],
         ),
