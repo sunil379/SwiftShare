@@ -6,6 +6,8 @@ class MyTripsPage extends StatefulWidget {
   final String? modelName;
   final DateTime? pickupDate;
   final TimeOfDay? pickupTime;
+  final DateTime? returnDate;
+  final TimeOfDay? returnTime;
   final String? ownerName;
 
   const MyTripsPage({
@@ -13,6 +15,8 @@ class MyTripsPage extends StatefulWidget {
     this.modelName,
     this.pickupDate,
     this.pickupTime,
+    this.returnDate,
+    this.returnTime,
     this.ownerName,
   });
 
@@ -57,6 +61,8 @@ class _MyTripsPageState extends State<MyTripsPage> {
         child: widget.modelName != null &&
                 widget.pickupDate != null &&
                 widget.pickupTime != null &&
+                widget.returnDate != null &&
+                widget.returnTime != null &&
                 widget.ownerName != null
             ? Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -74,6 +80,17 @@ class _MyTripsPageState extends State<MyTripsPage> {
                   const SizedBox(height: 8),
                   Text(
                     'Pickup Time: ${widget.pickupTime!.format(context)}',
+                    style: const TextStyle(fontSize: 16),
+                  ),
+                  const SizedBox(height: 8),
+                  const SizedBox(height: 16),
+                  Text(
+                    'Return Date: ${widget.returnDate!.day}/${widget.returnDate!.month}/${widget.returnDate!.year}',
+                    style: const TextStyle(fontSize: 16),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    'Return Time: ${widget.returnTime!.format(context)}',
                     style: const TextStyle(fontSize: 16),
                   ),
                   const SizedBox(height: 8),

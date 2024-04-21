@@ -103,7 +103,7 @@ class AllImagesScreen extends StatelessWidget {
     String carSafetyRating,
     String carAddress,
     String carFuelInfo,
-    String carPrice,
+    int carPrice,
     List<String> carFeatures,
   ) {
     Navigator.push(

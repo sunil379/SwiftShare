@@ -17,10 +17,12 @@ class BookingPage extends StatefulWidget {
   final String carSafetyRating;
   final String carAddress;
   final String carFuelInfo;
-  final String carPrice;
+  final int carPrice;
   final List<String> carFeatures;
   final DateTime selectedDate;
   final TimeOfDay selectedTime;
+  final DateTime returnedDate;
+  final TimeOfDay returnedTime;
 
   const BookingPage({
     super.key,
@@ -38,6 +40,8 @@ class BookingPage extends StatefulWidget {
     required this.carFeatures,
     required this.selectedDate,
     required this.selectedTime,
+    required this.returnedDate,
+    required this.returnedTime,
   });
 
   @override
@@ -49,11 +53,21 @@ class _BookingPageState extends State<BookingPage> {
 
   bool _locationButtonClicked = false;
   String? _selectedPaymentMethod = 'Please Select Payment Option';
+  late int total = 0;
 
   @override
   void initState() {
     super.initState();
     _selectedPaymentMethod = 'Please Select Payment Option';
+    calculateTotal();
+  }
+
+  void calculateTotal() {
+    final Duration difference =
+        widget.returnedDate.difference(widget.selectedDate);
+    final int daysDifference = difference.inDays;
+
+    total = daysDifference * widget.carPrice;
   }
 
   @override
@@ -173,6 +187,53 @@ class _BookingPageState extends State<BookingPage> {
                     ),
                   ),
                   child: const Text(
+                    'Return Date',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 20.0),
+                Container(
+                  width: 150,
+                  height: 50,
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: Colors.lightBlue,
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(
+                      color: Colors.black,
+                      width: 1,
+                    ),
+                  ),
+                  child: Text(
+                    '${widget.returnedDate.day}/${widget.returnedDate.month}/${widget.returnedDate.year}',
+                    style: const TextStyle(
+                      fontSize: 16,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 14),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Container(
+                  width: 150,
+                  height: 50,
+                  margin: const EdgeInsets.only(left: 16.0),
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(
+                      color: Colors.black,
+                      width: 1,
+                    ),
+                  ),
+                  child: const Text(
                     'Pickup Time',
                     style: TextStyle(
                       fontSize: 16,
@@ -198,6 +259,53 @@ class _BookingPageState extends State<BookingPage> {
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 16,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 14),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Container(
+                  width: 150,
+                  height: 50,
+                  margin: const EdgeInsets.only(left: 16.0),
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(
+                      color: Colors.black,
+                      width: 1,
+                    ),
+                  ),
+                  child: const Text(
+                    'Return Time',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 20.0),
+                Container(
+                  width: 150,
+                  height: 50,
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: Colors.lightBlue,
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(
+                      color: Colors.black,
+                      width: 1,
+                    ),
+                  ),
+                  child: Text(
+                    widget.returnedTime.format(context),
+                    style: const TextStyle(
+                      fontSize: 16,
+                      color: Colors.white,
                     ),
                   ),
                 ),
@@ -267,7 +375,7 @@ class _BookingPageState extends State<BookingPage> {
                     ),
                   ),
                   child: const Text(
-                    'Price',
+                    'Total',
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
@@ -288,7 +396,7 @@ class _BookingPageState extends State<BookingPage> {
                     ),
                   ),
                   child: Text(
-                    widget.carPrice,
+                    'Rs $total',
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 16,
@@ -364,7 +472,7 @@ class _BookingPageState extends State<BookingPage> {
                 Align(
                   alignment: Alignment.center,
                   child: Text(
-                    '$_selectedPaymentMethod selected!',
+                    '$_selectedPaymentMethod',
                     style: const TextStyle(
                       fontSize: 18,
                     ),
@@ -510,14 +618,39 @@ class _BookingPageState extends State<BookingPage> {
         onTap: () {
           if (methodName != 'Cash On Delivery') {
             ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('This payment option is coming soon'),
+              SnackBar(
+                content: const Text(
+                  'This payment option is coming soon',
+                  style: TextStyle(
+                    fontSize: 16,
+                  ),
+                ),
+                behavior: SnackBarBehavior.floating,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10.0,
+                  vertical: 6.0,
+                ),
+                backgroundColor: Colors.blueGrey[800],
+                duration: const Duration(seconds: 6),
+                // margin: const EdgeInsets.only(
+                //     bottom: 70, left: 20, right: 20),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                elevation: 6.0,
+                action: SnackBarAction(
+                  label: 'Close',
+                  onPressed: () {
+                    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                  },
+                  textColor: Colors.white,
+                ),
               ),
             );
           } else {
             setState(() {
               _selectedPaymentMethod =
-                  methodName; // Update selected payment method
+                  '$methodName selected!'; // Update selected payment method
             });
           }
         },
@@ -551,9 +684,12 @@ class _BookingPageState extends State<BookingPage> {
           'model': widget.model,
           'selectedDate': widget.selectedDate,
           'selectedTime': widget.selectedTime.format(context),
+          'returnedDate': widget.returnedDate,
+          'returnedTime': widget.returnedTime.format(context),
           'vehicleOwner': widget.carRenter,
           'vehicleAddress': widget.carAddress,
           'vehiclePrice': widget.carPrice,
+          'total': total,
         };
 
         if (currentUser != null) {
@@ -580,6 +716,8 @@ class _BookingPageState extends State<BookingPage> {
                             modelName: widget.model,
                             pickupDate: widget.selectedDate,
                             pickupTime: widget.selectedTime,
+                            returnDate: widget.returnedDate,
+                            returnTime: widget.returnedTime,
                             ownerName: widget.carRenter,
                           ),
                         ),

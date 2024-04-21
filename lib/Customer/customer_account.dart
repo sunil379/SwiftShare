@@ -1,8 +1,8 @@
-// ignore_for_file: use_build_context_synchronously, avoid_print, library_private_types_in_public_api
+// ignore_for_file: use_build_context_synchronously, avoid_print, library_private_types_in_public_api, deprecated_member_use
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_pdfview/flutter_pdfview.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AccountDetailsScreen extends StatefulWidget {
   const AccountDetailsScreen({super.key});
@@ -231,13 +231,13 @@ class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
         alignment: Alignment.center,
         child: ElevatedButton(
           onPressed: () {
-            _showPDF(documentURL);
+            _launchPDF(documentURL); // Launch PDF on button press
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: backgroundColor,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
-            ), // Background color of the button
+            ),
           ),
           child: Padding(
             padding: const EdgeInsets.symmetric(
@@ -257,41 +257,21 @@ class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
     );
   }
 
-  void _showPDF(String documentURL) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => PDFViewer(documentURL: documentURL),
-      ),
-    );
-  }
-}
-
-class PDFViewer extends StatelessWidget {
-  final String documentURL;
-
-  const PDFViewer({super.key, required this.documentURL});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('PDF Viewer'),
-      ),
-      body: Center(
-        child: SizedBox(
-          height: double.infinity,
-          width: double.infinity,
-          child: PDFView(
-            filePath: documentURL,
-            enableSwipe: true,
-            swipeHorizontal: true,
-            autoSpacing: false,
-            pageFling: false,
-            pageSnap: true,
-          ),
+  Future<void> _launchPDF(String documentURL) async {
+    try {
+      if (await canLaunch(documentURL)) {
+        await launch(documentURL);
+      } else {
+        throw 'Could not launch $documentURL';
+      }
+    } catch (e) {
+      print('Error launching PDF: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Error opening PDF'),
+          duration: Duration(seconds: 3),
         ),
-      ),
-    );
+      );
+    }
   }
 }

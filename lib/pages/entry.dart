@@ -48,9 +48,9 @@ class MainScreen extends StatelessWidget {
                   color: Colors.grey[600],
                 ),
               ),
-              const SizedBox(height: 200),
+              const SizedBox(height: 150),
               const Text(
-                'LOGIN AS',
+                'Please Sign in or Register',
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
@@ -78,7 +78,7 @@ class MainScreen extends StatelessWidget {
                     horizontal: 60,
                   ),
                   child: Text(
-                    'CUSTOMER',
+                    'LOGIN/REGISTER',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 20,

@@ -1,5 +1,4 @@
 // vehicle_details.dart
-
 class VehicleDetails {
   final String rating;
   final String renter;
@@ -9,7 +8,7 @@ class VehicleDetails {
   final String safetyRating;
   final String address;
   final String fuelInfo;
-  final String price;
+  final int price;
   final List<String> features;
 
   VehicleDetails({

@@ -1,7 +1,6 @@
 // ignore_for_file: library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:swiftshare_one/Customer/booking_page.dart';
 
@@ -16,11 +15,12 @@ class CarInfoPage extends StatefulWidget {
   final String carSafetyRating;
   final String carAddress;
   final String carFuelInfo;
-  final String carPrice;
+  final int carPrice;
   final List<String> carFeatures;
   final void Function()? onSelectDate;
   final void Function()? onSelectTime;
-
+  final void Function()? returnDate;
+  final void Function()? returnTime;
   const CarInfoPage({
     super.key,
     required this.carName,
@@ -37,6 +37,8 @@ class CarInfoPage extends StatefulWidget {
     required this.carFeatures,
     this.onSelectDate,
     this.onSelectTime,
+    this.returnDate,
+    this.returnTime,
   });
 
   @override
@@ -46,6 +48,8 @@ class CarInfoPage extends StatefulWidget {
 class _CarInfoPageState extends State<CarInfoPage> {
   DateTime? _selectedDate;
   TimeOfDay? _selectedTime;
+  DateTime? _returnedDate;
+  TimeOfDay? _returnedTime;
 
   final DateFormat _dateFormat = DateFormat('dd MMM yyyy');
   final DateFormat _timeFormat = DateFormat('hh:mm a');
@@ -55,6 +59,8 @@ class _CarInfoPageState extends State<CarInfoPage> {
     super.initState();
     _selectedDate = null;
     _selectedTime = null;
+    _returnedDate = null;
+    _returnedTime = null;
   }
 
   void _updateDateTimeSelection() {
@@ -84,6 +90,34 @@ class _CarInfoPageState extends State<CarInfoPage> {
     if (picked != null && picked != _selectedTime) {
       setState(() {
         _selectedTime = picked;
+        _updateDateTimeSelection();
+      });
+    }
+  }
+
+  void _returnDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: _returnedDate ?? DateTime.now(),
+      firstDate: DateTime.now(),
+      lastDate: DateTime(DateTime.now().year + 1),
+    );
+    if (picked != null && picked != _selectedDate) {
+      setState(() {
+        _returnedDate = picked;
+        _updateDateTimeSelection();
+      });
+    }
+  }
+
+  void _returnTime(BuildContext context) async {
+    final TimeOfDay? picked = await showTimePicker(
+      context: context,
+      initialTime: _returnedTime ?? TimeOfDay.now(),
+    );
+    if (picked != null && picked != _selectedTime) {
+      setState(() {
+        _returnedTime = picked;
         _updateDateTimeSelection();
       });
     }
@@ -254,7 +288,7 @@ class _CarInfoPageState extends State<CarInfoPage> {
             ),
             const SizedBox(height: 8),
             Text(
-              'Price : ${widget.carPrice}',
+              'Price : Rs ${widget.carPrice} per day',
               style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
@@ -265,6 +299,14 @@ class _CarInfoPageState extends State<CarInfoPage> {
               'Address : ${widget.carAddress}',
               style: const TextStyle(
                 fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 16),
+            const Text(
+              "Pickup Date and Time : ",
+              style: TextStyle(
+                fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -322,8 +364,69 @@ class _CarInfoPageState extends State<CarInfoPage> {
               ),
             ),
             const SizedBox(height: 16),
+            const Text(
+              "Return Date and Time : ",
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 16),
+            Container(
+              margin: const EdgeInsets.all(2),
+              padding:
+                  const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+              decoration: BoxDecoration(
+                color: Colors.white, // Background color
+                borderRadius: BorderRadius.circular(10),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.5),
+                    spreadRadius: 2,
+                    blurRadius: 5,
+                    offset: const Offset(0, 3), // changes position of shadow
+                  ),
+                ],
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: () {
+                        _returnDate(context);
+                      },
+                      style: ElevatedButton.styleFrom(
+                        foregroundColor: Colors.white,
+                        backgroundColor: Colors.blue, // Text color
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      child: const Text('Set Date'),
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: () {
+                        _returnTime(context);
+                      },
+                      style: ElevatedButton.styleFrom(
+                        foregroundColor: Colors.white,
+                        backgroundColor: Colors.blue, // Text color
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      child: const Text('Set Time'),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 16),
             Text(
-              'Selected Date: ${_selectedDate != null ? _dateFormat.format(_selectedDate!) : 'Not Selected'}',
+              'Pickup Date: ${_selectedDate != null ? _dateFormat.format(_selectedDate!) : 'Not Selected'}',
               style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
@@ -331,7 +434,23 @@ class _CarInfoPageState extends State<CarInfoPage> {
             ),
             const SizedBox(height: 16),
             Text(
-              'Selected Time: ${_selectedTime != null ? _timeFormat.format(DateTime(2022, 1, 1, _selectedTime!.hour, _selectedTime!.minute)) : 'Not Selected'}',
+              'Pickup Time: ${_selectedTime != null ? _timeFormat.format(DateTime(2022, 1, 1, _selectedTime!.hour, _selectedTime!.minute)) : 'Not Selected'}',
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 16),
+            Text(
+              'Return Date: ${_returnedDate != null ? _dateFormat.format(_returnedDate!) : 'Not Selected'}',
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 16),
+            Text(
+              'Return Time: ${_returnedTime != null ? _timeFormat.format(DateTime(2022, 1, 1, _returnedTime!.hour, _returnedTime!.minute)) : 'Not Selected'}',
               style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
@@ -344,7 +463,10 @@ class _CarInfoPageState extends State<CarInfoPage> {
                 width: 100,
                 height: 50,
                 child: ElevatedButton(
-                  onPressed: _selectedDate != null && _selectedTime != null
+                  onPressed: _selectedDate != null &&
+                          _selectedTime != null &&
+                          _returnedDate != null &&
+                          _returnedTime != null
                       ? () {
                           Navigator.push(
                             context,
@@ -364,6 +486,8 @@ class _CarInfoPageState extends State<CarInfoPage> {
                                 carFeatures: widget.carFeatures,
                                 selectedDate: _selectedDate ?? DateTime.now(),
                                 selectedTime: _selectedTime ?? TimeOfDay.now(),
+                                returnedDate: _returnedDate ?? DateTime.now(),
+                                returnedTime: _returnedTime ?? TimeOfDay.now(),
                               ),
                             ),
                           );
