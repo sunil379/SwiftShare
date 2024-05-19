@@ -19,7 +19,12 @@ class AllImagesScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text('All Vehicles'),
+        title: Text(
+          "${name}s",
+          style: const TextStyle(
+            fontSize: 28,
+          ),
+        ),
         leading: GestureDetector(
           onTap: () {
             Navigator.pop(context);

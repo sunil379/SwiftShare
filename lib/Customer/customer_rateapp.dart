@@ -173,11 +173,7 @@ class _RateAppState extends State<RateApp> {
       ),
       onPressed: () {
         setState(() {
-          if (_userRating == rating) {
-            _userRating = null; // Deselect the current rating
-          } else {
-            _userRating = rating; // Select the new rating
-          }
+          _userRating = rating;
         });
       },
     );
@@ -187,43 +183,47 @@ class _RateAppState extends State<RateApp> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Rate Us'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              const Text('Please select your rating:'),
-              const SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return AlertDialog(
+              title: const Text('Rate Us'),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
-                  _buildStarButton(1),
-                  _buildStarButton(2),
-                  _buildStarButton(3),
-                  _buildStarButton(4),
-                  _buildStarButton(5),
+                  const Text('Please select your rating:'),
+                  const SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      _buildStarButton(1),
+                      _buildStarButton(2),
+                      _buildStarButton(3),
+                      _buildStarButton(4),
+                      _buildStarButton(5),
+                    ],
+                  ),
                 ],
               ),
-            ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.popUntil(context, (route) => route.isFirst);
-              },
-              child: const Text('Cancel'),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-                setState(() {
-                  // ignore: avoid_print
-                  print('Submitted rating: $_userRating');
-                });
-              },
-              child: const Text('Submit'),
-            ),
-          ],
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.popUntil(context, (route) => route.isFirst);
+                  },
+                  child: const Text('Cancel'),
+                ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                    setState(() {
+                      // ignore: avoid_print
+                      print('Submitted rating: $_userRating');
+                    });
+                  },
+                  child: const Text('Submit'),
+                ),
+              ],
+            );
+          },
         );
       },
     );

@@ -470,7 +470,10 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
   // }
 
   Widget _buildVehicleItem(
-      BuildContext context, String name, List<String> imageUrls) {
+    BuildContext context,
+    String name,
+    List<String> imageUrls,
+  ) {
     // Placeholder vehicle details for each image
     Map<String, List<VehicleDetails>> initialDetailsMap = {
       'Car': [
@@ -480,7 +483,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
           seats: '4',
           ac: 'Yes',
           safetyRating: '5',
-          address: '1600 Amphitheatre Parkway, Mountain View, CA',
+          address: 'MIHAN, Nagpur',
           fuelInfo: 'Petrol, 20 kmpl',
           price: 2000,
           features: ['Bluetooth', 'GPS', 'USB'],
@@ -492,7 +495,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
           seats: '2',
           ac: 'Yes',
           safetyRating: '4',
-          address: '456 Street, City',
+          address: 'Medical Square, Nagpur',
           fuelInfo: 'Diesel, 15 kmpl',
           price: 2000,
           features: ['Bluetooth', 'USB'],
@@ -667,26 +670,70 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
             width: 360,
             child: Stack(
               children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(8.0),
-                  child: Image.asset(
-                    imageUrl,
-                    height: 220,
-                    width: 350,
-                    fit: BoxFit.cover,
-                    frameBuilder: (BuildContext context, Widget child,
-                        int? frame, bool wasSynchronouslyLoaded) {
-                      return Container(
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: Colors.black,
-                            width: 4.0,
+                Column(
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(8.0),
+                      child: Image.asset(
+                        imageUrl,
+                        height: 220,
+                        width: 350,
+                        fit: BoxFit.cover,
+                        frameBuilder: (BuildContext context, Widget child,
+                            int? frame, bool wasSynchronouslyLoaded) {
+                          return Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: Colors.black,
+                                width: 4.0,
+                              ),
+                            ),
+                            child: child,
+                          );
+                        },
+                      ),
+                    ),
+                    const SizedBox(height: 6),
+                    Align(
+                      alignment: Alignment.bottomRight,
+                      child: Container(
+                        alignment: Alignment.center,
+                        width: 110,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            _navigateToCarInfoPage(
+                              name,
+                              [imageUrl],
+                              details.rating,
+                              details.renter,
+                              details.model,
+                              details.seats,
+                              details.ac,
+                              details.safetyRating,
+                              details.address,
+                              details.fuelInfo,
+                              details.price,
+                              details.features,
+                            );
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.blueAccent,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          ),
+                          child: const Text(
+                            "Rent Now",
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w900,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
-                        child: child,
-                      );
-                    },
-                  ),
+                      ),
+                    ),
+                  ],
                 ),
                 // Positioned(
                 //   bottom: 0,
@@ -800,20 +847,6 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
             scrollDirection: Axis.horizontal,
             child: Row(
               children: widgetsToShow,
-            ),
-          ),
-          ListTile(
-            leading: TextButton(
-              onPressed: () {},
-              child: const Text(
-                'Rent Now !!',
-                style: TextStyle(
-                  color: Colors.blue,
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-                textAlign: TextAlign.center,
-              ),
             ),
           ),
         ],
