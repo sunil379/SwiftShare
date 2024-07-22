@@ -106,15 +106,15 @@ class CustomerLoginScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const SizedBox(height: 30),
-                    // const Text(
-                    //   'FOR CUSTOMER',
-                    //   style: TextStyle(
-                    //     color: Colors.blue,
-                    //     fontWeight: FontWeight.bold,
-                    //     fontSize: 20,
-                    //   ),
-                    // ),
-                    // const SizedBox(height: 16),
+                    const Text(
+                      'FOR CUSTOMER',
+                      style: TextStyle(
+                        color: Colors.blue,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      ),
+                    ),
+                    const SizedBox(height: 16),
                     const Text(
                       'Sign In',
                       style: TextStyle(
