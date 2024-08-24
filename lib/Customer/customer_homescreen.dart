@@ -10,8 +10,8 @@ import 'package:swiftshare_one/Customer/customer_notification.dart';
 import 'package:swiftshare_one/Customer/customer_trips.dart';
 import 'package:swiftshare_one/Customer/customervehicleinfo.dart';
 import 'package:swiftshare_one/Customer/navigation_drawer.dart';
-import 'package:swiftshare_one/Customer/settings_page.dart';
-import 'package:swiftshare_one/Customer/vehicle_details.dart';
+import 'package:swiftshare_one/screens/settings_page.dart';
+import 'package:swiftshare_one/Owner/vehicle_details.dart';
 
 class CustomerHomeScreen extends StatefulWidget {
   const CustomerHomeScreen({super.key});
@@ -45,7 +45,9 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => const MyTripsPage(),
+              builder: (context) => const MyTripsPage(
+                bookingStack: [],
+              ),
             ),
           );
           // Navigate to Trips screen or perform relevant action
@@ -112,35 +114,18 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
     }
   }
 
-  void _navigateToCarInfoPage(
-      String carName,
-      List<String> imageUrls,
-      String carRating,
-      String carRenter,
-      String model,
-      String carSeats,
-      String carAC,
-      String carSafetyRating,
-      String carAddress,
-      String carFuelInfo,
-      int carPrice,
-      List<String> carFeatures) {
+  void _navigateToVehicleInfoPage(
+    List<String> vehicleimageUrls,
+    String vehicleName,
+    VehicleDetails vehicleDetails,
+  ) {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => CarInfoPage(
-          carName: carName,
-          carImageUrls: imageUrls,
-          carRating: carRating,
-          carRenter: carRenter,
-          model: model,
-          carSeats: carSeats,
-          carAC: carAC,
-          carSafetyRating: carSafetyRating,
-          carAddress: carAddress,
-          carFuelInfo: carFuelInfo,
-          carPrice: carPrice,
-          carFeatures: carFeatures,
+        builder: (context) => VehicleInfoPage(
+          vehicleName: vehicleName,
+          vehicleImageUrls: vehicleimageUrls,
+          vehicleDetails: vehicleDetails,
           onSelectDate: () {
             _selectDate(context);
           },
@@ -475,175 +460,11 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
     List<String> imageUrls,
   ) {
     // Placeholder vehicle details for each image
-    Map<String, List<VehicleDetails>> initialDetailsMap = {
-      'Car': [
-        VehicleDetails(
-          rating: '4.5',
-          renter: 'Jay Sharma',
-          seats: '4',
-          ac: 'Yes',
-          safetyRating: '5',
-          address: 'MIHAN, Nagpur',
-          fuelInfo: 'Petrol, 20 kmpl',
-          price: 2000,
-          features: ['Bluetooth', 'GPS', 'USB'],
-          model: 'Honda City',
-        ),
-        VehicleDetails(
-          rating: '4.0',
-          renter: 'Abhijit Banerjee',
-          seats: '2',
-          ac: 'Yes',
-          safetyRating: '4',
-          address: 'Medical Square, Nagpur',
-          fuelInfo: 'Diesel, 15 kmpl',
-          price: 2000,
-          features: ['Bluetooth', 'USB'],
-          model: 'Tata Nexon',
-        ),
-        VehicleDetails(
-          rating: '4.0',
-          renter: 'Rohit Sharma',
-          seats: '2',
-          ac: 'Yes',
-          safetyRating: '4',
-          address: '456 Street, City',
-          fuelInfo: 'Diesel, 15 kmpl',
-          price: 2000,
-          features: ['Bluetooth', 'USB'],
-          model: 'Mahaindra Thar',
-        ),
-        VehicleDetails(
-          rating: '4.0',
-          renter: 'Raj Verma',
-          seats: '2',
-          ac: 'Yes',
-          safetyRating: '4',
-          address: '456 Street, City',
-          fuelInfo: 'Diesel, 15 kmpl',
-          price: 2000,
-          features: ['Bluetooth', 'USB'],
-          model: 'Mahindra XUV',
-        ),
-      ],
-      'Bike': [
-        VehicleDetails(
-          rating: '4.0',
-          renter: 'Dev Raj',
-          seats: '2',
-          ac: 'Yes',
-          safetyRating: '4',
-          address: '456 Street, City',
-          fuelInfo: 'Diesel, 15 kmpl',
-          price: 1500,
-          features: ['Bluetooth', 'USB'],
-          model: 'Livo',
-        ),
-        VehicleDetails(
-          rating: '4.0',
-          renter: 'Jane Doe',
-          seats: '2',
-          ac: 'Yes',
-          safetyRating: '4',
-          address: '456 Street, City',
-          fuelInfo: 'Diesel, 15 kmpl',
-          price: 1500,
-          features: ['Bluetooth', 'USB'],
-          model: 'Splendor',
-        ),
-        VehicleDetails(
-          rating: '4.8',
-          renter: 'John Smith',
-          seats: '5',
-          ac: 'Yes',
-          safetyRating: '5',
-          address: '789 Avenue, Town',
-          fuelInfo: 'Petrol, 25 kmpl',
-          price: 1500,
-          features: ['Bluetooth', 'GPS', 'USB', 'Sunroof'],
-          model: 'SP125',
-        ),
-        VehicleDetails(
-          rating: '4.2',
-          renter: 'Emily Johnson',
-          seats: '4',
-          ac: 'Yes',
-          safetyRating: '4',
-          address: '321 Boulevard, City',
-          fuelInfo: 'Diesel, 18 kmpl',
-          price: 1500,
-          features: ['Bluetooth', 'USB', 'Parking Sensors'],
-          model: '',
-        ),
-      ],
-      'Scooty': [
-        VehicleDetails(
-          rating: '4.5',
-          renter: 'Alex Brown',
-          seats: '2',
-          ac: 'No',
-          safetyRating: '4',
-          address: '987 Road, Village',
-          fuelInfo: 'Petrol, 30 kmpl',
-          price: 1200,
-          features: ['Bluetooth', 'USB', 'Helmet Included'],
-          model: 'Activa 2020',
-        ),
-        VehicleDetails(
-          rating: '4.3',
-          renter: 'Sophia Garcia',
-          seats: '2',
-          ac: 'No',
-          safetyRating: '4',
-          address: '654 Lane, Suburb',
-          fuelInfo: 'Petrol, 25 kmpl',
-          price: 1200,
-          features: ['Bluetooth', 'USB', 'Phone Mount'],
-          model: 'Pleasure',
-        ),
-        VehicleDetails(
-          rating: '4.4',
-          renter: 'Olivia Martinez',
-          seats: '1',
-          ac: 'No',
-          safetyRating: '4',
-          address: '456 Avenue, Park',
-          fuelInfo: 'Electric, 50 kmpl',
-          price: 1200,
-          features: ['Bluetooth', 'USB', 'Locking Mechanism'],
-          model: 'Activa 2018',
-        ),
-        VehicleDetails(
-          rating: '4.7',
-          renter: 'Michael Miller',
-          seats: '1',
-          ac: 'No',
-          safetyRating: '4',
-          address: '123 Street, Downtown',
-          fuelInfo: 'Electric, 60 kmpl',
-          price: 1200,
-          features: ['Bluetooth', 'USB', 'Portable Charger'],
-          model: 'Activa 2019',
-        ),
-      ],
-      'Electric Vehicle': [
-        VehicleDetails(
-          rating: '4.6',
-          renter: 'William Taylor',
-          seats: '4',
-          ac: 'Yes',
-          safetyRating: '5',
-          address: '789 Boulevard, Lake',
-          fuelInfo: 'Electric, 300 km range',
-          price: 2500,
-          features: ['Bluetooth', 'USB', 'Autopilot'],
-          model: 'Tesla',
-        ),
-      ] // Add details for other images as needed
-    };
+    Map<String, List<VehicleDetails>> details = VehicleData.initialDetailsMap;
 
     // Fetch initial details based on the category name
-    List<VehicleDetails> initialDetails = initialDetailsMap[name] ?? [];
+    List<VehicleDetails> initialDetails = details[name] ?? [];
+
     // Function to build the image widget
     Widget buildImageWidget(
         String imageUrl, String name, VehicleDetails details) {
@@ -651,20 +472,21 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
         padding: const EdgeInsets.all(8.0),
         child: GestureDetector(
           onTap: () {
-            _navigateToCarInfoPage(
-              name,
-              [imageUrl],
-              details.rating,
-              details.renter,
-              details.model,
-              details.seats,
-              details.ac,
-              details.safetyRating,
-              details.address,
-              details.fuelInfo,
-              details.price,
-              details.features,
-            );
+            _navigateToVehicleInfoPage(
+                [imageUrl],
+                name,
+                VehicleDetails(
+                  vehicle_rating: details.vehicle_rating,
+                  vehicle_renter: details.vehicle_renter,
+                  vehicle_model: details.vehicle_model,
+                  vehicle_seats: details.vehicle_seats,
+                  vehicle_ac: details.vehicle_ac,
+                  vehicle_safetyRating: details.vehicle_safetyRating,
+                  vehicle_address: details.vehicle_address,
+                  vehicle_fuelInfo: details.vehicle_fuelInfo,
+                  vehicle_price: details.vehicle_price,
+                  vehicle_features: details.vehicle_features,
+                ));
           },
           child: SizedBox(
             width: 360,
@@ -701,19 +523,10 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                         width: 110,
                         child: ElevatedButton(
                           onPressed: () {
-                            _navigateToCarInfoPage(
-                              name,
+                            _navigateToVehicleInfoPage(
                               [imageUrl],
-                              details.rating,
-                              details.renter,
-                              details.model,
-                              details.seats,
-                              details.ac,
-                              details.safetyRating,
-                              details.address,
-                              details.fuelInfo,
-                              details.price,
-                              details.features,
+                              name,
+                              details,
                             );
                           },
                           style: ElevatedButton.styleFrom(
@@ -735,24 +548,6 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                     ),
                   ],
                 ),
-                // Positioned(
-                //   bottom: 0,
-                //   left: 0,
-                //   right: 0,
-                //   child: Container(
-                //     color: Colors.black54,
-                //     padding:
-                //         const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-                //     child: Text(
-                //       name,
-                //       style: const TextStyle(
-                //         color: Colors.white,
-                //         fontWeight: FontWeight.bold,
-                //       ),
-                //       textAlign: TextAlign.center,
-                //     ),
-                //   ),
-                // ),
               ],
             ),
           ),

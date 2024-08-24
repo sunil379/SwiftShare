@@ -2,23 +2,15 @@
 
 import 'package:flutter/material.dart';
 import 'package:swiftshare_one/Customer/customer_trips.dart';
+import 'package:swiftshare_one/Owner/vehicle_details.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class BookingPage extends StatefulWidget {
-  final String carName;
-  final List<String> carImageUrls;
-  final String carRating;
-  final String carRenter;
-  final String model;
-  final String carSeats;
-  final String carAC;
-  final String carSafetyRating;
-  final String carAddress;
-  final String carFuelInfo;
-  final int carPrice;
-  final List<String> carFeatures;
+  final String vehicleName;
+  final List<String> vehicleImageUrls;
+  final VehicleDetails vehicleDetails;
   final DateTime selectedDate;
   final TimeOfDay selectedTime;
   final DateTime returnedDate;
@@ -26,24 +18,14 @@ class BookingPage extends StatefulWidget {
 
   const BookingPage({
     super.key,
-    required this.carName,
-    required this.carImageUrls,
-    required this.carRating,
-    required this.carRenter,
-    required this.model,
-    required this.carSeats,
-    required this.carAC,
-    required this.carSafetyRating,
-    required this.carAddress,
-    required this.carFuelInfo,
-    required this.carPrice,
-    required this.carFeatures,
+    required this.vehicleName,
+    required this.vehicleImageUrls,
+    required this.vehicleDetails,
     required this.selectedDate,
     required this.selectedTime,
     required this.returnedDate,
     required this.returnedTime,
   });
-
   @override
   _BookingPageState createState() => _BookingPageState();
 }
@@ -67,7 +49,7 @@ class _BookingPageState extends State<BookingPage> {
         widget.returnedDate.difference(widget.selectedDate);
     final int daysDifference = difference.inDays;
 
-    total = daysDifference * widget.carPrice;
+    total = daysDifference * widget.vehicleDetails.vehicle_price;
   }
 
   @override
@@ -115,7 +97,7 @@ class _BookingPageState extends State<BookingPage> {
             Row(
               children: [
                 Text(
-                  'Model : ${widget.model}',
+                  'Model : ${widget.vehicleDetails.vehicle_model}',
                   style: const TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
@@ -349,7 +331,7 @@ class _BookingPageState extends State<BookingPage> {
                     ),
                   ),
                   child: Text(
-                    widget.carRenter,
+                    widget.vehicleDetails.vehicle_renter,
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 16,
@@ -508,7 +490,7 @@ class _BookingPageState extends State<BookingPage> {
                   ),
                 ),
                 Text(
-                  widget.carAddress,
+                  widget.vehicleDetails.vehicle_address,
                   style: const TextStyle(
                     fontSize: 18,
                   ),
@@ -525,7 +507,8 @@ class _BookingPageState extends State<BookingPage> {
                   onPressed: isPaymentMethodSelected
                       ? () {
                           // Navigate to Google Maps with the address
-                          _openGoogleMaps(widget.carAddress);
+                          _openGoogleMaps(
+                              widget.vehicleDetails.vehicle_address);
                         }
                       : null,
                   style: ButtonStyle(
@@ -680,15 +663,15 @@ class _BookingPageState extends State<BookingPage> {
         User? currentUser = _auth.currentUser;
         final FirebaseFirestore firestore = FirebaseFirestore.instance;
         Map<String, dynamic> bookingData = {
-          'vehicleName': widget.carName,
-          'model': widget.model,
+          'vehicleName': widget.vehicleName,
+          'model': widget.vehicleDetails.vehicle_model,
           'selectedDate': widget.selectedDate,
           'selectedTime': widget.selectedTime.format(context),
           'returnedDate': widget.returnedDate,
           'returnedTime': widget.returnedTime.format(context),
-          'vehicleOwner': widget.carRenter,
-          'vehicleAddress': widget.carAddress,
-          'vehiclePrice': widget.carPrice,
+          'vehicleOwner': widget.vehicleDetails.vehicle_renter,
+          'vehicleAddress': widget.vehicleName,
+          'vehiclePrice': widget.vehicleDetails.vehicle_price,
           'total': total,
         };
 
@@ -697,14 +680,15 @@ class _BookingPageState extends State<BookingPage> {
               .collection('customers')
               .doc(currentUser.uid)
               .collection('bookings')
-              .doc(widget.model);
+              .doc(widget.vehicleDetails.vehicle_model);
           await bookingRef.set(bookingData);
 
           showDialog(
             context: context,
             builder: (context) => AlertDialog(
               title: const Text('Booking Confirmation'),
-              content: Text('You have successfully booked ${widget.model}'),
+              content: Text(
+                  'You have successfully booked ${widget.vehicleDetails.vehicle_model}'),
               actions: [
                 Center(
                   child: TextButton(
@@ -713,12 +697,18 @@ class _BookingPageState extends State<BookingPage> {
                         context,
                         MaterialPageRoute(
                           builder: (context) => MyTripsPage(
-                            modelName: widget.model,
-                            pickupDate: widget.selectedDate,
-                            pickupTime: widget.selectedTime,
-                            returnDate: widget.returnedDate,
-                            returnTime: widget.returnedTime,
-                            ownerName: widget.carRenter,
+                            bookingStack: [
+                              {
+                                'modelName':
+                                    widget.vehicleDetails.vehicle_model,
+                                'pickupDate': widget.selectedDate,
+                                'pickupTime': widget.selectedTime,
+                                'returnDate': widget.returnedDate,
+                                'returnTime': widget.returnedTime,
+                                'ownerName':
+                                    widget.vehicleDetails.vehicle_renter,
+                              },
+                            ],
                           ),
                         ),
                       );

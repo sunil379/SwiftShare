@@ -3,49 +3,31 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:swiftshare_one/Customer/booking_page.dart';
+import 'package:swiftshare_one/Owner/vehicle_details.dart';
 
-class CarInfoPage extends StatefulWidget {
-  final String carName;
-  final List<String> carImageUrls;
-  final String carRating;
-  final String carRenter;
-  final String model;
-  final String carSeats;
-  final String carAC;
-  final String carSafetyRating;
-  final String carAddress;
-  final String carFuelInfo;
-  final int carPrice;
-  final List<String> carFeatures;
+class VehicleInfoPage extends StatefulWidget {
+  final String vehicleName;
+  final List<String> vehicleImageUrls;
+  final VehicleDetails vehicleDetails;
   final void Function()? onSelectDate;
   final void Function()? onSelectTime;
   final void Function()? returnDate;
   final void Function()? returnTime;
-  const CarInfoPage({
+  const VehicleInfoPage({
     super.key,
-    required this.carName,
-    required this.carImageUrls,
-    required this.carRating,
-    required this.carRenter,
-    required this.model,
-    required this.carSeats,
-    required this.carAC,
-    required this.carSafetyRating,
-    required this.carAddress,
-    required this.carFuelInfo,
-    required this.carPrice,
-    required this.carFeatures,
+    required this.vehicleName,
+    required this.vehicleImageUrls,
+    required this.vehicleDetails,
     this.onSelectDate,
     this.onSelectTime,
     this.returnDate,
     this.returnTime,
   });
-
   @override
-  _CarInfoPageState createState() => _CarInfoPageState();
+  _VehicleInfoPageState createState() => _VehicleInfoPageState();
 }
 
-class _CarInfoPageState extends State<CarInfoPage> {
+class _VehicleInfoPageState extends State<VehicleInfoPage> {
   DateTime? _selectedDate;
   TimeOfDay? _selectedTime;
   DateTime? _returnedDate;
@@ -128,7 +110,6 @@ class _CarInfoPageState extends State<CarInfoPage> {
     return Scaffold(
       backgroundColor: Colors.grey[90],
       appBar: AppBar(
-        // backgroundColor: Colors.blue,
         centerTitle: true,
         title: const Text(
           'Vehicle Info',
@@ -172,11 +153,10 @@ class _CarInfoPageState extends State<CarInfoPage> {
                 children: [
                   ListView.builder(
                     scrollDirection: Axis.horizontal,
-                    itemCount: widget.carImageUrls.length,
+                    itemCount: widget.vehicleImageUrls.length,
                     itemBuilder: (context, index) {
                       return Container(
-                        width: 400, // Adjust width as needed
-                        // margin: const EdgeInsets.only(right: 8),
+                        width: 400,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(12.0),
                           border: Border.all(
@@ -184,7 +164,7 @@ class _CarInfoPageState extends State<CarInfoPage> {
                             width: 5.0,
                           ),
                           image: DecorationImage(
-                            image: AssetImage(widget.carImageUrls[index]),
+                            image: AssetImage(widget.vehicleImageUrls[index]),
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -201,7 +181,7 @@ class _CarInfoPageState extends State<CarInfoPage> {
                         borderRadius: BorderRadius.circular(6),
                       ),
                       child: Text(
-                        widget.carRating,
+                        widget.vehicleDetails.vehicle_rating,
                         style: const TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.bold,
@@ -214,7 +194,7 @@ class _CarInfoPageState extends State<CarInfoPage> {
             ),
             const SizedBox(height: 16),
             Text(
-              widget.carName,
+              widget.vehicleName,
               style: const TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
@@ -222,7 +202,7 @@ class _CarInfoPageState extends State<CarInfoPage> {
             ),
             const SizedBox(height: 8),
             Text(
-              'Owner : ${widget.carRenter}',
+              'Owner : ${widget.vehicleDetails.vehicle_renter}',
               style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
@@ -230,7 +210,7 @@ class _CarInfoPageState extends State<CarInfoPage> {
             ),
             const SizedBox(height: 8),
             Text(
-              'Model : ${widget.model}',
+              'Model : ${widget.vehicleDetails.vehicle_model}',
               style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
@@ -238,7 +218,7 @@ class _CarInfoPageState extends State<CarInfoPage> {
             ),
             const SizedBox(height: 8),
             Text(
-              'Seats : ${widget.carSeats}',
+              'Seats : ${widget.vehicleDetails.vehicle_seats}',
               style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
@@ -246,7 +226,7 @@ class _CarInfoPageState extends State<CarInfoPage> {
             ),
             const SizedBox(height: 8),
             Text(
-              'AC : ${widget.carAC}',
+              'AC : ${widget.vehicleDetails.vehicle_ac}',
               style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
@@ -254,7 +234,7 @@ class _CarInfoPageState extends State<CarInfoPage> {
             ),
             const SizedBox(height: 8),
             Text(
-              'Safety Rating : ${widget.carSafetyRating}',
+              'Safety Rating : ${widget.vehicleDetails.vehicle_safetyRating}',
               style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
@@ -262,7 +242,7 @@ class _CarInfoPageState extends State<CarInfoPage> {
             ),
             const SizedBox(height: 8),
             Text(
-              'Fuel Info : ${widget.carFuelInfo}',
+              'Fuel Info : ${widget.vehicleDetails.vehicle_fuelInfo}',
               style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
@@ -280,7 +260,7 @@ class _CarInfoPageState extends State<CarInfoPage> {
             Wrap(
               spacing: 8,
               runSpacing: 8,
-              children: widget.carFeatures.map((feature) {
+              children: widget.vehicleDetails.vehicle_features.map((feature) {
                 return Chip(
                   label: Text(feature),
                 );
@@ -288,7 +268,7 @@ class _CarInfoPageState extends State<CarInfoPage> {
             ),
             const SizedBox(height: 8),
             Text(
-              'Price : Rs ${widget.carPrice} per day',
+              'Price : Rs ${widget.vehicleDetails.vehicle_price} per day',
               style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
@@ -296,7 +276,7 @@ class _CarInfoPageState extends State<CarInfoPage> {
             ),
             const SizedBox(height: 16),
             Text(
-              'Address : ${widget.carAddress}',
+              'Address : ${widget.vehicleDetails.vehicle_address}',
               style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
@@ -316,14 +296,14 @@ class _CarInfoPageState extends State<CarInfoPage> {
               padding:
                   const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
               decoration: BoxDecoration(
-                color: Colors.white, // Background color
+                color: Colors.white,
                 borderRadius: BorderRadius.circular(10),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.grey.withOpacity(0.5),
                     spreadRadius: 2,
                     blurRadius: 5,
-                    offset: const Offset(0, 3), // changes position of shadow
+                    offset: const Offset(0, 3),
                   ),
                 ],
               ),
@@ -336,7 +316,7 @@ class _CarInfoPageState extends State<CarInfoPage> {
                       },
                       style: ElevatedButton.styleFrom(
                         foregroundColor: Colors.white,
-                        backgroundColor: Colors.blue, // Text color
+                        backgroundColor: Colors.blue,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
@@ -352,7 +332,7 @@ class _CarInfoPageState extends State<CarInfoPage> {
                       },
                       style: ElevatedButton.styleFrom(
                         foregroundColor: Colors.white,
-                        backgroundColor: Colors.blue, // Text color
+                        backgroundColor: Colors.blue,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
@@ -377,14 +357,14 @@ class _CarInfoPageState extends State<CarInfoPage> {
               padding:
                   const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
               decoration: BoxDecoration(
-                color: Colors.white, // Background color
+                color: Colors.white,
                 borderRadius: BorderRadius.circular(10),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.grey.withOpacity(0.5),
                     spreadRadius: 2,
                     blurRadius: 5,
-                    offset: const Offset(0, 3), // changes position of shadow
+                    offset: const Offset(0, 3),
                   ),
                 ],
               ),
@@ -397,7 +377,7 @@ class _CarInfoPageState extends State<CarInfoPage> {
                       },
                       style: ElevatedButton.styleFrom(
                         foregroundColor: Colors.white,
-                        backgroundColor: Colors.blue, // Text color
+                        backgroundColor: Colors.blue,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
@@ -413,7 +393,7 @@ class _CarInfoPageState extends State<CarInfoPage> {
                       },
                       style: ElevatedButton.styleFrom(
                         foregroundColor: Colors.white,
-                        backgroundColor: Colors.blue, // Text color
+                        backgroundColor: Colors.blue,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
@@ -472,18 +452,9 @@ class _CarInfoPageState extends State<CarInfoPage> {
                             context,
                             MaterialPageRoute(
                               builder: (context) => BookingPage(
-                                carName: widget.carName,
-                                carImageUrls: widget.carImageUrls,
-                                carRating: widget.carRating,
-                                carRenter: widget.carRenter,
-                                model: widget.model,
-                                carSeats: widget.carSeats,
-                                carAC: widget.carAC,
-                                carSafetyRating: widget.carSafetyRating,
-                                carAddress: widget.carAddress,
-                                carFuelInfo: widget.carFuelInfo,
-                                carPrice: widget.carPrice,
-                                carFeatures: widget.carFeatures,
+                                vehicleName: widget.vehicleName,
+                                vehicleImageUrls: widget.vehicleImageUrls,
+                                vehicleDetails: widget.vehicleDetails,
                                 selectedDate: _selectedDate ?? DateTime.now(),
                                 selectedTime: _selectedTime ?? TimeOfDay.now(),
                                 returnedDate: _returnedDate ?? DateTime.now(),
@@ -495,7 +466,9 @@ class _CarInfoPageState extends State<CarInfoPage> {
                       : null,
                   style: ButtonStyle(
                     backgroundColor: _selectedDate != null &&
-                            _selectedTime != null
+                            _selectedTime != null &&
+                            _returnedDate != null &&
+                            _returnedTime != null
                         ? MaterialStateProperty.all(Colors.indigo)
                         : MaterialStateProperty.all(Colors.deepPurpleAccent),
                     shape: MaterialStateProperty.all(
@@ -521,26 +494,6 @@ class _CarInfoPageState extends State<CarInfoPage> {
               ),
             ),
             const SizedBox(height: 16),
-            // SizedBox(
-            //   height: 100,
-            //   child: ListView.builder(
-            //     scrollDirection: Axis.horizontal,
-            //     itemCount: 5,
-            //     itemBuilder: (context, index) {
-            //       return Container(
-            //         width: 80,
-            //         margin: const EdgeInsets.only(right: 8),
-            //         decoration: const BoxDecoration(
-            //           shape: BoxShape.circle,
-            //           // image: DecorationImage(
-            //           //   // image: AssetImage('assets/profile_${index + 1}.png'),
-            //           //   fit: BoxFit.cover,
-            //           // ),
-            //         ),
-            //       );
-            //     },
-            //   ),
-            // ),
           ],
         ),
       ),

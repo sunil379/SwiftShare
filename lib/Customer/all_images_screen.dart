@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:swiftshare_one/Customer/customervehicleinfo.dart';
-import 'package:swiftshare_one/Customer/vehicle_details.dart';
+import 'package:swiftshare_one/Owner/vehicle_details.dart';
 
 class AllImagesScreen extends StatelessWidget {
   final String name;
@@ -57,20 +57,20 @@ class AllImagesScreen extends StatelessWidget {
           VehicleDetails details = vehicleDetails[index];
           return GestureDetector(
             onTap: () {
-              _navigateToCarInfoPage(
+              _navigateToVehicleInfoPage(
                 context,
                 name,
                 [imageUrl],
-                details.rating,
-                details.renter,
-                details.model,
-                details.seats,
-                details.ac,
-                details.safetyRating,
-                details.address,
-                details.fuelInfo,
-                details.price,
-                details.features,
+                details.vehicle_rating,
+                details.vehicle_renter,
+                details.vehicle_model,
+                details.vehicle_seats,
+                details.vehicle_ac,
+                details.vehicle_safetyRating,
+                details.vehicle_address,
+                details.vehicle_fuelInfo,
+                details.vehicle_price,
+                details.vehicle_features,
               );
             },
             child: Padding(
@@ -96,37 +96,39 @@ class AllImagesScreen extends StatelessWidget {
     );
   }
 
-  void _navigateToCarInfoPage(
+  void _navigateToVehicleInfoPage(
     BuildContext context,
-    String carName,
-    List<String> imageUrls,
-    String carRating,
-    String carRenter,
+    String vehicleName,
+    List<String> vehicleimageUrls,
+    String vehicleRating,
+    String vehicleRenter,
     String model,
-    String carSeats,
-    String carAC,
-    String carSafetyRating,
-    String carAddress,
-    String carFuelInfo,
-    int carPrice,
-    List<String> carFeatures,
+    String vehicleSeats,
+    String vehicleAC,
+    String vehicleSafetyRating,
+    String vehicleAddress,
+    String vehicleFuelInfo,
+    int vehiclePrice,
+    List<String> vehicleFeatures,
   ) {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => CarInfoPage(
-          carName: carName,
-          carImageUrls: imageUrls,
-          carRating: carRating,
-          carRenter: carRenter,
-          carSeats: carSeats,
-          carAC: carAC,
-          carSafetyRating: carSafetyRating,
-          carAddress: carAddress,
-          carFuelInfo: carFuelInfo,
-          carPrice: carPrice,
-          carFeatures: carFeatures,
-          model: model,
+        builder: (context) => VehicleInfoPage(
+          vehicleName: vehicleName,
+          vehicleImageUrls: vehicleimageUrls,
+          vehicleDetails: VehicleDetails(
+            vehicle_rating: vehicleRating,
+            vehicle_renter: vehicleRenter,
+            vehicle_model: model,
+            vehicle_seats: vehicleSeats,
+            vehicle_ac: vehicleAC,
+            vehicle_safetyRating: vehicleSafetyRating,
+            vehicle_address: vehicleAddress,
+            vehicle_fuelInfo: vehicleFuelInfo,
+            vehicle_price: vehiclePrice,
+            vehicle_features: vehicleFeatures,
+          ),
         ),
       ),
     );
