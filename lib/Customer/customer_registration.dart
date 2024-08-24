@@ -73,6 +73,7 @@ class _CustomerRegistrationScreenState
       final String address = addressController.text;
       final String email = emailController.text;
       final String password = passwordController.text;
+      const String role = "customer";
 
       if (!_validateInputs()) {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
@@ -106,6 +107,7 @@ class _CustomerRegistrationScreenState
         'email': email,
         'identityProofURL': identityProofURL,
         'drivingLicenseURL': drivingLicenseURL,
+        'role': role,
       });
 
       _showSuccessSnackBar();
