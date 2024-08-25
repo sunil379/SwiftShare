@@ -16,7 +16,7 @@ class MyTripsPage extends StatefulWidget {
 class _MyTripsPageState extends State<MyTripsPage> {
   List<Map<String, dynamic>> currentTrips = [];
   List<Map<String, dynamic>> upcomingTrips = [];
-
+  bool showCurrentTrips = true;
   @override
   void initState() {
     super.initState();
@@ -42,19 +42,16 @@ class _MyTripsPageState extends State<MyTripsPage> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
+        backgroundColor: Colors.lightBlueAccent,
         title: const Text('My Trips'),
         leading: GestureDetector(
           onTap: () {
-            if (widget.isAfterNewBooking) {
-              Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const CustomerHomeScreen(),
-                  ),
-                  (route) => false);
-            } else {
-              Navigator.pop(context);
-            }
+            Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const CustomerHomeScreen(),
+                ),
+                (route) => false);
           },
           child: Container(
             width: 45,
@@ -77,126 +74,123 @@ class _MyTripsPageState extends State<MyTripsPage> {
           ),
         ),
       ),
-      body: Padding(
+      body: Column(
+        children: [
+          Row(
+            children: [
+              Expanded(
+                child: _buildTabButton(
+                    'Current Trip', Colors.blue, showCurrentTrips),
+              ),
+              Expanded(
+                child: _buildTabButton(
+                    'Upcoming Trips', Colors.green, !showCurrentTrips),
+              ),
+            ],
+          ),
+          Expanded(
+            child: showCurrentTrips
+                ? _buildTripList(currentTrips, Colors.blue)
+                : _buildTripList(upcomingTrips, Colors.green),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTabButton(String title, Color color, bool isSelected) {
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          showCurrentTrips = title == 'Current Trip';
+        });
+      },
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 16),
+        decoration: BoxDecoration(
+          color: isSelected ? color.withOpacity(0.1) : Colors.transparent,
+          border: Border(
+            bottom: BorderSide(
+              color: isSelected ? color : Colors.transparent,
+              width: 2,
+            ),
+          ),
+        ),
+        child: Text(
+          title,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+            color: isSelected ? color : Colors.grey,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTripList(List<Map<String, dynamic>> trips, Color color) {
+    return trips.isNotEmpty
+        ? ListView.builder(
+            itemCount: trips.length,
+            itemBuilder: (context, index) =>
+                buildTripCard(context, trips[index], color),
+          )
+        : Center(
+            child: Text(
+              'No ${showCurrentTrips ? 'current' : 'upcoming'} trips!',
+              style: TextStyle(
+                  fontSize: 18, fontWeight: FontWeight.bold, color: color),
+            ),
+          );
+  }
+
+  Widget buildTripCard(
+      BuildContext context, Map<String, dynamic> booking, Color color) {
+    return Card(
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      elevation: 4,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Current Trips Section
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Current Trip',
-                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 8),
-                  currentTrips.isNotEmpty
-                      ? Expanded(
-                          child: ListView.builder(
-                            key: const PageStorageKey<String>('currentTrips'),
-                            itemCount: currentTrips.length,
-                            itemBuilder: (context, index) {
-                              final booking = currentTrips[index];
-                              return buildTripCard(context, booking);
-                            },
-                          ),
-                        )
-                      : const Center(
-                          child: Text(
-                            'No current trip!',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                ],
-              ),
+            Text(
+              'Booking ID: ${booking['bookingID']}',
+              style: TextStyle(
+                  fontSize: 18, fontWeight: FontWeight.bold, color: color),
             ),
-            const Divider(
-              color: Colors.grey,
-              thickness: 1.0,
+            const SizedBox(height: 8),
+            Text(
+              'Model: ${booking['modelName']}',
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
-            // Upcoming Trips Section
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Upcoming Trips',
-                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 8),
-                  upcomingTrips.isNotEmpty
-                      ? Expanded(
-                          child: ListView.builder(
-                            key: const PageStorageKey<String>('upcomingTrips'),
-                            itemCount: upcomingTrips.length,
-                            itemBuilder: (context, index) {
-                              final booking = upcomingTrips[index];
-                              return buildTripCard(context, booking);
-                            },
-                          ),
-                        )
-                      : const Center(
-                          child: Text(
-                            'No upcoming trip!',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                ],
-              ),
-            ),
+            const SizedBox(height: 8),
+            _buildInfoRow(Icons.calendar_today, 'Pickup',
+                '${booking['pickupDate'].day}/${booking['pickupDate'].month}/${booking['pickupDate'].year}'),
+            _buildInfoRow(Icons.access_time, 'Pickup Time',
+                booking['pickupTime'].format(context)),
+            _buildInfoRow(Icons.calendar_today, 'Return',
+                '${booking['returnDate'].day}/${booking['returnDate'].month}/${booking['returnDate'].year}'),
+            _buildInfoRow(Icons.access_time, 'Return Time',
+                booking['returnTime'].format(context)),
+            _buildInfoRow(Icons.person, 'Owner', booking['ownerName']),
           ],
         ),
       ),
     );
   }
 
-  // Method to build each trip card
-  Widget buildTripCard(BuildContext context, Map<String, dynamic> booking) {
+  Widget _buildInfoRow(IconData icon, String label, String value) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      padding: const EdgeInsets.symmetric(vertical: 4),
+      child: Row(
         children: [
-          Text(
-            'Model: ${booking['modelName']}',
-            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            'Pickup Date: ${booking['pickupDate'].day}/${booking['pickupDate'].month}/${booking['pickupDate'].year}',
-            style: const TextStyle(fontSize: 16),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            'Pickup Time: ${booking['pickupTime'].format(context)}',
-            style: const TextStyle(fontSize: 16),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            'Return Date: ${booking['returnDate'].day}/${booking['returnDate'].month}/${booking['returnDate'].year}',
-            style: const TextStyle(fontSize: 16),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            'Return Time: ${booking['returnTime'].format(context)}',
-            style: const TextStyle(fontSize: 16),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            'Owner Name: ${booking['ownerName']}',
-            style: const TextStyle(fontSize: 16),
-          ),
-          const Divider(
-            color: Colors.grey,
-            thickness: 1.0,
-          ),
+          Icon(icon, size: 16, color: Colors.grey),
+          const SizedBox(width: 8),
+          Text('$label: ', style: const TextStyle(fontWeight: FontWeight.bold)),
+          Text(value),
         ],
       ),
     );
