@@ -74,6 +74,7 @@ class _OwnerRegistrationScreenState extends State<OwnerRegistrationScreen> {
       final String email = emailController.text;
       final String password = passwordController.text;
       const String role = "owner";
+      int earnings = 0;
 
       if (!_validateInputs()) {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
@@ -105,6 +106,7 @@ class _OwnerRegistrationScreenState extends State<OwnerRegistrationScreen> {
         'identityProofURL': identityProofURL,
         'vehicleRC_URL': vehicleRCURL,
         'role': role,
+        'earnings': earnings,
       });
 
       _showSuccessSnackBar();
