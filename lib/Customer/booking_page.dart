@@ -6,6 +6,7 @@ import 'package:swiftshare_one/Owner/vehicle_details.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:math';
 
 class BookingPage extends StatefulWidget {
   final String vehicleName;
@@ -33,15 +34,24 @@ class BookingPage extends StatefulWidget {
 class _BookingPageState extends State<BookingPage> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
+  String bookingID = '';
+
   bool _locationButtonClicked = false;
+
   String? _selectedPaymentMethod = 'Please Select Payment Option';
+
   late int total = 0;
 
   @override
   void initState() {
     super.initState();
-    _selectedPaymentMethod = 'Please Select Payment Option';
-    calculateTotal();
+
+    _selectedPaymentMethod =
+        'Please Select Payment Option'; // Initialize selected payment method
+
+    calculateTotal(); // Calculate total when the page loads
+
+    bookingID = generateBookingID(); // Generate booking ID
   }
 
   void calculateTotal() {
@@ -50,6 +60,14 @@ class _BookingPageState extends State<BookingPage> {
     final int daysDifference = difference.inDays;
 
     total = daysDifference * widget.vehicleDetails.vehicle_price;
+  }
+
+  String generateBookingID() {
+    final random = Random();
+    final pickupDay = widget.selectedDate.day.toString().padLeft(2, '0');
+    final returnDay = widget.returnedDate.day.toString().padLeft(2, '0');
+    final randomDigits = List.generate(4, (_) => random.nextInt(10)).join();
+    return 'VH$pickupDay$returnDay$randomDigits';
   }
 
   @override
@@ -663,6 +681,7 @@ class _BookingPageState extends State<BookingPage> {
         User? currentUser = _auth.currentUser;
         final FirebaseFirestore firestore = FirebaseFirestore.instance;
         Map<String, dynamic> bookingData = {
+          'booking_id': bookingID,
           'vehicleName': widget.vehicleName,
           'model': widget.vehicleDetails.vehicle_model,
           'selectedDate': widget.selectedDate,
@@ -692,13 +711,14 @@ class _BookingPageState extends State<BookingPage> {
               actions: [
                 Center(
                   child: TextButton(
-                    onPressed: () {
+                    onPressed: () async {
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
                           builder: (context) => MyTripsPage(
                             bookingStack: [
                               {
+                                'bookingID': bookingID,
                                 'modelName':
                                     widget.vehicleDetails.vehicle_model,
                                 'pickupDate': widget.selectedDate,
