@@ -23,6 +23,7 @@ class CustomerHomeScreen extends StatefulWidget {
 class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
   int _selectedIndex = 0;
   int _currentCarouselIndex = 0;
+
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
