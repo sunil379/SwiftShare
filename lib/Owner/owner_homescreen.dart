@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:swiftshare_one/Customer/customer_account.dart';
-import 'package:swiftshare_one/Customer/customer_notification.dart';
-import 'package:swiftshare_one/Customer/customer_trips.dart';
+import 'package:swiftshare_one/Owner/owner_account.dart';
+import 'package:swiftshare_one/Owner/owner_earnings.dart';
+import 'package:swiftshare_one/Owner/owner_notification.dart';
 import 'package:swiftshare_one/Owner/navigation_drawer.dart';
-import 'package:swiftshare_one/Customer/settings_page.dart';
+import '../screens/settings_page.dart';
 
 class OwnerHomeScreen extends StatefulWidget {
   const OwnerHomeScreen({super.key});
@@ -18,6 +18,7 @@ class OwnerHomeScreen extends StatefulWidget {
 class _OwnerHomeScreenState extends State<OwnerHomeScreen> {
   int _selectedIndex = 0;
   int _currentCarouselIndex = 0;
+
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -31,21 +32,26 @@ class _OwnerHomeScreenState extends State<OwnerHomeScreen> {
             ),
           );
           break;
-        // case 1:
-        //   // Handle Explore button tap
-        //   // Navigate to Explore screen or perform relevant action
-        //   break;
         case 1:
-          // Handle Trips button tap
+          // Handle Booking button tap
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => const MyTripsPage(),
+              builder: (context) => const AccountDetailsScreen(),
             ),
           );
-          // Navigate to Trips screen or perform relevant action
           break;
         case 2:
+          // Handle Earning button tap
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const OwnerEarningsWidget(),
+            ),
+          );
+          break;
+        case 3:
+          // Handle Account button tap
           Navigator.push(
             context,
             MaterialPageRoute(
@@ -82,6 +88,63 @@ class _OwnerHomeScreenState extends State<OwnerHomeScreen> {
         });
       }
     }
+  }
+
+  Widget _promotionbanner() {
+    return Container(
+      padding: const EdgeInsets.all(20),
+      margin: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: Colors.blue,
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: const Text(
+        'This Festive Season\nYour Car is in Higher Demand\nYou Can Earn 400% Higher',
+        style: TextStyle(color: Colors.white, fontSize: 16),
+      ),
+    );
+  }
+
+  Widget _shareButton() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 10),
+      child: ElevatedButton(
+        onPressed: () {},
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.red,
+        ),
+        child: const Text('Share Your Car with One-Click!',
+            style: TextStyle(color: Colors.white)),
+      ),
+    );
+  }
+
+  Widget _dateSelector() {
+    return const Column(
+      children: [
+        Text('Share for next 6 days'),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            Text('14th Feb, Wed'),
+            Icon(Icons.arrow_right),
+            Text('20th Feb, Tue'),
+          ],
+        ),
+        Text('151 Hrs'),
+        SizedBox(height: 20),
+        Text('Share for next 4 days'),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            Text('18th Feb, Wed'),
+            Icon(Icons.arrow_right),
+            Text('22nd Feb, Tue'),
+          ],
+        ),
+        Text('94 Hrs'),
+      ],
+    );
   }
 
   @override
@@ -202,6 +265,9 @@ class _OwnerHomeScreenState extends State<OwnerHomeScreen> {
               },
             ),
           ),
+          _promotionbanner(),
+          _shareButton(),
+          _dateSelector(),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: carouselItems.map((imageUrl) {
@@ -222,48 +288,6 @@ class _OwnerHomeScreenState extends State<OwnerHomeScreen> {
               );
             }).toList(),
           ),
-          // Padding(
-          //   padding: const EdgeInsets.all(8.0),
-          //   child: Container(
-          //     decoration: BoxDecoration(
-          //       borderRadius: BorderRadius.circular(
-          //           20.0), // Adjust the border radius as needed
-          //       border: Border.all(
-          //         color: Colors.black, // Adjust the border color as needed
-          //         width: 2.0, // Adjust the border width as needed
-          //       ),
-          //     ),
-          //     child: Padding(
-          //       padding: const EdgeInsets.symmetric(horizontal: 8.0),
-          //       child: TextField(
-          //         decoration: InputDecoration(
-          //           hintText: 'Search Vehicle',
-          //           hintStyle: const TextStyle(fontSize: 16),
-          //           border: OutlineInputBorder(
-          //             borderRadius: BorderRadius.circular(15),
-          //             borderSide: const BorderSide(
-          //               width: 0,
-          //               style: BorderStyle.none,
-          //             ),
-          //           ),
-          //           filled: true,
-          //           fillColor: Colors.grey[100],
-          //           contentPadding: const EdgeInsets.only(
-          //             left: 30,
-          //           ),
-          //           suffixIcon: const Padding(
-          //             padding: EdgeInsets.only(right: 24.0, left: 16.0),
-          //             child: Icon(
-          //               Icons.search,
-          //               color: Colors.black,
-          //               size: 24,
-          //             ),
-          //           ),
-          //         ),
-          //       ),
-          //     ),
-          //   ),
-          // ),
           const SizedBox(height: 8.0),
           const Padding(
             padding: EdgeInsets.symmetric(
@@ -282,7 +306,6 @@ class _OwnerHomeScreenState extends State<OwnerHomeScreen> {
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
-        backgroundColor: Colors.lightBlue, // Set background color to blue
         selectedItemColor: Colors.black, // Set item color to white
         unselectedItemColor: Colors.white, // Set item color to white
         elevation: 0,
@@ -290,22 +313,22 @@ class _OwnerHomeScreenState extends State<OwnerHomeScreen> {
           BottomNavigationBarItem(
             icon: Icon(Icons.home_outlined),
             label: 'Home',
-            backgroundColor: Colors.black,
+            backgroundColor: Colors.lightBlue,
           ),
-          // BottomNavigationBarItem(
-          //   icon: Icon(Icons.explore),
-          //   label: 'Explore',
-          //   backgroundColor: Colors.black,
-          // ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.directions_car),
-            label: 'Trips',
-            backgroundColor: Colors.black,
+            icon: Icon(Icons.my_library_books_rounded),
+            label: 'Booking',
+            backgroundColor: Colors.lightBlue,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.money),
+            label: 'Earnings',
+            backgroundColor: Colors.lightBlue,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.account_circle),
             label: 'Account',
-            backgroundColor: Colors.black,
+            backgroundColor: Colors.lightBlue,
           ),
         ],
       ),
