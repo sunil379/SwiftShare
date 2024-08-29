@@ -469,9 +469,9 @@ class _VehicleInfoPageState extends State<VehicleInfoPage> {
                             _selectedTime != null &&
                             _returnedDate != null &&
                             _returnedTime != null
-                        ? MaterialStateProperty.all(Colors.indigo)
-                        : MaterialStateProperty.all(Colors.deepPurpleAccent),
-                    shape: MaterialStateProperty.all(
+                        ? WidgetStateProperty.all(Colors.indigo)
+                        : WidgetStateProperty.all(Colors.deepPurpleAccent),
+                    shape: WidgetStateProperty.all(
                       RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
