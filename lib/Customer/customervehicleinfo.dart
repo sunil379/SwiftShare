@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:swiftshare_one/Customer/booking_page.dart';
-import 'package:swiftshare_one/Owner/vehicle_details.dart';
+import 'package:swiftshare_one/Vehicle%20Details/vehicle_details.dart';
 
 class VehicleInfoPage extends StatefulWidget {
   final String vehicleName;

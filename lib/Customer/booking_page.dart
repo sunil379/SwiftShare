@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:swiftshare_one/Customer/customer_trips.dart';
-import 'package:swiftshare_one/Owner/vehicle_details.dart';
+import 'package:swiftshare_one/Vehicle%20Details/vehicle_details.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';

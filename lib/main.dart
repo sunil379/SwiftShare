@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:swiftshare_one/Customer/customer_homescreen.dart';
 import 'package:swiftshare_one/Owner/owner_homescreen.dart';
 import 'package:swiftshare_one/pages/app_start.dart';
+import 'Vehicle Details/vehicle_info.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {
@@ -12,6 +13,8 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  FirestoreService firestoreService = FirestoreService();
+  await firestoreService.addVehicleDetailsToFirestore();
   runApp(const MyApp());
 }
 

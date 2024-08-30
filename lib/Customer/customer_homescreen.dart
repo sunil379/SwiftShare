@@ -11,7 +11,7 @@ import 'package:swiftshare_one/Customer/customer_trips.dart';
 import 'package:swiftshare_one/Customer/customervehicleinfo.dart';
 import 'package:swiftshare_one/Customer/navigation_drawer.dart';
 import 'package:swiftshare_one/screens/settings_page.dart';
-import 'package:swiftshare_one/Owner/vehicle_details.dart';
+import 'package:swiftshare_one/Vehicle%20Details/vehicle_details.dart';
 
 class CustomerHomeScreen extends StatefulWidget {
   const CustomerHomeScreen({super.key});

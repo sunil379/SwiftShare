@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:swiftshare_one/Customer/customervehicleinfo.dart';
-import 'package:swiftshare_one/Owner/vehicle_details.dart';
+import 'package:swiftshare_one/Vehicle%20Details/vehicle_details.dart';
 
 class AllImagesScreen extends StatelessWidget {
   final String name;
