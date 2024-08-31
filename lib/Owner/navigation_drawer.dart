@@ -3,9 +3,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:swiftshare_one/Owner/owner_account.dart';
+import 'package:swiftshare_one/pages/app_start.dart';
 import 'package:swiftshare_one/screens/rateapp.dart';
 import 'package:swiftshare_one/screens/refer_earn.dart';
-import 'package:swiftshare_one/Owner/owner_login.dart';
 import '../screens/about_us.dart';
 
 class NavigationDrawers extends StatefulWidget {
@@ -38,7 +38,7 @@ class _NavigationDrawerState extends State<NavigationDrawers> {
       await FirebaseAuth.instance.signOut();
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (context) => OwnerLoginScreen(),
+          builder: (context) => const EntryScreen(),
         ),
       );
     } catch (e) {
