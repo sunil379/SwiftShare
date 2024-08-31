@@ -1,6 +1,6 @@
 # SWIFTSHARE
 
-## "SwiftShare" is an Android application that serves as a rental portal for household vehicles. "SwiftShare" provides a convenient and affordable way to travel around cities without owning a vehicle.
+## SwiftShare is an Android application that serves as a rental portal for household vehicles. SwiftShare provides a convenient and affordable way to travel around cities without owning a vehicle.
 ![Screenshot_20240412-143110](https://github.com/user-attachments/assets/c8c2f627-993d-466a-a0f1-d3d0aa77f0f4)
 ![Screenshot_20240412-143131](https://github.com/user-attachments/assets/ae6f3d2b-a31f-4bc3-bd32-7713ac1e3914)
 ![Screenshot_20240412-143135](https://github.com/user-attachments/assets/e41ecf6b-5a2d-4fb8-9699-3a525258c084)
