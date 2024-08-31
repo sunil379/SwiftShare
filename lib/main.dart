@@ -13,8 +13,8 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  FirestoreService firestoreService = FirestoreService();
-  await firestoreService.addVehicleDetailsToFirestore();
+  VehicleInfo vehicle_info = VehicleInfo();
+  await vehicle_info.addVehicleDetailsToFirestore();
   runApp(const MyApp());
 }
 
