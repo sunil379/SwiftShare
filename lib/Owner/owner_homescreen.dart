@@ -6,7 +6,7 @@ import 'package:swiftshare_one/Owner/owner_account.dart';
 import 'package:swiftshare_one/Owner/owner_earnings.dart';
 import 'package:swiftshare_one/Owner/owner_notification.dart';
 import 'package:swiftshare_one/Owner/navigation_drawer.dart';
-import '../screens/settings_page.dart';
+import '../pages/settings_page.dart';
 
 class OwnerHomeScreen extends StatefulWidget {
   const OwnerHomeScreen({super.key});

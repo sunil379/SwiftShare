@@ -3,10 +3,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:swiftshare_one/Owner/owner_account.dart';
-import 'package:swiftshare_one/pages/app_start.dart';
-import 'package:swiftshare_one/screens/rateapp.dart';
-import 'package:swiftshare_one/screens/refer_earn.dart';
-import '../screens/about_us.dart';
+import 'package:swiftshare_one/screens/app_start.dart';
+import 'package:swiftshare_one/pages/rateapp.dart';
+import 'package:swiftshare_one/pages/refer_earn.dart';
+import '../pages/about_us.dart';
 
 class NavigationDrawers extends StatefulWidget {
   final String initialUserName;

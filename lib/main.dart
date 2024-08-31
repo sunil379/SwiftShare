@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:swiftshare_one/Customer/customer_homescreen.dart';
 import 'package:swiftshare_one/Owner/owner_homescreen.dart';
-import 'package:swiftshare_one/pages/app_start.dart';
+import 'package:swiftshare_one/screens/app_start.dart';
 import 'Vehicle Details/vehicle_info.dart';
 import 'firebase_options.dart';
 

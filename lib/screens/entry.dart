@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:swiftshare_one/Customer/customer_login.dart';
 import 'package:swiftshare_one/Owner/owner_login.dart';
-import 'package:swiftshare_one/pages/app_start.dart';
+import 'package:swiftshare_one/screens/app_start.dart';
 
 class MainScreen extends StatelessWidget {
   const MainScreen({super.key});
@@ -51,7 +51,7 @@ class MainScreen extends StatelessWidget {
               ),
               const SizedBox(height: 150),
               const Text(
-                'Please Sign in or Register',
+                'Please Sign in or Register as ',
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
