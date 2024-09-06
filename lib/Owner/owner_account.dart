@@ -15,14 +15,14 @@ class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  late String _name = '';
-  late String _mobile = '';
-  late String _address = '';
-  late String _email = '';
-  late String _identityProofURL = '';
-  late String _vehicleRCURL = '';
+  late String name = '';
+  late String mobile = '';
+  late String address = '';
+  late String email = '';
+  late String identityProofURL = '';
+  late String vehicleRCURL = '';
 
-  bool _isLoading = true;
+  bool isLoading = true;
 
   @override
   void initState() {
@@ -39,20 +39,20 @@ class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
 
         if (mounted) {
           setState(() {
-            _name = userData['name'];
-            _mobile = userData['mobile'];
-            _address = userData['address'];
-            _email = userData['email'];
-            _identityProofURL = userData['identityProofURL'];
-            _vehicleRCURL = userData['vehicleRC_URL'];
-            _isLoading = false;
+            name = userData['name'];
+            mobile = userData['mobile'];
+            address = userData['address'];
+            email = userData['email'];
+            identityProofURL = userData['identityProofURL'];
+            vehicleRCURL = userData['vehicleRC_URL'];
+            isLoading = false;
           });
         }
       }
     } catch (error) {
       if (mounted) {
         setState(() {
-          _isLoading = false;
+          isLoading = false;
         });
       }
       print('Error fetching user details: $error');
@@ -101,7 +101,7 @@ class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
           ),
         ),
       ),
-      body: _isLoading
+      body: isLoading
           ? const Center(
               child: CircularProgressIndicator(),
             )
@@ -110,78 +110,83 @@ class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Container(
-                    width: 150,
-                    height: 150,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      shape: BoxShape.circle,
-                      border: Border.all(
-                        color: Colors.black,
-                        width: 2.0,
-                      ),
-                    ),
-                    child: ClipOval(
-                      child: Image.asset(
-                        'assets/images/image-9.png',
-                        width: 100,
-                        height: 100,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
+                  buildProfileImage(),
                   const SizedBox(height: 24),
-                  _buildDetailField(
-                      'Name  ', '  $_name', Colors.white, Colors.blue),
+                  buildEditableField('Name  ', ' $name',
+                      (value) => name = value, Colors.white, Colors.blue),
                   const SizedBox(height: 12.0),
-                  _buildDetailField(
-                      'Mobile ', ' $_mobile', Colors.white, Colors.blue),
+                  buildEditableField('Mobile ', ' $mobile',
+                      (value) => mobile = value, Colors.white, Colors.blue),
                   const SizedBox(height: 12.0),
-                  _buildDetailField(
-                      'Address', _address, Colors.white, Colors.blue),
+                  buildEditableField('Address', address,
+                      (value) => address = value, Colors.white, Colors.blue),
                   const SizedBox(height: 12.0),
-                  _buildDetailField(
-                      'Email   ', ' $_email', Colors.white, Colors.blue),
-                  const SizedBox(height: 30),
+                  buildEditableField('Email  ', ' $email',
+                      (value) => email = value, Colors.white, Colors.blue),
+                  const SizedBox(height: 20),
                   Divider(
                     thickness: 3.5, // Adjust the thickness of the line
                     color: Colors.black
                         .withOpacity(0.4), // Set the color of the line
                   ),
                   const SizedBox(height: 30),
-                  if (_identityProofURL.isNotEmpty)
-                    _buildPDFButton(
+                  if (identityProofURL.isNotEmpty)
+                    buildPDFButton(
                       'View Identity Proof',
-                      _identityProofURL,
+                      identityProofURL,
                       Colors.deepPurple,
                     ),
                   const SizedBox(height: 12),
-                  if (_vehicleRCURL.isNotEmpty)
-                    _buildPDFButton(
-                      'View Vehicle RC',
-                      _vehicleRCURL,
+                  if (vehicleRCURL.isNotEmpty)
+                    buildPDFButton(
+                      'View Vehicel RC',
+                      vehicleRCURL,
                       Colors.deepPurple,
                     ),
-                  const SizedBox(height: 24),
+                  const SizedBox(height: 12),
                 ],
               ),
             ),
     );
   }
 
-  Widget _buildDetailField(
-      String label, String value, Color startColor, Color endColor) {
+  Widget buildProfileImage() {
+    return Container(
+      width: 120,
+      height: 120,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        shape: BoxShape.circle,
+        border: Border.all(
+          color: Colors.black,
+          width: 2.0,
+        ),
+      ),
+      child: ClipOval(
+        child: Image.asset(
+          'assets/images/image-9.png',
+          width: 100,
+          height: 100,
+          fit: BoxFit.cover,
+        ),
+      ),
+    );
+  }
+
+  Widget buildEditableField(String label, String value, Function(String) onSave,
+      Color startColor, Color endColor) {
     return Container(
       width: 400,
+      height: 70,
       decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.centerLeft,
           end: Alignment.centerRight,
           colors: [
-            startColor.withOpacity(0.1), // Start color with some opacity
-            endColor.withOpacity(0.9), // End color with some opacity
+            startColor.withOpacity(0.1),
+            endColor.withOpacity(0.9),
           ],
-          stops: const [0.27, 0.24], // Start and end at extreme points
+          stops: const [0.27, 0.24],
         ),
         borderRadius: BorderRadius.circular(18.0),
         border: Border.all(
@@ -218,12 +223,72 @@ class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
               ),
             ),
           ),
+          IconButton(
+            icon: const Icon(Icons.edit),
+            onPressed: () {
+              editField(label, value, onSave);
+            },
+          ),
         ],
       ),
     );
   }
 
-  Widget _buildPDFButton(
+  void editField(String label, String initialValue, Function(String) onSave) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        TextEditingController controller =
+            TextEditingController(text: initialValue);
+        return AlertDialog(
+          title: Text('Edit $label'),
+          content: TextField(
+            controller: controller,
+            decoration: InputDecoration(labelText: label),
+          ),
+          actions: [
+            TextButton(
+              child: const Text('Cancel'),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+            TextButton(
+              child: const Text('Save'),
+              onPressed: () {
+                onSave(controller.text);
+                updateUserDetails();
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> updateUserDetails() async {
+    try {
+      User? user = _auth.currentUser;
+      if (user != null) {
+        await _firestore.collection('customers').doc(user.uid).update({
+          'name': name,
+          'mobile': mobile,
+          'address': address,
+          'email': email,
+        });
+        setState(() {});
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Details updated successfully')),
+        );
+      }
+    } catch (error) {
+      print('Error updating user details: $error');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error updating details: $error')),
+      );
+    }
+  }
+
+  Widget buildPDFButton(
       String buttonText, String documentURL, Color backgroundColor) {
     return Center(
       child: Container(
@@ -231,7 +296,7 @@ class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
         alignment: Alignment.center,
         child: ElevatedButton(
           onPressed: () {
-            _launchPDF(documentURL); // Launch PDF on button press
+            launchPDF(documentURL); // Launch PDF on button press
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: backgroundColor,
@@ -257,7 +322,7 @@ class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
     );
   }
 
-  Future<void> _launchPDF(String documentURL) async {
+  Future<void> launchPDF(String documentURL) async {
     try {
       if (await canLaunch(documentURL)) {
         await launch(documentURL);
