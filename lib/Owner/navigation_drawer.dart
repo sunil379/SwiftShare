@@ -1,8 +1,10 @@
 // ignore_for_file: use_build_context_synchronously, library_private_types_in_public_api
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:swiftshare_one/Owner/owner_account.dart';
+import 'package:swiftshare_one/Owner/owner_vehicle.dart';
 import 'package:swiftshare_one/screens/app_start.dart';
 import 'package:swiftshare_one/pages/rateapp.dart';
 import 'package:swiftshare_one/pages/refer_earn.dart';
@@ -152,6 +154,47 @@ class _NavigationDrawerState extends State<NavigationDrawers> {
                 context,
                 MaterialPageRoute(
                   builder: (context) => const AboutUsScreen(),
+                ),
+              );
+            },
+          ),
+          ListTile(
+            leading: const Icon(
+              Icons.car_rental_rounded,
+              color: Colors.green,
+            ),
+            title: const Text(
+              'Vehicle Details',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => FutureBuilder<DocumentSnapshot>(
+                    future: FirebaseFirestore.instance
+                        .collection('owners')
+                        .doc(FirebaseAuth.instance.currentUser!.uid)
+                        .get(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const SizedBox(
+                          height: 30,
+                          width: 30,
+                          child: CircularProgressIndicator(),
+                        );
+                      } else if (snapshot.hasError) {
+                        return Text('Error: ${snapshot.error}');
+                      } else if (!snapshot.hasData || !snapshot.data!.exists) {
+                        return const Text('Owner not found');
+                      } else {
+                        return VehicleDetailsForm(ownerId: snapshot.data!.id);
+                      }
+                    },
+                  ),
                 ),
               );
             },
