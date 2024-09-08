@@ -2,6 +2,7 @@
 // ignore_for_file: non_constant_identifier_names
 
 class VehicleDetails {
+  final String vehicle_type;
   final String vehicle_rating;
   final String vehicle_renter;
   final String vehicle_model;
@@ -14,6 +15,7 @@ class VehicleDetails {
   final List<String> vehicle_features;
 
   VehicleDetails({
+    required this.vehicle_type,
     required this.vehicle_rating,
     required this.vehicle_renter,
     required this.vehicle_model,
@@ -31,6 +33,7 @@ class VehicleData {
   static final Map<String, List<VehicleDetails>> initialDetailsMap = {
     'Car': [
       VehicleDetails(
+        vehicle_type: 'Car',
         vehicle_rating: '4.5',
         vehicle_renter: 'Jay Sharma',
         vehicle_seats: '4',
@@ -43,6 +46,7 @@ class VehicleData {
         vehicle_model: 'Honda City',
       ),
       VehicleDetails(
+        vehicle_type: 'Car',
         vehicle_rating: '4.0',
         vehicle_renter: 'Abhijit Banerjee',
         vehicle_seats: '2',
@@ -55,6 +59,7 @@ class VehicleData {
         vehicle_model: 'Tata Nexon',
       ),
       VehicleDetails(
+        vehicle_type: 'Car',
         vehicle_rating: '4.0',
         vehicle_renter: 'Rohit Sharma',
         vehicle_seats: '2',
@@ -67,6 +72,7 @@ class VehicleData {
         vehicle_model: 'Mahindra Thar',
       ),
       VehicleDetails(
+        vehicle_type: 'Car',
         vehicle_rating: '4.0',
         vehicle_renter: 'Raj Verma',
         vehicle_seats: '2',
@@ -81,6 +87,7 @@ class VehicleData {
     ],
     'Bike': [
       VehicleDetails(
+        vehicle_type: 'Bike',
         vehicle_rating: '4.0',
         vehicle_renter: 'Dev Raj',
         vehicle_seats: '2',
@@ -93,6 +100,7 @@ class VehicleData {
         vehicle_model: 'Livo',
       ),
       VehicleDetails(
+        vehicle_type: 'Bike',
         vehicle_rating: '4.0',
         vehicle_renter: 'Jane Doe',
         vehicle_seats: '2',
@@ -105,6 +113,7 @@ class VehicleData {
         vehicle_model: 'Splendor',
       ),
       VehicleDetails(
+        vehicle_type: 'Bike',
         vehicle_rating: '4.8',
         vehicle_renter: 'John Smith',
         vehicle_seats: '5',
@@ -119,6 +128,7 @@ class VehicleData {
     ],
     'Scooty': [
       VehicleDetails(
+        vehicle_type: 'Scooty',
         vehicle_rating: '4.5',
         vehicle_renter: 'Alex Brown',
         vehicle_seats: '2',
@@ -131,6 +141,7 @@ class VehicleData {
         vehicle_model: 'Activa 2020',
       ),
       VehicleDetails(
+        vehicle_type: 'Scooty',
         vehicle_rating: '4.3',
         vehicle_renter: 'Sophia Garcia',
         vehicle_seats: '2',
@@ -143,6 +154,7 @@ class VehicleData {
         vehicle_model: 'Pleasure',
       ),
       VehicleDetails(
+        vehicle_type: 'Scooty',
         vehicle_rating: '4.4',
         vehicle_renter: 'Olivia Martinez',
         vehicle_seats: '1',
@@ -155,6 +167,7 @@ class VehicleData {
         vehicle_model: 'Activa 2018',
       ),
       VehicleDetails(
+        vehicle_type: 'Scooty',
         vehicle_rating: '4.7',
         vehicle_renter: 'Michael Miller',
         vehicle_seats: '1',
@@ -169,6 +182,7 @@ class VehicleData {
     ],
     'Electric Vehicle': [
       VehicleDetails(
+        vehicle_type: 'Electric Vehicle',
         vehicle_rating: '4.6',
         vehicle_renter: 'William Taylor',
         vehicle_seats: '4',
