@@ -487,6 +487,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                   vehicle_fuelInfo: details.vehicle_fuelInfo,
                   vehicle_price: details.vehicle_price,
                   vehicle_features: details.vehicle_features,
+                  vehicle_type: details.vehicle_type,
                 ));
           },
           child: SizedBox(

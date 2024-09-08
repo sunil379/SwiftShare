@@ -71,6 +71,7 @@ class AllImagesScreen extends StatelessWidget {
                 details.vehicle_fuelInfo,
                 details.vehicle_price,
                 details.vehicle_features,
+                details.vehicle_type,
               );
             },
             child: Padding(
@@ -110,6 +111,7 @@ class AllImagesScreen extends StatelessWidget {
     String vehicleFuelInfo,
     int vehiclePrice,
     List<String> vehicleFeatures,
+    String vehicleType,
   ) {
     Navigator.push(
       context,
@@ -128,6 +130,7 @@ class AllImagesScreen extends StatelessWidget {
             vehicle_fuelInfo: vehicleFuelInfo,
             vehicle_price: vehiclePrice,
             vehicle_features: vehicleFeatures,
+            vehicle_type: vehicleType,
           ),
         ),
       ),
