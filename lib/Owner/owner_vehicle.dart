@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:swiftshare_one/Vehicle%20Details/vehicle_details.dart';
 import 'package:get/get.dart';
+import 'previous_vehicle_data.dart';
 import 'vehicle_controller.dart';
 
 class VehicleDetailsForm extends StatefulWidget {
@@ -100,8 +101,8 @@ class VehicleDetailsFormState extends State<VehicleDetailsForm> {
       final updatedData = await firestore
           .collection('owners')
           .doc(widget.ownerId)
-          .collection(vehicleType)
-          .doc(vehicleModel)
+          .collection(vehicleController.vehicleType.value)
+          .doc(vehicleController.vehicleModel.value)
           .get();
 
       if (updatedData.exists) {
@@ -156,69 +157,8 @@ class VehicleDetailsFormState extends State<VehicleDetailsForm> {
     );
   }
 
-  void showPreviousData() async {
-    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-        .collection('owners')
-        .where(widget.ownerId)
-        .where(vehicleType)
-        .get();
-
-    List<Map<String, dynamic>> previousVehicles = querySnapshot.docs
-        .map((doc) => doc.data() as Map<String, dynamic>)
-        .toList();
-
-    showModalBottomSheet(
-      context: context,
-      builder: (BuildContext context) {
-        return Container(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                'Previous Vehicle Details',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 16),
-              Expanded(
-                child: ListView.builder(
-                  itemCount: previousVehicles.length,
-                  itemBuilder: (context, index) {
-                    Map<String, dynamic> vehicle = previousVehicles[index];
-                    return Card(
-                      margin: const EdgeInsets.only(bottom: 16),
-                      child: Padding(
-                        padding: const EdgeInsets.all(16),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text('Vehicle Type: ${vehicle['vehicleType']}'),
-                            Text('Owner Name: ${vehicle['vehicleRenter']}'),
-                            Text('Vehicle Rating: ${vehicle['vehicleRating']}'),
-                            Text('Vehicle Model: ${vehicle['vehicleModel']}'),
-                            Text('Vehicle Seats: ${vehicle['vehicleSeats']}'),
-                            Text('Vehicle AC: ${vehicle['vehicleAC']}'),
-                            Text(
-                                'Vehicle Safety Rating: ${vehicle['vehicleSafetyRating']}'),
-                            Text(
-                                'Vehicle Address: ${vehicle['vehicleAddress']}'),
-                            Text(
-                                'Vehicle Fuel Info: ${vehicle['vehicleFuelInfo']}'),
-                            Text('Vehicle Price: ${vehicle['vehiclePrice']}'),
-                            Text(
-                                'Vehicle Features: ${(vehicle['vehicleFeatures'] as List<dynamic>).join(", ")}'),
-                          ],
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              ),
-            ],
-          ),
-        );
-      },
-    );
+  Future<void> showPreviousData() async {
+    await PreviousVehicleData.showPreviousData(context, widget.ownerId);
   }
 
   void resetForm() {
